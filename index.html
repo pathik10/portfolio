@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathik Rupwate | Freelance Data Scientist & ML Expert</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* CSS Variables for Consistent Theming */
+        :root {
+            --primary: #0f172a; /* Deep Slate */
+            --secondary: #1e293b;
+            --accent: #2563eb; /* Professional Blue */
+            --accent-hover: #1d4ed8;
+            --bg-light: #f8fafc;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+        }
+
+        /* Global Styles */
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0; padding: 0;
+            color: var(--text-main);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4 { color: var(--primary); }
+        a { color: var(--accent); text-decoration: none; transition: 0.3s; }
+        a:hover { color: var(--accent-hover); }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between;
+            align-items: center; padding: 1rem 5%;
+        }
+        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); }
+        .logo span { color: var(--accent); }
+        .nav-links a {
+            margin-left: 2rem; font-weight: 600; color: var(--text-main);
+            text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .btn-hire {
+            background-color: var(--accent); color: var(--white) !important;
+            padding: 0.5rem 1.5rem; border-radius: 5px;
+        }
+        .btn-hire:hover { background-color: var(--accent-hover); }
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--primary); color: var(--white);
+            padding: 6rem 5%; text-align: center;
+        }
+        .hero h1 { color: var(--white); font-size: 3.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.25rem; color: #94a3b8; max-width: 600px; margin: 0 auto 2rem; }
+        .hero-btns .btn {
+            display: inline-block; padding: 0.75rem 2rem; margin: 0.5rem;
+            border-radius: 5px; font-weight: 600; text-transform: uppercase;
+        }
+        .btn-primary { background-color: var(--accent); color: var(--white); }
+        .btn-primary:hover { background-color: var(--accent-hover); }
+        .btn-secondary { background-color: transparent; border: 2px solid var(--white); color: var(--white); }
+        .btn-secondary:hover { background-color: var(--white); color: var(--primary); }
+
+        /* Section Layouts */
+        .section { padding: 5rem 5%; }
+        .section-light { background-color: var(--white); }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; }
+        .section-title span { color: var(--accent); }
+
+        /* Services Grid */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .service-card {
+            background: var(--bg-light); padding: 2rem; border-radius: 10px;
+            text-align: center; transition: transform 0.3s; border: 1px solid #e2e8f0;
+        }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .service-icon { font-size: 3rem; color: var(--accent); margin-bottom: 1rem; }
+
+        /* Projects Grid */
+        .project-card {
+            background: var(--white); border-radius: 10px; overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
+        }
+        .project-content { padding: 2rem; }
+        .project-title { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .project-impact { color: var(--accent); font-weight: 600; margin-bottom: 1rem; }
+        .tech-stack { margin-top: 1.5rem; }
+        .tech-tag {
+            background: var(--bg-light); color: var(--text-light); font-size: 0.75rem;
+            padding: 0.25rem 0.75rem; border-radius: 20px; margin: 0 0.25rem 0.5rem 0; display: inline-block;
+        }
+
+        /* Tableau Embed Wrapper */
+        .tableau-wrapper {
+            width: 100%; max-width: 1000px; margin: 0 auto;
+            border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Experience Timeline */
+        .experience-item {
+            border-left: 3px solid var(--accent); padding-left: 2rem;
+            margin-bottom: 3rem; position: relative; max-width: 800px; margin: 0 auto 3rem;
+        }
+        .experience-item::before {
+            content: ''; position: absolute; left: -11px; top: 0;
+            width: 15px; height: 15px; background: var(--accent); border-radius: 50%;
+        }
+        .exp-date { font-size: 0.9rem; color: var(--accent); font-weight: 600; }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary); color: var(--white);
+            text-align: center; padding: 3rem 5%;
+        }
+        .social-links a { color: var(--white); font-size: 1.5rem; margin: 0 1rem; }
+        .social-links a:hover { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Pathik<span>Data</span></div>
+        <div class="nav-links">
+            <a href="#services">Services</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#experience">Experience</a>
+            <a href="#contact" class="btn-hire">Let's Talk</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Turning Complex Data into Business Strategy</h1>
+        <p>I am a Data Scientist and Machine Learning Consultant specializing in predictive modeling, customer segmentation, and custom BI solutions.</p>
+        <div class="hero-btns">
+            <a href="#portfolio" class="btn btn-primary">View My Work</a>
+            <a href="resume.pdf" class="btn btn-secondary" target="_blank"><i class="fas fa-file-pdf"></i> Download Resume</a>
+        </div>
+    </section>
+
+    <!-- Services Section (NEW) -->
+    <section id="services" class="section section-light">
+        <h2 class="section-title">My <span>Services</span></h2>
+        <div class="grid-3">
+            <div class="service-card">
+                <i class="fas fa-chart-line service-icon"></i>
+                <h3>Predictive Analytics & Forecasting</h3>
+                <p>Leverage historical data to predict future trends. I build robust machine learning models (Random Forests, Gradient Boosting, GANs) to forecast market movements, customer churn, and risk defaults.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-users service-icon"></i>
+                <h3>Customer Segmentation & NLP</h3>
+                <p>Maximize marketing ROI by understanding your audience. I use unsupervised clustering and Natural Language Processing (LDA, Sentiment Analysis) to turn raw customer data into actionable personas.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-laptop-code service-icon"></i>
+                <h3>Business Intelligence Dashboards</h3>
+                <p>Stop guessing and start tracking. I design automated, interactive dashboards using Tableau, Power BI, and Python to give executives real-time visibility into critical KPIs.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Embedded Tableau Section -->
+    <section class="section">
+        <h2 class="section-title">Interactive <span>Dashboards</span></h2>
+        <p style="text-align: center; max-width: 700px; margin: 0 auto 2rem;">As a consultant, I build tools that allow stakeholders to explore data themselves. Below is an embedded interactive dashboard analyzing Chicago Crime Trends.</p>
+        
+        <div class="tableau-wrapper">
+            <!-- DIRECT IFRAME EMBED: Bypasses Tableau's stubborn JS resizing -->
+            <iframe 
+                src="https://public.tableau.com/views/vg_LocationsofCrimeandTimes_17078440312310/LocationsofTop6CrimeTypesinChicago-2019-2022?:showVizHome=no&:embed=true" 
+                width="100%" 
+                height="3500" 
+                style="border: none; display: block;"
+                title="Chicago Crime Trends Dashboard">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- Portfolio / Case Studies -->
+    <section id="portfolio" class="section section-light">
+        <h2 class="section-title">Featured <span>Case Studies</span></h2>
+        <div class="grid-3">
+            
+            <div class="project-card">
+                <div class="project-content">
+                    <h3 class="project-title">Financial Sector Forecasting</h3>
+                    <div class="project-impact"><i class="fas fa-arrow-up"></i> Improved model accuracy by 20%</div>
+                    <p><strong>Client:</strong> Aiolux</p>
+                    <p><strong>The Challenge:</strong> Predict whether 11 S&P 500 sectors would outperform the market based on CPI, despite having a highly constrained, small historical dataset.</p>
+                    <p><strong>The Solution:</strong> Engineered Tabular Generative Adversarial Networks (TGAN) to generate synthetic economic data. Applied SMOTE and deployed 33 Extremely Randomized Tree Classifiers to achieve 78.8% accuracy over 200-day horizons.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">GANs</span>
+                        <span class="tech-tag">Extra Trees</span>
+                        <span class="tech-tag">SMOTE</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-content">
+                    <h3 class="project-title">Marketing ROI Optimization</h3>
+                    <div class="project-impact"><i class="fas fa-chart-pie"></i> Boosted campaign ROI by 30%</div>
+                    <p><strong>Client:</strong> Kearny Bank</p>
+                    <p><strong>The Challenge:</strong> Generic marketing campaigns were resulting in low conversion rates. The bank needed actionable, data-driven customer personas.</p>
+                    <p><strong>The Solution:</strong> Led unsupervised clustering (K-means, DBSCAN, PCA) on transaction behavior. Integrated the clusters with NLP topic modeling from customer reviews to design highly targeted A/B tested campaigns.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Clustering</span>
+                        <span class="tech-tag">A/B Testing</span>
+                        <span class="tech-tag">NLP (LDA)</span>
+                        <span class="tech-tag">Tableau</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-content">
+                    <h3 class="project-title">Loan Risk Anomaly Detection</h3>
+                    <div class="project-impact"><i class="fas fa-shield-alt"></i> Increased risk detection by 25%</div>
+                    <p><strong>Client:</strong> Kearny Bank</p>
+                    <p><strong>The Challenge:</strong> Traditional supervised models were failing to detect high-risk loans due to extreme class imbalance (defaults were rare).</p>
+                    <p><strong>The Solution:</strong> Reframed the problem as anomaly detection. Built and deployed Isolation Forests and One-Class SVMs to flag deviations in credit behavior, enabling underwriters to intervene early.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Scikit-Learn</span>
+                        <span class="tech-tag">Isolation Forests</span>
+                        <span class="tech-tag">One-Class SVM</span>
+                        <span class="tech-tag">Risk Analytics</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Experience Timeline -->
+    <section id="experience" class="section">
+        <h2 class="section-title">Professional <span>Experience</span></h2>
+        
+        <div class="experience-item">
+            <div class="exp-date">Oct 2023 – Jan 2026 | Austin, TX</div>
+            <h3>Data Scientist</h3>
+            <h4>Kearny Bank</h4>
+            <p>Collaborated with product managers and data engineers to align analytics with business priorities. Built anomaly detection models to flag high-risk loans and led customer segmentation initiatives that directly increased campaign ROI by 30%. Designed executive dashboards in Tableau and Power BI.</p>
+        </div>
+
+        <div class="experience-item">
+            <div class="exp-date">Jan 2023 – Jun 2023 | Chicago, IL</div>
+            <h3>Data Science Researcher</h3>
+            <h4>University of Chicago</h4>
+            <p>Built a real-time BMI prediction pipeline via a VGG-16 Convolutional Neural Network (CNN). Deployed the machine learning model into production using a Flask API integrated with live video input feeds.</p>
+        </div>
+
+        <div class="experience-item">
+            <div class="exp-date">Jan 2022 – Dec 2022 | Chicago, IL</div>
+            <h3>Data Scientist</h3>
+            <h4>Aiolux</h4>
+            <p>Focused on financial forecasting and model deployment at scale. Identified macroeconomic drivers using causal inference and utilized Generative Adversarial Networks (GANs) to generate synthetic data, improving overall model robustness by 20%.</p>
+        </div>
+    </section>
+
+    <!-- Footer & Contact -->
+    <footer id="contact">
+        <h2>Ready to unlock your data?</h2>
+        <p style="margin-bottom: 2rem;">Whether you need a custom predictive model, a BI dashboard, or a freelance consultant, I'm here to help.</p>
+        <a href="mailto:pathikrupwate@gmail.com" class="btn-hire" style="font-size: 1.2rem; padding: 1rem 3rem;">Email Me Today</a>
+        
+        <div class="social-links" style="margin-top: 3rem;">
+            <!-- Update the # with your actual LinkedIn and Github URLs -->
+            <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/YOUR_GITHUB" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.8rem;">&copy; 2026 Pathik Rupwate. Hosted on GitHub Pages.</p>
+    </footer>
+
+</body>
+</html>
