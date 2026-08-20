@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pathik Rupwate | Data Scientist & Machine Learning Engineer</title>
     <meta name="description" content="Portfolio of Pathik Rupwate - Data Scientist & Machine Learning Engineer specializing in Generative AI, Agentic Workflows (MCP/LangChain), Predictive Modeling, Computer Vision, and NLP.">
-    <meta name="keywords" content="Pathik Rupwate, Data Scientist, Machine Learning Engineer, Generative AI, RAG, MCP, LangChain, Computer Vision, NLP, Deep Learning, Python, PyTorch">
+    <meta name="keywords" content="Pathik Rupwate, Data Scientist, Machine Learning Engineer, Generative AI, RAG, MCP, LangChain, Computer Vision, NLP, Deep Learning, Python, PyTorch, Gemini API">
     <meta name="author" content="Pathik Rupwate">
 
     <!-- Google Fonts -->
@@ -50,7 +50,6 @@
             /* Gradients */
             --gradient-primary: linear-gradient(135deg, #34d399 0%, #10b981 40%, #14b8a6 75%, #06b6d4 100%);
             --gradient-emerald: linear-gradient(135deg, #059669 0%, #10b981 50%, #14b8a6 100%);
-            --gradient-glass: linear-gradient(145deg, rgba(20, 184, 166, 0.1) 0%, rgba(6, 13, 15, 0.7) 100%);
             --gradient-card: linear-gradient(180deg, rgba(16, 37, 43, 0.7) 0%, rgba(8, 19, 22, 0.8) 100%);
 
             /* Shadows & Blur */
@@ -110,7 +109,7 @@
             color: #a7f3d0;
         }
 
-        /* Background Ambient Glow Nodes */
+        /* Ambient Glow Nodes */
         .ambient-glow-1 {
             position: fixed;
             top: -150px;
@@ -955,9 +954,9 @@
             position: fixed;
             bottom: 90px;
             right: 25px;
-            width: 410px;
+            width: 420px;
             max-width: calc(100vw - 30px);
-            height: 580px;
+            height: 590px;
             max-height: calc(100vh - 120px);
             background: rgba(8, 20, 24, 0.92);
             border: 1px solid rgba(52, 211, 153, 0.4);
@@ -982,8 +981,8 @@
         }
 
         .chat-header {
-            padding: 1rem 1.25rem;
-            background: rgba(13, 30, 35, 0.7);
+            padding: 0.9rem 1.15rem;
+            background: rgba(13, 30, 35, 0.75);
             border-bottom: 1px solid var(--border-glass);
             display: flex;
             align-items: center;
@@ -1010,32 +1009,37 @@
         }
 
         .chat-title {
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             font-weight: 700;
             color: var(--text-primary);
             line-height: 1.2;
         }
 
-        .chat-status {
-            font-size: 0.75rem;
-            color: var(--accent-mint);
-            display: flex;
+        .chat-engine-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(52, 211, 153, 0.25);
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
+            margin-top: 2px;
         }
 
-        .chat-status-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent-mint);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--accent-mint);
+        .chat-engine-badge.active-gemini {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: var(--accent-cyan);
+            color: #67e8f9;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
         }
 
         .chat-controls {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .chat-btn-icon {
@@ -1044,7 +1048,7 @@
             color: var(--text-sub);
             cursor: pointer;
             font-size: 0.9rem;
-            padding: 5px;
+            padding: 6px;
             border-radius: 6px;
             transition: var(--transition);
         }
@@ -1054,9 +1058,89 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
+        /* Settings Drawer */
+        .chat-settings-drawer {
+            display: none;
+            background: rgba(10, 22, 26, 0.95);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 1rem 1.15rem;
+            font-size: 0.82rem;
+            color: var(--text-body);
+            animation: slideDown 0.25s ease forwards;
+        }
+
+        .chat-settings-drawer.open {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .settings-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .settings-input-group {
+            display: flex;
+            gap: 6px;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .settings-input {
+            flex: 1;
+            background: rgba(6, 13, 15, 0.85);
+            border: 1px solid var(--border-glass);
+            border-radius: 6px;
+            padding: 0.45rem 0.75rem;
+            color: #fff;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+        }
+
+        .settings-input:focus {
+            border-color: var(--accent-mint);
+        }
+
+        .settings-btn {
+            background: var(--gradient-primary);
+            border: none;
+            color: #061517;
+            font-weight: 700;
+            padding: 0.45rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .settings-btn:hover {
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+        }
+
+        .settings-help {
+            font-size: 0.72rem;
+            color: var(--text-sub);
+            line-height: 1.4;
+        }
+
+        .settings-help a {
+            color: var(--accent-mint);
+            text-decoration: underline;
+        }
+
         .chat-messages {
             flex: 1;
-            padding: 1.25rem;
+            padding: 1.15rem;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -1076,7 +1160,7 @@
         .chat-msg {
             display: flex;
             flex-direction: column;
-            max-width: 86%;
+            max-width: 88%;
             animation: fadeInMsg 0.3s ease forwards;
         }
 
@@ -1173,7 +1257,7 @@
         }
 
         .chat-input-area {
-            padding: 0.9rem 1rem;
+            padding: 0.85rem 1rem;
             background: rgba(13, 30, 35, 0.9);
             border-top: 1px solid var(--border-glass);
             display: flex;
@@ -1739,21 +1823,21 @@
                     <div>
                         <div class="project-badge-row">
                             <span class="project-category">GenAI & Chatbots</span>
-                            <span class="project-client">Live In-Browser Agent</span>
+                            <span class="project-client">Live Gemini & In-Browser Agent</span>
                         </div>
                         <h3 class="project-title">AI-Powered Portfolio Chatbot</h3>
                         <div class="project-impact">
-                            <i class="fas fa-comments"></i> Active Live On This Site!
+                            <i class="fas fa-sparkles"></i> Dual Engine: In-Browser & Gemini Live
                         </div>
                         <p class="project-desc">
-                            Interactive client-side AI agent embedded directly in this portfolio! Utilizing structured semantic search and knowledge graph retrieval to dynamically answer questions about Pathik's background, models, and career.
+                            Interactive AI chatbot embedded directly in this website! Features dual-engine architecture: an instant in-browser semantic knowledge engine with optional direct Google Gemini Live LLM integration.
                         </p>
                     </div>
                     <div class="project-tech-stack">
-                        <span class="tag">Semantic Engine</span>
+                        <span class="tag">Gemini API</span>
                         <span class="tag">Client RAG</span>
                         <span class="tag">JavaScript</span>
-                        <span class="tag">In-Browser NLP</span>
+                        <span class="tag">LLM Reasoning</span>
                     </div>
                 </div>
             </div>
@@ -1995,14 +2079,36 @@
                 <div class="chat-avatar"><i class="fas fa-brain"></i></div>
                 <div>
                     <div class="chat-title">Pathik's AI Assistant</div>
-                    <div class="chat-status">
-                        <span class="chat-status-dot"></span> In-Browser Agent &bull; Online
+                    <div id="engineBadge" class="chat-engine-badge">
+                        <i class="fas fa-microchip"></i> In-Browser AI
                     </div>
                 </div>
             </div>
             <div class="chat-controls">
+                <button class="chat-btn-icon" id="chatSettingsBtn" title="Gemini API Key Settings"><i class="fas fa-gear"></i></button>
                 <button class="chat-btn-icon" id="resetChatBtn" title="Reset Conversation"><i class="fas fa-rotate-right"></i></button>
                 <button class="chat-btn-icon" id="closeChatBtn" title="Close"><i class="fas fa-xmark"></i></button>
+            </div>
+        </div>
+
+        <!-- Gemini API Settings Drawer -->
+        <div class="chat-settings-drawer" id="chatSettingsDrawer">
+            <div class="settings-title">
+                <span><i class="fas fa-sparkles" style="color: var(--accent-cyan);"></i> Google Gemini API Mode</span>
+                <button class="chat-btn-icon" id="closeSettingsBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <p style="font-size: 0.76rem; color: var(--text-sub);">
+                Connect your Google Gemini API key to enable live generative AI reasoning with Gemini 1.5 Flash.
+            </p>
+            <div class="settings-input-group">
+                <input type="password" class="settings-input" id="geminiApiKeyInput" placeholder="Enter Gemini API Key (AIzaSy...)">
+                <button class="settings-btn" id="saveApiKeyBtn">Save</button>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="settings-help">
+                    Free key from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>
+                </span>
+                <button class="chat-btn-icon" id="clearApiKeyBtn" style="font-size: 0.72rem; color: #f87171;" title="Remove saved key">Remove Key</button>
             </div>
         </div>
 
@@ -2012,7 +2118,7 @@
                 <div class="chat-bubble">
                     👋 Hi there! I'm <strong>Pathik's AI Assistant</strong>, running directly in your browser. 
                     <br><br>
-                    Ask me anything about Pathik's <strong>experience</strong> (ABM, Kearny Bank), <strong>Generative AI & MCP projects</strong>, <strong>technical skills</strong>, or <strong>how to get in touch</strong>!
+                    Ask me anything about Pathik's <strong>experience</strong> (ABM Knowledgeware, Kearny Bank), <strong>Generative AI & MCP projects</strong>, <strong>technical skills</strong>, or <strong>how to get in touch</strong>!
                 </div>
                 <span class="chat-time">Just now</span>
             </div>
@@ -2094,7 +2200,7 @@
         });
 
         // ---------------------------------------------
-        // CLIENT-SIDE IN-BROWSER AI CHATBOT ENGINE
+        // CLIENT-SIDE AI PORTFOLIO CHATBOT & GEMINI API
         // ---------------------------------------------
         const chatbotTrigger = document.getElementById('chatbotTrigger');
         const heroChatTrigger = document.getElementById('heroChatTrigger');
@@ -2105,6 +2211,65 @@
         const chatForm = document.getElementById('chatForm');
         const chatInput = document.getElementById('chatInput');
         const quickChips = document.getElementById('quickChips');
+        const chatSettingsBtn = document.getElementById('chatSettingsBtn');
+        const chatSettingsDrawer = document.getElementById('chatSettingsDrawer');
+        const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+        const geminiApiKeyInput = document.getElementById('geminiApiKeyInput');
+        const saveApiKeyBtn = document.getElementById('saveApiKeyBtn');
+        const clearApiKeyBtn = document.getElementById('clearApiKeyBtn');
+        const engineBadge = document.getElementById('engineBadge');
+
+        // Gemini API Configuration State
+        let geminiApiKey = localStorage.getItem('pathik_portfolio_gemini_key') || '';
+
+        function updateEngineBadge() {
+            if (geminiApiKey) {
+                engineBadge.className = 'chat-engine-badge active-gemini';
+                engineBadge.innerHTML = '<i class="fas fa-sparkles"></i> Gemini Flash Live ✨';
+                geminiApiKeyInput.value = geminiApiKey;
+            } else {
+                engineBadge.className = 'chat-engine-badge';
+                engineBadge.innerHTML = '<i class="fas fa-microchip"></i> In-Browser AI';
+                geminiApiKeyInput.value = '';
+            }
+        }
+        updateEngineBadge();
+
+        // Settings Toggle
+        if (chatSettingsBtn) {
+            chatSettingsBtn.addEventListener('click', () => {
+                chatSettingsDrawer.classList.toggle('open');
+            });
+        }
+        if (closeSettingsBtn) {
+            closeSettingsBtn.addEventListener('click', () => {
+                chatSettingsDrawer.classList.remove('open');
+            });
+        }
+
+        // Save / Remove API Key
+        if (saveApiKeyBtn) {
+            saveApiKeyBtn.addEventListener('click', () => {
+                const key = geminiApiKeyInput.value.trim();
+                if (key) {
+                    geminiApiKey = key;
+                    localStorage.setItem('pathik_portfolio_gemini_key', key);
+                    updateEngineBadge();
+                    chatSettingsDrawer.classList.remove('open');
+                    appendMessage('bot', '✨ <strong>Google Gemini API connected!</strong> Live generative reasoning is now active for your questions.');
+                }
+            });
+        }
+
+        if (clearApiKeyBtn) {
+            clearApiKeyBtn.addEventListener('click', () => {
+                geminiApiKey = '';
+                localStorage.removeItem('pathik_portfolio_gemini_key');
+                updateEngineBadge();
+                chatSettingsDrawer.classList.remove('open');
+                appendMessage('bot', '🔄 Switched back to the instant <strong>In-Browser Semantic Engine</strong>.');
+            });
+        }
 
         // Toggle Chat Window
         function toggleChat() {
@@ -2173,8 +2338,82 @@
             if (indicator) indicator.remove();
         }
 
-        // In-Browser Semantic Knowledge Engine
-        function processAIQuery(query) {
+        // Knowledge Base Prompt Context for Gemini API
+        const RESUME_KNOWLEDGE_CONTEXT = `
+You are the official AI Assistant on the personal portfolio website of Pathik Rupwate.
+Pathik Rupwate is a Data Scientist and Machine Learning Engineer with over 4 years of experience building predictive models, Generative AI agentic workflows (Model Context Protocol, RAG, LangChain), and computer vision pipelines.
+Contact: pathikrds@gmail.com | Phone: +91 9321194480 | Location: Mumbai, India.
+
+Key Experiences & Projects:
+1. ABM Knowledgeware (Mar 2026 - Present, Mumbai, India) - Data Scientist / ML Engineer:
+   - Municipal AI Agent (Mainet Upgrade): Model Context Protocol (MCP), RAG, and complex Data APIs for flagship Mainet software.
+   - Automated Localization Pipeline: Python + ElevenLabs API for tutorial video localization, saving 80+ hours per release cycle.
+   - Large-Scale Data Restructuring: Restored metadata and structure for 80% of 400,000+ unstructured files after AWS incident.
+   - AI Vulnerability Tester: OWASP ZAP + Gemini AI for automated security exploit discovery and remediation code generation.
+   - Odisha Government Agent (Ongoing): Scalable AI agent to automate regional administrative tasks for millions of citizens.
+2. Kearny Bank (Oct 2023 - Jan 2026, Austin TX) - Data Scientist:
+   - Improved marketing ROI by 30% with customer segmentation (K-Means, DBSCAN, PCA, Random Forest) & NLP (LDA/TF-IDF) on user feedback.
+   - Boosted loan default forecast accuracy by 25% with Isolation Forests and One-Class SVMs.
+   - Designed interactive dashboards in Tableau and Power BI.
+3. University of Chicago (Jan 2023 - Jun 2023, Chicago IL) - Data Science Researcher:
+   - Real-time BMI prediction with VGG-16 CNN & Flask API on live video input.
+   - OpenCV & TensorFlow facial recognition optimization.
+4. Aiolux (Jan 2022 - Dec 2022, Chicago IL) - Data Scientist:
+   - Predicted S&P 500 performance (50/100/200 days) with 80% accuracy using Tabular GANs, SMOTE, and Extremely Randomized Trees.
+   - Identified macroeconomic drivers (CPI) via causal inference.
+5. Education:
+   - M.S. Applied Data Science - University of Chicago (Jun 2023).
+   - B.S. CS & Quantitative Economics - Beloit College (May 2021). President of Beloit Student Government ($250k budget).
+
+Instructions:
+Respond concisely, politely, and accurately as Pathik's portfolio representative. Format with bullet points and bold key metrics when helpful. If asked about hiring or contacting Pathik, give his email pathikrds@gmail.com.
+`;
+
+        // Call Google Gemini API
+        async function callGeminiAPI(userQuery) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
+            
+            const payload = {
+                contents: [
+                    {
+                        role: "user",
+                        parts: [{ text: userQuery }]
+                    }
+                ],
+                systemInstruction: {
+                    parts: [{ text: RESUME_KNOWLEDGE_CONTEXT }]
+                },
+                generationConfig: {
+                    temperature: 0.35,
+                    maxOutputTokens: 350
+                }
+            };
+
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData?.error?.message || `HTTP ${response.status}`);
+            }
+
+            const data = await response.json();
+            let text = data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response at the moment.";
+            
+            // Format basic markdown bold and bullet points into HTML
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            text = text.replace(/\n\* /g, '<br>&bull; ');
+            text = text.replace(/\n- /g, '<br>&bull; ');
+            text = text.replace(/\n/g, '<br>');
+
+            return text;
+        }
+
+        // In-Browser Semantic Knowledge Engine (Deterministic Fallback)
+        function processInBrowserAIQuery(query) {
             const q = query.toLowerCase();
 
             // 1. ABM Knowledgeware & Current Role & MCP Agent
@@ -2268,25 +2507,42 @@
             </ul>`;
         }
 
+        // Unified Chat Query Dispatcher
+        async function handleChatQuery(query) {
+            showTypingIndicator();
+
+            if (geminiApiKey) {
+                try {
+                    const geminiResponse = await callGeminiAPI(query);
+                    removeTypingIndicator();
+                    appendMessage('bot', geminiResponse);
+                    return;
+                } catch (err) {
+                    console.warn("Gemini API call failed, falling back to in-browser engine:", err);
+                    removeTypingIndicator();
+                    const fallbackResponse = processInBrowserAIQuery(query);
+                    appendMessage('bot', `<span style="font-size:0.75rem; color:#f87171;"><i class="fas fa-triangle-exclamation"></i> Gemini API call failed (${err.message}). Using In-Browser AI response:</span><br><br>` + fallbackResponse);
+                    return;
+                }
+            }
+
+            // Default: Instant in-browser semantic engine
+            setTimeout(() => {
+                removeTypingIndicator();
+                const response = processInBrowserAIQuery(query);
+                appendMessage('bot', response);
+            }, 450);
+        }
+
         // Handle Form Submission
         chatForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const query = chatInput.value.trim();
             if (!query) return;
 
-            // Display user message
             appendMessage('user', query);
             chatInput.value = '';
-
-            // Show typing animation
-            showTypingIndicator();
-
-            // Simulate natural AI thinking delay (400-700ms)
-            setTimeout(() => {
-                removeTypingIndicator();
-                const response = processAIQuery(query);
-                appendMessage('bot', response);
-            }, 550);
+            handleChatQuery(query);
         });
 
         // Quick Chip Clicking
@@ -2295,12 +2551,7 @@
                 chip.addEventListener('click', () => {
                     const query = chip.getAttribute('data-query');
                     appendMessage('user', query);
-                    showTypingIndicator();
-                    setTimeout(() => {
-                        removeTypingIndicator();
-                        const response = processAIQuery(query);
-                        appendMessage('bot', response);
-                    }, 500);
+                    handleChatQuery(query);
                 });
             });
         }
