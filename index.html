@@ -3439,27 +3439,24 @@
                     });
                     btnWebcam.classList.add('active');
 
-                    // Start MediaPipe Camera Feed
-                    if (typeof Camera !== 'undefined') {
-                        cameraUtils = new Camera(visionVideo, {
-                            onFrame: async () => {
-                                if (isWebcamActive && faceMesh) {
-                                    await faceMesh.send({ image: visionVideo });
-                                }
-                            },
-                            width: 480,
-                            height: 320
-                        });
-                        cameraUtils.start();
-                    } else {
-                        const processFrame = async () => {
-                            if (isWebcamActive && faceMesh && visionVideo.videoWidth) {
+                    // Single-stream Frame Processing Loop (Ensures ONLY 1 Permission Request)
+                    let isProcessingFrame = false;
+                    const processFrame = async () => {
+                        if (!isWebcamActive) return;
+                        if (faceMesh && visionVideo.readyState >= 2 && !isProcessingFrame) {
+                            isProcessingFrame = true;
+                            try {
                                 await faceMesh.send({ image: visionVideo });
-                                requestAnimationFrame(processFrame);
+                            } catch (e) {
+                                console.error(e);
                             }
-                        };
-                        requestAnimationFrame(processFrame);
-                    }
+                            isProcessingFrame = false;
+                        }
+                        if (isWebcamActive) {
+                            cameraAnimId = requestAnimationFrame(processFrame);
+                        }
+                    };
+                    cameraAnimId = requestAnimationFrame(processFrame);
                 }
             } catch (err) {
                 console.error("Camera access error:", err);
@@ -3468,10 +3465,12 @@
             }
         }
 
+        let cameraAnimId = null;
+
         function stopWebcam() {
-            if (cameraUtils) {
-                cameraUtils.stop();
-                cameraUtils = null;
+            if (cameraAnimId) {
+                cancelAnimationFrame(cameraAnimId);
+                cameraAnimId = null;
             }
             if (visionVideo.srcObject) {
                 visionVideo.srcObject.getTracks().forEach(track => track.stop());
