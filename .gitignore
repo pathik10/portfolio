@@ -1,4 +1,6 @@
 *.h5
 *.task
+*.py
 index-preview.html
 __pycache__/
+.venv/
