@@ -73,6 +73,58 @@
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* Light Theme Palette - Ultra-Crisp Data Science Aesthetic */
+        [data-theme="light"] {
+            --bg-dark: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            --bg-glass-card: rgba(255, 255, 255, 0.95);
+            --bg-glass-hover: rgba(241, 245, 249, 0.98);
+            --bg-glass-subtle: rgba(13, 148, 136, 0.08);
+
+            --border-glass: rgba(20, 184, 166, 0.25);
+            --border-glass-hover: rgba(13, 148, 136, 0.6);
+            --border-subtle: rgba(15, 23, 42, 0.08);
+
+            --text-primary: #0f172a;
+            --text-secondary: #0f766e;
+            --text-muted: #0d9488;
+            --text-sub: #475569;
+            --text-body: #334155;
+
+            --shadow-glow: 0 4px 25px rgba(13, 148, 136, 0.15);
+            --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.08);
+            --gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.9) 100%);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            background: rgba(20, 184, 166, 0.12);
+            border: 1px solid var(--border-glass);
+            color: var(--accent-mint);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .theme-toggle-btn:hover {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: var(--accent-mint);
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 0 15px rgba(52, 211, 153, 0.4);
+        }
+
+        [data-theme="light"] .theme-toggle-btn {
+            color: #0f766e;
+            background: rgba(15, 118, 110, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -94,6 +146,7 @@
                 radial-gradient(circle at 85% 30%, rgba(20, 184, 166, 0.07) 0%, transparent 40%),
                 radial-gradient(circle at 50% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
             background-attachment: fixed;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Typography */
@@ -915,6 +968,34 @@
             background: rgba(16, 185, 129, 0.14);
             border-color: rgba(52, 211, 153, 0.38);
             color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .tag-cyan {
+            background: rgba(6, 182, 212, 0.12);
+            border-color: rgba(6, 182, 212, 0.35);
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        .tag-purple {
+            background: rgba(168, 85, 247, 0.12);
+            border-color: rgba(168, 85, 247, 0.35);
+            color: #c084fc;
+            font-weight: 600;
+        }
+
+        .tag-amber {
+            background: rgba(245, 158, 11, 0.12);
+            border-color: rgba(245, 158, 11, 0.35);
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        .tag-emerald {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(52, 211, 153, 0.35);
+            color: #6ee7b7;
             font-weight: 600;
         }
 
@@ -1830,59 +1911,78 @@
     <header>
         <div class="container">
             <nav>
-                <!-- Logo with Superimposed Teal P on Emerald R -->
+                <!-- Logo with Tron / Circuit Art Superimposed Teal P on Emerald R -->
                 <a href="#hero" class="logo">
-                    <div class="logo-monogram" title="Pathik Rupwate Monogram (Teal P / Emerald R)">
-                        <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <div class="logo-monogram" title="Pathik Rupwate Monogram (Tron Circuit Art: Teal P on Emerald R)">
+                        <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <defs>
-                                <linearGradient id="pGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#67e8f9" />
-                                    <stop offset="50%" stop-color="#22d3ee" />
-                                    <stop offset="100%" stop-color="#06b6d4" />
+                                <linearGradient id="tronCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#a5f3fc" />
+                                    <stop offset="40%" stop-color="#22d3ee" />
+                                    <stop offset="100%" stop-color="#0891b2" />
                                 </linearGradient>
-                                <linearGradient id="rGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#34d399" />
+                                <linearGradient id="tronEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#6ee7b7" />
                                     <stop offset="50%" stop-color="#10b981" />
-                                    <stop offset="100%" stop-color="#059669" />
+                                    <stop offset="100%" stop-color="#047857" />
                                 </linearGradient>
-                                <linearGradient id="shieldBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="rgba(13, 33, 38, 0.95)" />
-                                    <stop offset="100%" stop-color="rgba(6, 18, 22, 0.98)" />
+                                <linearGradient id="tronGrid" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="rgba(6, 24, 28, 0.95)" />
+                                    <stop offset="100%" stop-color="rgba(3, 12, 15, 0.98)" />
                                 </linearGradient>
-                                <filter id="glowP" x="-20%" y="-20%" width="140%" height="140%">
-                                    <feGaussianBlur stdDeviation="2" result="blur" />
-                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                <filter id="tronGlowCyan" x="-30%" y="-30%" width="160%" height="160%">
+                                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
                                 </filter>
-                                <filter id="glowR" x="-20%" y="-20%" width="140%" height="140%">
-                                    <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="rgba(16, 185, 129, 0.4)" />
+                                <filter id="tronGlowEmerald" x="-30%" y="-30%" width="160%" height="160%">
+                                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
                                 </filter>
                             </defs>
 
-                            <!-- Base Shield -->
-                            <rect x="4" y="4" width="92" height="92" rx="22" fill="url(#shieldBg)" stroke="rgba(34, 211, 238, 0.35)" stroke-width="2.5" />
+                            <!-- Cyber Shield Base -->
+                            <rect x="4" y="4" width="92" height="92" rx="18" fill="url(#tronGrid)" stroke="rgba(34, 211, 238, 0.4)" stroke-width="2" />
                             
-                            <!-- Circuit Micro-Accents -->
-                            <line x1="12" y1="25" x2="24" y2="25" stroke="rgba(20, 184, 166, 0.25)" stroke-width="1.5" stroke-linecap="round" />
-                            <circle cx="24" cy="25" r="2" fill="rgba(20, 184, 166, 0.5)" />
-                            <line x1="76" y1="75" x2="88" y2="75" stroke="rgba(16, 185, 129, 0.25)" stroke-width="1.5" stroke-linecap="round" />
-                            <circle cx="76" cy="75" r="2" fill="rgba(16, 185, 129, 0.5)" />
+                            <!-- Tron Circuit Trace Background -->
+                            <path d="M 12 28 L 22 28 L 28 22" stroke="rgba(34, 211, 238, 0.3)" stroke-width="1.2" stroke-linecap="round" fill="none" />
+                            <circle cx="12" cy="28" r="1.8" fill="#22d3ee" opacity="0.8" />
+                            
+                            <path d="M 88 72 L 78 72 L 72 78" stroke="rgba(16, 185, 129, 0.3)" stroke-width="1.2" stroke-linecap="round" fill="none" />
+                            <circle cx="88" cy="72" r="1.8" fill="#10b981" opacity="0.8" />
 
-                            <!-- BASE LAYER: Emerald 'R' -->
-                            <g filter="url(#glowR)">
-                                <rect x="23" y="22" width="8.5" height="56" rx="4.25" fill="url(#rGrad)" />
-                                <path d="M 27 26 H 53 C 66 26 72 34 72 44 C 72 54 65 61 51 61 H 27" stroke="url(#rGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                                <path d="M 49 56 L 73 78" stroke="url(#rGrad)" stroke-width="8.5" stroke-linecap="round" />
+                            <path d="M 14 76 L 24 76 L 30 70" stroke="rgba(16, 185, 129, 0.25)" stroke-width="1.2" fill="none" />
+                            <circle cx="14" cy="76" r="1.5" fill="#10b981" opacity="0.7" />
+                            
+                            <path d="M 86 24 L 76 24 L 70 30" stroke="rgba(34, 211, 238, 0.25)" stroke-width="1.2" fill="none" />
+                            <circle cx="86" cy="24" r="1.5" fill="#22d3ee" opacity="0.7" />
+
+                            <!-- BASE LAYER: Proportional Slender Emerald 'R' -->
+                            <g filter="url(#tronGlowEmerald)">
+                                <path d="M 27 22 L 27 78" stroke="url(#tronEmerald)" stroke-width="6" stroke-linecap="round" />
+                                <path d="M 27 25 H 48 C 58 25 64 31 64 40 C 64 49 58 55 48 55 H 27" stroke="url(#tronEmerald)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                                <path d="M 45 53 L 64 78" stroke="url(#tronEmerald)" stroke-width="6" stroke-linecap="round" />
+                                <path d="M 64 78 L 74 78" stroke="url(#tronEmerald)" stroke-width="2" stroke-linecap="round" />
+                                <circle cx="74" cy="78" r="2.5" fill="#6ee7b7" />
                             </g>
 
-                            <!-- SUPERIMPOSED LAYER: Luminous Teal 'P' (Shifted Forward) -->
-                            <g filter="url(#glowP)">
-                                <rect x="36" y="18" width="8" height="58" rx="4" fill="url(#pGrad)" stroke="#07171a" stroke-width="1.5" />
-                                <path d="M 40 22 H 62 C 75 22 81 30 81 39 C 81 48 74 55 61 55 H 40" stroke="url(#pGrad)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                            <!-- SUPERIMPOSED LAYER: Electric Cyan 'P' (Tron Circuit Path) -->
+                            <g filter="url(#tronGlowCyan)">
+                                <path d="M 38 18 L 38 74" stroke="url(#tronCyan)" stroke-width="5.5" stroke-linecap="round" />
+                                <path d="M 38 22 H 58 C 69 22 75 29 75 37 C 75 45 69 52 58 52 H 38" stroke="url(#tronCyan)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                                <path d="M 38 18 L 38 14 L 46 14" stroke="url(#tronCyan)" stroke-width="2" stroke-linecap="round" fill="none" />
+                                <circle cx="46" cy="14" r="2" fill="#a5f3fc" />
                             </g>
 
-                            <!-- Interlocking Neural Data Nodes -->
-                            <circle cx="40" cy="22" r="3.5" fill="#a5f3fc" stroke="#083344" stroke-width="1.5" />
-                            <circle cx="49" cy="56" r="3" fill="#6ee7b7" stroke="#062b24" stroke-width="1.5" />
+                            <!-- Glowing Tron Data Nodes (Micro Junctions) -->
+                            <circle cx="38" cy="22" r="3.2" fill="#e0f2fe" stroke="#083344" stroke-width="1.2" />
+                            <circle cx="45" cy="53" r="3.2" fill="#a7f3d0" stroke="#062b24" stroke-width="1.2" />
+                            <circle cx="27" cy="78" r="2.5" fill="#6ee7b7" />
                         </svg>
                     </div>
                     <span class="logo-text">Pathik<span class="gradient-text">.AI</span></span>
@@ -1899,6 +1999,9 @@
                 </ul>
 
                 <div class="nav-actions">
+                    <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Light/Dark Theme" title="Toggle Light/Dark Theme">
+                        <i class="fas fa-sun" id="themeIcon"></i>
+                    </button>
                     <a href="Pathik_Rupwate_Resume_DS.pdf" target="_blank" class="btn btn-outline btn-sm">
                         <i class="fas fa-file-pdf"></i> Resume
                     </a>
@@ -1993,17 +2096,17 @@
                 <!-- Generative AI & Agents -->
                 <div class="skill-card">
                     <div class="skill-header">
-                        <div class="skill-icon-box"><i class="fas fa-robot"></i></div>
+                        <div class="skill-icon-box" style="background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.4); color: #38bdf8;"><i class="fas fa-robot"></i></div>
                         <h3 class="skill-title">Generative AI & Agents</h3>
                     </div>
                     <div class="skill-tags">
-                        <span class="tag tag-highlight">Large Language Models (LLMs)</span>
-                        <span class="tag tag-highlight">RAG Architecture</span>
-                        <span class="tag tag-highlight">Model Context Protocol (MCP)</span>
-                        <span class="tag">LangChain</span>
-                        <span class="tag">Gemini AI</span>
-                        <span class="tag">ElevenLabs API</span>
-                        <span class="tag">Agentic Workflows</span>
+                        <span class="tag tag-cyan">Large Language Models (LLMs)</span>
+                        <span class="tag tag-cyan">RAG Architecture</span>
+                        <span class="tag tag-purple">Model Context Protocol (MCP)</span>
+                        <span class="tag tag-purple">LangChain</span>
+                        <span class="tag tag-cyan">Gemini AI</span>
+                        <span class="tag tag-purple">ElevenLabs API</span>
+                        <span class="tag tag-cyan">Agentic Workflows</span>
                         <span class="tag">API Integration</span>
                     </div>
                 </div>
@@ -2011,35 +2114,35 @@
                 <!-- Machine Learning & Deep Learning -->
                 <div class="skill-card">
                     <div class="skill-header">
-                        <div class="skill-icon-box"><i class="fas fa-brain"></i></div>
+                        <div class="skill-icon-box" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(52, 211, 153, 0.4); color: #34d399;"><i class="fas fa-brain"></i></div>
                         <h3 class="skill-title">Machine Learning & Modeling</h3>
                     </div>
                     <div class="skill-tags">
-                        <span class="tag tag-highlight">Time-Series Forecasting</span>
-                        <span class="tag tag-highlight">Anomaly Detection</span>
-                        <span class="tag">Natural Language Processing (NLP)</span>
-                        <span class="tag">Computer Vision</span>
-                        <span class="tag">Causal Inference</span>
-                        <span class="tag">Classification & Regression</span>
-                        <span class="tag">Clustering (K-Means, DBSCAN)</span>
-                        <span class="tag">GANs & SMOTE</span>
+                        <span class="tag tag-emerald">Time-Series Forecasting</span>
+                        <span class="tag tag-emerald">Anomaly Detection</span>
+                        <span class="tag tag-cyan">Natural Language Processing (NLP)</span>
+                        <span class="tag tag-emerald">Computer Vision (VGG-16)</span>
+                        <span class="tag tag-amber">Causal Inference</span>
+                        <span class="tag tag-emerald">Classification & Regression</span>
+                        <span class="tag tag-cyan">Clustering (K-Means, DBSCAN)</span>
+                        <span class="tag tag-amber">GANs & SMOTE</span>
                     </div>
                 </div>
 
                 <!-- Programming & Frameworks -->
                 <div class="skill-card">
                     <div class="skill-header">
-                        <div class="skill-icon-box"><i class="fas fa-code"></i></div>
+                        <div class="skill-icon-box" style="background: rgba(20, 184, 166, 0.15); border-color: rgba(20, 184, 166, 0.4); color: #2dd4bf;"><i class="fas fa-code"></i></div>
                         <h3 class="skill-title">Programming & Libraries</h3>
                     </div>
                     <div class="skill-tags">
-                        <span class="tag tag-highlight">Python</span>
-                        <span class="tag">PyTorch</span>
-                        <span class="tag">TensorFlow & Keras</span>
-                        <span class="tag">scikit-learn</span>
-                        <span class="tag">Pandas & NumPy</span>
-                        <span class="tag">R (ggplot2, caret)</span>
-                        <span class="tag">SQL</span>
+                        <span class="tag tag-emerald">Python</span>
+                        <span class="tag tag-emerald">PyTorch</span>
+                        <span class="tag tag-emerald">TensorFlow & Keras</span>
+                        <span class="tag tag-cyan">scikit-learn</span>
+                        <span class="tag tag-cyan">Pandas & NumPy</span>
+                        <span class="tag tag-purple">R (ggplot2, caret)</span>
+                        <span class="tag tag-cyan">SQL</span>
                         <span class="tag">C++</span>
                         <span class="tag">Java</span>
                     </div>
@@ -2048,16 +2151,16 @@
                 <!-- Infrastructure & Cloud -->
                 <div class="skill-card">
                     <div class="skill-header">
-                        <div class="skill-icon-box"><i class="fas fa-server"></i></div>
+                        <div class="skill-icon-box" style="background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.4); color: #c084fc;"><i class="fas fa-server"></i></div>
                         <h3 class="skill-title">Infrastructure & MLOps</h3>
                     </div>
                     <div class="skill-tags">
-                        <span class="tag tag-highlight">Docker</span>
-                        <span class="tag tag-highlight">Flask APIs</span>
-                        <span class="tag">GCP (Google Cloud)</span>
-                        <span class="tag">AWS</span>
-                        <span class="tag">Linux</span>
-                        <span class="tag">GitHub Copilot</span>
+                        <span class="tag tag-cyan">Docker</span>
+                        <span class="tag tag-emerald">Flask APIs</span>
+                        <span class="tag tag-purple">GCP (Google Cloud)</span>
+                        <span class="tag tag-purple">AWS</span>
+                        <span class="tag tag-cyan">Linux</span>
+                        <span class="tag tag-purple">GitHub Copilot</span>
                         <span class="tag">MongoDB</span>
                     </div>
                 </div>
@@ -2065,31 +2168,33 @@
                 <!-- Analytics & BI -->
                 <div class="skill-card">
                     <div class="skill-header">
-                        <div class="skill-icon-box"><i class="fas fa-chart-pie"></i></div>
+                        <div class="skill-icon-box" style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.4); color: #fbbf24;"><i class="fas fa-chart-pie"></i></div>
                         <h3 class="skill-title">Analytics & BI</h3>
                     </div>
                     <div class="skill-tags">
-                        <span class="tag tag-highlight">A/B Testing</span>
-                        <span class="tag tag-highlight">Tableau Dashboards</span>
-                        <span class="tag">Power BI</span>
-                        <span class="tag">Multivariate Testing</span>
-                        <span class="tag">Heatmaps & Time-Series</span>
-                        <span class="tag">KPI Alignment</span>
+                        <span class="tag tag-amber">A/B Testing</span>
+                        <span class="tag tag-amber">Tableau Dashboards</span>
+                        <span class="tag tag-amber">Power BI</span>
+                        <span class="tag tag-amber">Multivariate Testing</span>
+                        <span class="tag tag-cyan">Heatmaps & Time-Series</span>
+                        <span class="tag tag-emerald">KPI Alignment</span>
                     </div>
                 </div>
 
                 <!-- Domain Strategy -->
                 <div class="skill-card">
                     <div class="skill-header">
-                        <div class="skill-icon-box"><i class="fas fa-briefcase"></i></div>
+                        <div class="skill-icon-box" style="background: rgba(52, 211, 153, 0.15); border-color: rgba(52, 211, 153, 0.4); color: #6ee7b7;"><i class="fas fa-briefcase"></i></div>
                         <h3 class="skill-title">Domain & Leadership</h3>
                     </div>
                     <div class="skill-tags">
-                        <span class="tag tag-highlight">Public Sector / GovTech</span>
-                        <span class="tag tag-highlight">FinTech & Banking</span>
-                        <span class="tag">Risk Analytics</span>
-                        <span class="tag">Ad Strategy Simulations</span>
-                        <span class="tag">Executive Stakeholder Reporting</span>
+                        <span class="tag tag-emerald">FinTech Risk Modeling</span>
+                        <span class="tag tag-cyan">Government MCP Automation</span>
+                        <span class="tag tag-amber">Executive Presentation</span>
+                        <span class="tag tag-purple">Cross-Functional Agile</span>
+                        <span class="tag tag-emerald">Student Gov President ($250k)</span>
+                        <span class="tag tag-cyan">Public Sector / GovTech</span>
+                        <span class="tag tag-amber">Ad Strategy Simulations</span>
                     </div>
                 </div>
             </div>
@@ -2969,6 +3074,40 @@
                         icon.classList.add('fa-bars');
                     }
                 });
+            });
+        }
+
+        // ---------------------------------------------
+        // Light / Dark Theme Switcher with Persistence
+        // ---------------------------------------------
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            }
+        }
+
+        const savedTheme = localStorage.getItem('pathik_portfolio_theme') || 'dark';
+        applyTheme(savedTheme);
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+                const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+                applyTheme(nextTheme);
+                localStorage.setItem('pathik_portfolio_theme', nextTheme);
             });
         }
 
