@@ -3782,7 +3782,7 @@
 
         const SECTOR_NAMES = ['Tech', 'Energy', 'Financials', 'Health', 'Industrials', 'Cons. Disc.', 'Utilities', 'Materials', 'Comm.', 'Staples', 'Real Estate'];
 
-        function initSectorBar() {
+        function initSectorChart() {
             const ctx = document.getElementById('sectorBarChart').getContext('2d');
             sectorBarChart = new Chart(ctx, {
                 type: 'bar',
@@ -3814,6 +3814,7 @@
                 }
             });
         }
+        const initSectorBar = initSectorChart;
 
         function updateForecasting() {
             const cpi = parseFloat(sliderCPI.value);
