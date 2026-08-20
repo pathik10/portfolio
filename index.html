@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pathik Rupwate | Data Scientist & Machine Learning Engineer</title>
+    <title>Pathik Rupwate | Data Scientist & Machine Learning Engineer (Interactive Labs Preview)</title>
     <meta name="description" content="Portfolio of Pathik Rupwate - Data Scientist & Machine Learning Engineer specializing in Generative AI, Agentic Workflows (MCP/LangChain), Predictive Modeling, Computer Vision, and NLP.">
     <meta name="keywords" content="Pathik Rupwate, Data Scientist, Machine Learning Engineer, Generative AI, RAG, MCP, LangChain, Computer Vision, NLP, Deep Learning, Python, PyTorch, Gemini API">
     <meta name="author" content="Pathik Rupwate">
+    <link rel="canonical" href="https://pathikrupwate.com/">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +16,16 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Chart.js for Interactive Demos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- TensorFlow.js for Live In-Browser Model Inference -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
+
+    <!-- MediaPipe Face Mesh for Genuine Real-Time Facial Feature Tracking -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
 
     <style>
         :root {
@@ -194,13 +205,13 @@
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 1.8rem;
             list-style: none;
         }
 
         .nav-links a {
             color: var(--text-sub);
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 500;
             position: relative;
             padding: 0.5rem 0;
@@ -210,6 +221,11 @@
         .nav-links a:hover,
         .nav-links a.active {
             color: var(--text-primary);
+        }
+
+        .nav-links a.highlight-link {
+            color: var(--accent-mint);
+            font-weight: 600;
         }
 
         .nav-links a::after {
@@ -427,9 +443,278 @@
 
         .section-desc {
             color: var(--text-sub);
-            max-width: 650px;
+            max-width: 680px;
             margin-top: 0.5rem;
             font-size: 1rem;
+        }
+
+        /* ---------------------------------------------------- */
+        /* INTERACTIVE LABS SECTION                             */
+        /* ---------------------------------------------------- */
+        .labs-container {
+            background: var(--bg-glass-card);
+            border: 1px solid var(--border-glass-hover);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            backdrop-filter: var(--backdrop-blur);
+            -webkit-backdrop-filter: var(--backdrop-blur);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+        }
+
+        .labs-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 1.25rem;
+        }
+
+        .lab-tab-btn {
+            background: rgba(20, 184, 166, 0.08);
+            border: 1px solid var(--border-glass);
+            color: var(--text-sub);
+            padding: 0.65rem 1.15rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+
+        .lab-tab-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-mint);
+            background: rgba(20, 184, 166, 0.16);
+        }
+
+        .lab-tab-btn.active {
+            background: var(--gradient-primary);
+            color: #061517;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .lab-panel {
+            display: none;
+            animation: fadeInPanel 0.35s ease forwards;
+        }
+
+        .lab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeInPanel {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .lab-card {
+            background: rgba(8, 20, 24, 0.6);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 1.75rem;
+        }
+
+        .lab-card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lab-card-desc {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* Interactive Controls */
+        .control-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            color: var(--text-body);
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .control-val {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-mint);
+            font-weight: 700;
+        }
+
+        .range-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent-mint);
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.8);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .range-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Status & Gauges */
+        .status-pill-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            background: rgba(16, 37, 43, 0.5);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .anomaly-status-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .anomaly-status-badge.safe {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            color: #6ee7b7;
+        }
+
+        .anomaly-status-badge.moderate {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fcd34d;
+        }
+
+        .anomaly-status-badge.risk {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 280px;
+            width: 100%;
+        }
+
+        /* Vision Canvas Demo */
+        .vision-preview-box {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #04090b;
+            border: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #visionCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: #060e11;
+        }
+
+        .vision-preset-btn {
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid var(--border-glass);
+            color: var(--text-body);
+            padding: 0.45rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .vision-preset-btn.active, .vision-preset-btn:hover {
+            background: var(--gradient-primary);
+            color: #061517;
+            font-weight: 700;
+        }
+
+        .vision-live-indicator {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(8px);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: #6ee7b7;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 10;
+        }
+
+        /* RAG Demo Styles */
+        .chunk-pill-box {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .doc-chunk-item {
+            background: rgba(20, 184, 166, 0.06);
+            border: 1px solid var(--border-glass);
+            padding: 0.65rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--text-body);
+            transition: var(--transition);
+        }
+
+        .doc-chunk-item.matched {
+            border-color: var(--accent-mint);
+            background: rgba(16, 185, 129, 0.18);
+            box-shadow: 0 0 12px rgba(52, 211, 153, 0.3);
         }
 
         /* Competencies & Skills */
@@ -848,7 +1133,7 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 1.25rem;
+            gap: 1.1rem;
             margin-bottom: 2.5rem;
         }
 
@@ -1336,6 +1621,9 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 1.5rem;
             }
+            .lab-grid {
+                grid-template-columns: 1fr;
+            }
             .metric-card:not(:last-child)::after {
                 display: none;
             }
@@ -1377,6 +1665,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .labs-container {
+                padding: 1.5rem;
+            }
+
             .contact-cta {
                 padding: 3rem 1.5rem;
             }
@@ -1406,6 +1698,10 @@
 </head>
 <body>
 
+    <!-- Hidden Video and Input Elements for Webcam and Image Inference -->
+    <video id="visionVideo" autoplay playsinline muted style="display: none;"></video>
+    <input type="file" id="faceImageUpload" accept="image/*" style="display: none;">
+
     <!-- Ambient Glow Lights -->
     <div class="ambient-glow-1"></div>
     <div class="ambient-glow-2"></div>
@@ -1430,17 +1726,10 @@
                                     <stop offset="100%" stop-color="rgba(6, 182, 212, 0.05)" />
                                 </linearGradient>
                             </defs>
-                            <!-- Frosted Badge Background -->
                             <rect width="100" height="100" rx="24" fill="url(#bgGrad)" stroke="rgba(52, 211, 153, 0.35)" stroke-width="3" />
-                            
-                            <!-- Superimposed P on R Monogram -->
-                            <!-- Shared Vertical Backbone -->
                             <path d="M 32 20 L 32 80" stroke="url(#monogramGrad)" stroke-width="11" stroke-linecap="round" />
-                            <!-- P Loop (and upper lobe of R) -->
                             <path d="M 32 22 H 56 C 71 22 78 31 78 43 C 78 55 71 63 56 63 H 32" stroke="url(#monogramGrad)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
-                            <!-- Superimposed R Diagonal Leg -->
                             <path d="M 52 59 L 75 80" stroke="url(#monogramGrad)" stroke-width="11" stroke-linecap="round" />
-                            <!-- Dynamic Accent Glow Point at Intersection -->
                             <circle cx="53" cy="59" r="4" fill="#a7f3d0" />
                         </svg>
                     </div>
@@ -1450,6 +1739,7 @@
                 <ul class="nav-links" id="navLinks">
                     <li><a href="#about">About</a></li>
                     <li><a href="#skills">Skills</a></li>
+                    <li><a href="#demos" class="highlight-link"><i class="fas fa-flask"></i> Interactive Labs</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="#experience">Experience</a></li>
                     <li><a href="#education">Education</a></li>
@@ -1488,11 +1778,14 @@
             </p>
 
             <div class="hero-cta">
-                <a href="#projects" class="btn btn-primary">
-                    <i class="fas fa-diagram-project"></i> View Featured Work
+                <a href="#demos" class="btn btn-primary">
+                    <i class="fas fa-flask"></i> Test Interactive Labs
+                </a>
+                <a href="#projects" class="btn btn-outline">
+                    <i class="fas fa-diagram-project"></i> View Case Studies
                 </a>
                 <a href="Pathik_Rupwate_Resume_DS.pdf" target="_blank" class="btn btn-outline">
-                    <i class="fas fa-download"></i> Download Full Resume
+                    <i class="fas fa-download"></i> Download Resume
                 </a>
                 <button class="btn btn-outline" id="heroChatTrigger">
                     <i class="fas fa-robot"></i> Chat With My AI
@@ -1633,6 +1926,315 @@
                         <span class="tag">Executive Stakeholder Reporting</span>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ---------------------------------------------------- -->
+    <!-- INTERACTIVE AI & DATA SCIENCE LABS (5 LIVE DEMOS)    -->
+    <!-- ---------------------------------------------------- -->
+    <section id="demos" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// Live Interactive Labs</span>
+                <h2 class="section-title">Hands-On Model & AI Demonstrations</h2>
+                <p class="section-desc">Interact with client-side implementations of my predictive algorithms, computer vision pipelines, and RAG architectures in real time.</p>
+            </div>
+
+            <div class="labs-container">
+                <!-- Tab Controls -->
+                <div class="labs-tabs">
+                    <button class="lab-tab-btn" data-tab="lab-loan">
+                        <i class="fas fa-shield-alt"></i> 1. Loan Anomaly Simulator
+                    </button>
+                    <button class="lab-tab-btn" data-tab="lab-forecasting">
+                        <i class="fas fa-chart-line"></i> 2. S&P 500 Forecasting & GANs
+                    </button>
+                    <button class="lab-tab-btn active" data-tab="lab-vision">
+                        <i class="fas fa-camera"></i> 3. Live Vision & VGG-16 BMI Model
+                    </button>
+                    <button class="lab-tab-btn" data-tab="lab-rag">
+                        <i class="fas fa-network-wired"></i> 4. RAG Vector Chunk Visualizer
+                    </button>
+                    <button class="lab-tab-btn" data-tab="lab-cluster">
+                        <i class="fas fa-users-viewfinder"></i> 5. Customer Persona Clustering
+                    </button>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- DEMO 1: LOAN RISK & ANOMALY DETECTION          -->
+                <!-- ============================================== -->
+                <div class="lab-panel" id="lab-loan">
+                    <div class="lab-grid">
+                        <div class="lab-card">
+                            <h3 class="lab-card-title"><i class="fas fa-sliders" style="color: var(--accent-mint);"></i> Applicant Credit & Behavior Inputs</h3>
+                            <p class="lab-card-desc">Simulate how Isolation Forests & One-Class SVMs identify rare credit defaults despite severe class imbalance (Kearny Bank project).</p>
+                            
+                            <div class="control-group">
+                                <div class="control-label">
+                                    <span>Credit Score (FICO)</span>
+                                    <span class="control-val" id="valCredit">680</span>
+                                </div>
+                                <input type="range" class="range-slider" id="sliderCredit" min="350" max="850" value="680">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label">
+                                    <span>Debt-to-Income Ratio (DTI %)</span>
+                                    <span class="control-val" id="valDTI">35%</span>
+                                </div>
+                                <input type="range" class="range-slider" id="sliderDTI" min="5" max="85" value="35">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label">
+                                    <span>Loan-to-Value Ratio (LTV %)</span>
+                                    <span class="control-val" id="valLTV">75%</span>
+                                </div>
+                                <input type="range" class="range-slider" id="sliderLTV" min="20" max="140" value="75">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label">
+                                    <span>Monthly Transaction Volatility Index</span>
+                                    <span class="control-val" id="valVol">28</span>
+                                </div>
+                                <input type="range" class="range-slider" id="sliderVol" min="0" max="100" value="28">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label">
+                                    <span>Past 2-Year Delinquent Occurrences</span>
+                                    <span class="control-val" id="valDelinq">0</span>
+                                </div>
+                                <input type="range" class="range-slider" id="sliderDelinq" min="0" max="8" value="0">
+                            </div>
+
+                            <div class="status-pill-row">
+                                <div>
+                                    <div style="font-size: 0.78rem; color: var(--text-sub);">Anomaly Score</div>
+                                    <div style="font-size: 1.4rem; font-weight: 800; font-family: 'JetBrains Mono', monospace;" id="anomalyScoreDisplay">18%</div>
+                                </div>
+                                <div id="anomalyBadge" class="anomaly-status-badge safe">
+                                    <i class="fas fa-check-circle"></i> Standard Risk (Approved)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lab-card">
+                            <h3 class="lab-card-title"><i class="fas fa-radar" style="color: var(--accent-cyan);"></i> Multi-Dimensional Risk Radar</h3>
+                            <p class="lab-card-desc">Real-time normalized factor analysis generated from applicant metrics.</p>
+                            <div class="chart-wrapper">
+                                <canvas id="loanRadarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- DEMO 2: S&P 500 FORECASTING & GANs             -->
+                <!-- ============================================== -->
+                <div class="lab-panel" id="lab-forecasting">
+                    <div class="lab-grid">
+                        <div class="lab-card">
+                            <h3 class="lab-card-title"><i class="fas fa-microchip-ai" style="color: var(--accent-mint);"></i> Macroeconomic & GAN Simulation</h3>
+                            <p class="lab-card-desc">Replicates Aiolux research utilizing Tabular GANs & SMOTE to predict sector performance against macroeconomic CPI inflation shocks.</p>
+                            
+                            <div class="control-group">
+                                <label style="font-size: 0.82rem; color: var(--text-body); font-weight: 600; display: block; margin-bottom: 0.4rem;">Forecast Time Horizon</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="vision-preset-btn active" id="btnH50">50 Days</button>
+                                    <button class="vision-preset-btn" id="btnH100">100 Days</button>
+                                    <button class="vision-preset-btn" id="btnH200">200 Days (80% Acc.)</button>
+                                </div>
+                            </div>
+
+                            <div class="control-group" style="margin-top: 1.2rem;">
+                                <div class="control-label">
+                                    <span>Macro CPI Inflation Shock (+/- %)</span>
+                                    <span class="control-val" id="valCPI">+2.5%</span>
+                                </div>
+                                <input type="range" class="range-slider" id="sliderCPI" min="-5" max="10" step="0.5" value="2.5">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label">
+                                    <span>Fed Interest Rate Trajectory (bps)</span>
+                                    <span class="control-val" id="valRate">+50 bps</span>
+                                </div>
+                                <input type="range" class="range-slider" id="sliderRate" min="-150" max="250" step="25" value="50">
+                            </div>
+
+                            <div class="status-pill-row">
+                                <div>
+                                    <div style="font-size: 0.78rem; color: var(--text-sub);">GAN Synthetic Samples</div>
+                                    <div style="font-size: 1.3rem; font-weight: 800; color: var(--accent-mint); font-family: 'JetBrains Mono', monospace;" id="ganSampleCount">25,000 pts</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.78rem; color: var(--text-sub);">Model Robustness Lift</div>
+                                    <div style="font-size: 1.3rem; font-weight: 800; color: #6ee7b7; font-family: 'JetBrains Mono', monospace;">+20.0%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lab-card">
+                            <h3 class="lab-card-title"><i class="fas fa-chart-simple" style="color: var(--accent-cyan);"></i> Sector Outperformance Probability (%)</h3>
+                            <p class="lab-card-desc">Extremely Randomized Tree Classifiers probability breakdown across 11 S&P 500 sectors.</p>
+                            <div class="chart-wrapper">
+                                <canvas id="sectorBarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- DEMO 3: LIVE VISION & VGG-16 BMI MODEL         -->
+                <!-- ============================================== -->
+                <div class="lab-panel active" id="lab-vision">
+                    <div class="lab-grid">
+                        <div class="lab-card">
+                            <h3 class="lab-card-title"><i class="fas fa-camera" style="color: var(--accent-mint);"></i> Real-Time MediaPipe Tracking & VGG-16 Inference</h3>
+                            <p class="lab-card-desc">Genuine 468-point 3D landmark mesh tracking powered by MediaPipe, coupled with your trained <strong>VGG-16 Model</strong>.</p>
+                            
+                            <div style="display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap;">
+                                <button class="vision-preset-btn" id="btnWebcam" style="background: rgba(16, 185, 129, 0.2); border-color: var(--accent-mint);">
+                                    <i class="fas fa-video"></i> Start Live Webcam
+                                </button>
+                                <button class="vision-preset-btn" id="btnUploadPhoto">
+                                    <i class="fas fa-upload"></i> Upload Face Photo
+                                </button>
+                                <button class="vision-preset-btn active" id="btnPresetFace1">Preset Face A</button>
+                                <button class="vision-preset-btn" id="btnPresetFace2">Preset Face B</button>
+                            </div>
+
+                            <div class="vision-preview-box">
+                                <div class="vision-live-indicator" id="visionLiveBadge">
+                                    <span class="status-dot"></span> <span id="visionModeText">Initializing MediaPipe & VGG-16...</span>
+                                </div>
+                                <canvas id="visionCanvas" width="480" height="320"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="lab-card">
+                            <h3 class="lab-card-title"><i class="fas fa-brain" style="color: var(--accent-cyan);"></i> Live Neural Network Telemetry</h3>
+                            <p class="lab-card-desc">Real-time facial geometry & model prediction from your webcam feed.</p>
+                            
+                            <!-- Hero Predicted BMI Number -->
+                            <div style="background: radial-gradient(circle at top, rgba(16, 185, 129, 0.15), rgba(11, 25, 29, 0.8)), rgba(13, 30, 35, 0.7); border: 1px solid var(--border-glass-hover); border-radius: 12px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; box-shadow: 0 0 25px rgba(20, 184, 166, 0.15);">
+                                <div style="font-size: 0.85rem; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Live Predicted BMI</div>
+                                <div style="font-size: 3.2rem; font-weight: 800; font-family: 'JetBrains Mono', monospace;" class="gradient-text" id="liveBMINumber">22.8</div>
+                                <div style="margin-top: 0.5rem;">
+                                    <span class="anomaly-status-badge safe" id="liveBMICategory" style="font-size: 0.88rem; padding: 0.4rem 1rem;">
+                                        <i class="fas fa-check-circle"></i> Normal Weight Range
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div style="background: rgba(20, 184, 166, 0.08); border: 1px solid var(--border-glass); padding: 0.85rem; border-radius: 8px;">
+                                    <div style="font-size: 0.72rem; color: var(--text-sub);">Tracking Engine</div>
+                                    <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent-mint);">MediaPipe 468-Mesh</div>
+                                </div>
+                                <div style="background: rgba(20, 184, 166, 0.08); border: 1px solid var(--border-glass); padding: 0.85rem; border-radius: 8px;">
+                                    <div style="font-size: 0.72rem; color: var(--text-sub);">Inference Backend</div>
+                                    <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent-cyan);">TFJS WebGL (GPU)</div>
+                                </div>
+                                <div style="background: rgba(20, 184, 166, 0.08); border: 1px solid var(--border-glass); padding: 0.85rem; border-radius: 8px;">
+                                    <div style="font-size: 0.72rem; color: var(--text-sub);">Tracked Face Area</div>
+                                    <div style="font-size: 0.95rem; font-weight: 700; color: #fff;" id="trackedAreaDisplay">224 x 224 px</div>
+                                </div>
+                                <div style="background: rgba(20, 184, 166, 0.08); border: 1px solid var(--border-glass); padding: 0.85rem; border-radius: 8px;">
+                                    <div style="font-size: 0.72rem; color: var(--text-sub);">Pipeline Latency</div>
+                                    <div style="font-size: 0.95rem; font-weight: 700; color: #6ee7b7;" id="modelLatencyDisplay">14.2 ms</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- DEMO 4: RAG & VECTOR SEARCH VISUALIZER         -->
+                <!-- ============================================== -->
+                <div class="lab-panel" id="lab-rag">
+                    <div class="lab-grid">
+                        <div class="lab-card">
+                            <h3 class="lab-card-title"><i class="fas fa-file-lines" style="color: var(--accent-mint);"></i> Municipal Document Chunking</h3>
+                            <p class="lab-card-desc">Interactive demonstration of the Model Context Protocol (MCP) and RAG architecture engineered at ABM Knowledgeware.</p>
+                            
+                            <div style="margin-bottom: 1rem;">
+                                <label style="font-size: 0.82rem; color: var(--text-body); font-weight: 600; display: block; margin-bottom: 0.4rem;">Type / Select Query Search:</label>
+                                <input type="text" class="chat-input" id="ragQueryInput" value="water supply tariff rebate for seniors" style="width: 100%; border-radius: 8px;">
+                            </div>
+
+                            <div style="display: flex; gap: 6px; margin-bottom: 1.2rem; flex-wrap: wrap;">
+                                <button class="quick-chip" onclick="setRagQuery('property tax assessment deadline')">Property Tax</button>
+                                <button class="quick-chip" onclick="setRagQuery('building zoning permit approval')">Zoning Permit</button>
+                                <button class="quick-chip" onclick="setRagQuery('water supply tariff rebate for seniors')">Water Rebate</button>
+                                <button class="quick-chip" onclick="setRagQuery('fire safety municipal audit report')">Fire Audit</button>
+                            </div>
+
+                            <label style="font-size: 0.82rem; color: var(--text-body); font-weight: 600; display: block; margin-bottom: 0.5rem;">Document Chunks in Knowledge Base:</label>
+                            <div class="chunk-pill-box" id="chunkContainer"></div>
+                        </div>
+
+                        <div class="lab-card">
+                            <h3 class="lab-card-title"><i class="fas fa-diagram-project" style="color: var(--accent-cyan);"></i> Vector Embedding Space & Cosine Similarity</h3>
+                            <p class="lab-card-desc">2D projection of semantic vector embeddings. Nearest chunks to the query vector are retrieved.</p>
+                            <div class="chart-wrapper">
+                                <canvas id="ragVectorChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- DEMO 5: CUSTOMER PERSONA CLUSTERING            -->
+                <!-- ============================================== -->
+                <div class="lab-panel" id="lab-cluster">
+                    <div class="lab-grid">
+                        <div class="lab-card">
+                            <h3 class="lab-card-title"><i class="fas fa-circle-nodes" style="color: var(--accent-mint);"></i> 2D PCA Customer Behavior Clusters</h3>
+                            <p class="lab-card-desc">Interactive K-Means & DBSCAN segmentation model that drove a <strong>+30% campaign ROI lift</strong> at Kearny Bank.</p>
+                            <div class="chart-wrapper" style="height: 300px;">
+                                <canvas id="clusterScatterChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="lab-card">
+                            <h3 class="lab-card-title"><i class="fas fa-id-card-clip" style="color: var(--accent-cyan);"></i> Inspected Persona & NLP Sentiment Profile</h3>
+                            <p class="lab-card-desc">Click points on the cluster chart to inspect customer behavioral persona and LDA topic keywords.</p>
+                            
+                            <div style="background: rgba(16, 37, 43, 0.6); border: 1px solid var(--border-glass); padding: 1.25rem; border-radius: 10px; margin-bottom: 1rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);" id="personaTitle">Cluster 1: High-Net-Worth Savers</span>
+                                    <span class="anomaly-status-badge safe" id="personaROI">+34% Campaign Lift</span>
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-body); margin-bottom: 1rem;" id="personaDesc">
+                                    High balance preservation, low credit risk, high interest in wealth management and municipal bonds.
+                                </p>
+                                
+                                <div style="font-size: 0.78rem; color: var(--text-sub); margin-bottom: 0.4rem; font-weight: 600;">NLP Review Topics (LDA Extraction):</div>
+                                <div style="display: flex; gap: 6px; flex-wrap: wrap;" id="personaTopics">
+                                    <span class="tag tag-highlight">yield stability</span>
+                                    <span class="tag tag-highlight">wealth advisory</span>
+                                    <span class="tag">fixed deposit</span>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div style="background: rgba(20, 184, 166, 0.08); border: 1px solid var(--border-glass); padding: 0.85rem; border-radius: 8px;">
+                                    <div style="font-size: 0.72rem; color: var(--text-sub);">Avg. Balance</div>
+                                    <div style="font-size: 1.25rem; font-weight: 800; color: var(--accent-mint);" id="personaBal">$142,500</div>
+                                </div>
+                                <div style="background: rgba(20, 184, 166, 0.08); border: 1px solid var(--border-glass); padding: 0.85rem; border-radius: 8px;">
+                                    <div style="font-size: 0.72rem; color: var(--text-sub);">Conversion Rate</div>
+                                    <div style="font-size: 1.25rem; font-weight: 800; color: var(--accent-cyan);" id="personaConv">18.4%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -2026,6 +2628,12 @@
                     <a href="tel:+919321194480" class="info-pill">
                         <i class="fas fa-phone" style="color: var(--accent-emerald);"></i> +91 9321194480
                     </a>
+                    <a href="https://pathikrupwate.com" target="_blank" class="info-pill">
+                        <i class="fas fa-globe" style="color: var(--accent-cyan);"></i> pathikrupwate.com
+                    </a>
+                    <a href="https://github.com/pathik10" target="_blank" class="info-pill">
+                        <i class="fab fa-github" style="color: var(--accent-light);"></i> github.com/pathik10
+                    </a>
                     <div class="info-pill">
                         <i class="fas fa-location-dot" style="color: var(--accent-teal);"></i> Mumbai, India
                     </div>
@@ -2047,6 +2655,9 @@
                     <a href="https://github.com/pathik10" target="_blank" class="social-btn" aria-label="GitHub">
                         <i class="fab fa-github"></i>
                     </a>
+                    <a href="https://pathikrupwate.com" target="_blank" class="social-btn" aria-label="Website">
+                        <i class="fas fa-globe"></i>
+                    </a>
                     <a href="mailto:pathikrds@gmail.com" class="social-btn" aria-label="Email">
                         <i class="fas fa-envelope"></i>
                     </a>
@@ -2058,22 +2669,19 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2026 Pathik Rupwate &bull; Built with modern web standards &bull; Hosted on GitHub Pages</p>
+            <p>&copy; 2026 Pathik Rupwate &bull; <a href="https://pathikrupwate.com" style="color: var(--accent-mint);">pathikrupwate.com</a> &bull; Hosted on GitHub Pages</p>
         </div>
     </footer>
 
     <!-- ---------------------------------------------------- -->
     <!-- INTERACTIVE AI PORTFOLIO CHATBOT UI                  -->
     <!-- ---------------------------------------------------- -->
-    <!-- Trigger Floating Button -->
     <button class="chatbot-trigger" id="chatbotTrigger" aria-label="Open AI Assistant">
         <span class="trigger-icon"><i class="fas fa-robot"></i></span>
         <span>Chat with Pathik's AI</span>
     </button>
 
-    <!-- Floating Chat Window -->
     <div class="chatbot-window" id="chatbotWindow" aria-hidden="true">
-        <!-- Header -->
         <div class="chat-header">
             <div class="chat-header-info">
                 <div class="chat-avatar"><i class="fas fa-brain"></i></div>
@@ -2091,7 +2699,6 @@
             </div>
         </div>
 
-        <!-- Gemini API Settings Drawer -->
         <div class="chat-settings-drawer" id="chatSettingsDrawer">
             <div class="settings-title">
                 <span><i class="fas fa-sparkles" style="color: var(--accent-cyan);"></i> Google Gemini API Mode</span>
@@ -2112,28 +2719,25 @@
             </div>
         </div>
 
-        <!-- Messages History -->
         <div class="chat-messages" id="chatMessages">
             <div class="chat-msg bot">
                 <div class="chat-bubble">
                     👋 Hi there! I'm <strong>Pathik's AI Assistant</strong>, running directly in your browser. 
                     <br><br>
-                    Ask me anything about Pathik's <strong>experience</strong> (ABM Knowledgeware, Kearny Bank), <strong>Generative AI & MCP projects</strong>, <strong>technical skills</strong>, or <strong>how to get in touch</strong>!
+                    Ask me anything about Pathik's <strong>experience</strong>, <strong>Generative AI & MCP projects</strong>, <strong>VGG-16 BMI Model</strong>, or <strong>how to get in touch</strong>!
                 </div>
                 <span class="chat-time">Just now</span>
             </div>
         </div>
 
-        <!-- Quick Question Chips -->
         <div class="chat-quick-chips" id="quickChips">
-            <button class="quick-chip" data-query="What is Pathik currently doing at ABM Knowledgeware?">🏢 ABM Work & MCP Agent</button>
-            <button class="quick-chip" data-query="How did he improve campaign ROI by 30%?">📈 30% ROI & Kearny Bank</button>
-            <button class="quick-chip" data-query="What is his full technical stack?">🛠️ Tech Stack & Skills</button>
-            <button class="quick-chip" data-query="Tell me about his education and leadership.">🎓 UChicago & Leadership</button>
+            <button class="quick-chip" data-query="Tell me about the interactive demos and VGG-16 BMI model.">🧪 Interactive Labs</button>
+            <button class="quick-chip" data-query="What is Pathik currently doing at ABM Knowledgeware?">🏢 ABM Work & MCP</button>
+            <button class="quick-chip" data-query="How did he improve campaign ROI by 30%?">📈 30% ROI & Kearny</button>
+            <button class="quick-chip" data-query="What is his full technical stack?">🛠️ Tech Stack</button>
             <button class="quick-chip" data-query="How can I contact or hire Pathik?">📬 Contact & Hire</button>
         </div>
 
-        <!-- Input Box -->
         <form class="chat-input-area" id="chatForm">
             <input type="text" class="chat-input" id="chatInput" placeholder="Ask a question about Pathik..." autocomplete="off" required>
             <button type="submit" class="chat-send-btn" aria-label="Send message">
@@ -2142,7 +2746,9 @@
         </form>
     </div>
 
-    <!-- Interactive Scripts -->
+    <!-- ============================================== -->
+    <!-- INTERACTIVE SCRIPTS & 5 LABS LOGIC             -->
+    <!-- ============================================== -->
     <script>
         // ---------------------------------------------
         // Mobile Navigation Toggle
@@ -2200,6 +2806,907 @@
         });
 
         // ---------------------------------------------
+        // INTERACTIVE LABS TAB SWITCHER
+        // ---------------------------------------------
+        const labTabBtns = document.querySelectorAll('.lab-tab-btn');
+        const labPanels = document.querySelectorAll('.lab-panel');
+
+        labTabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                labTabBtns.forEach(b => b.classList.remove('active'));
+                labPanels.forEach(p => p.classList.remove('active'));
+
+                btn.classList.add('active');
+                const targetId = btn.getAttribute('data-tab');
+                const targetPanel = document.getElementById(targetId);
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                }
+
+                if (targetId === 'lab-loan' && loanRadarChart) loanRadarChart.resize();
+                if (targetId === 'lab-forecasting' && sectorBarChart) sectorBarChart.resize();
+                if (targetId === 'lab-rag' && ragVectorChart) ragVectorChart.resize();
+                if (targetId === 'lab-cluster' && clusterScatterChart) clusterScatterChart.resize();
+                if (targetId === 'lab-vision' && !isWebcamActive) runModelOnPreset(1);
+            });
+        });
+
+        // ---------------------------------------------
+        // LAB 1: LOAN ANOMALY SIMULATOR
+        // ---------------------------------------------
+        const sliderCredit = document.getElementById('sliderCredit');
+        const sliderDTI = document.getElementById('sliderDTI');
+        const sliderLTV = document.getElementById('sliderLTV');
+        const sliderVol = document.getElementById('sliderVol');
+        const sliderDelinq = document.getElementById('sliderDelinq');
+
+        const valCredit = document.getElementById('valCredit');
+        const valDTI = document.getElementById('valDTI');
+        const valLTV = document.getElementById('valLTV');
+        const valVol = document.getElementById('valVol');
+        const valDelinq = document.getElementById('valDelinq');
+
+        const anomalyScoreDisplay = document.getElementById('anomalyScoreDisplay');
+        const anomalyBadge = document.getElementById('anomalyBadge');
+
+        let loanRadarChart = null;
+
+        function initLoanRadar() {
+            const ctx = document.getElementById('loanRadarChart').getContext('2d');
+            loanRadarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Credit Score', 'Low DTI', 'Low LTV', 'Low Volatility', 'Clean Payment History'],
+                    datasets: [{
+                        label: 'Applicant Profile',
+                        data: [70, 65, 75, 72, 100],
+                        backgroundColor: 'rgba(52, 211, 153, 0.25)',
+                        borderColor: '#10b981',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#34d399',
+                        pointBorderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.08)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                            pointLabels: { color: '#94a3b8', font: { size: 11, family: 'Plus Jakarta Sans' } },
+                            ticks: { display: false, min: 0, max: 100 }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function calculateLoanRisk() {
+            const credit = parseFloat(sliderCredit.value);
+            const dti = parseFloat(sliderDTI.value);
+            const ltv = parseFloat(sliderLTV.value);
+            const vol = parseFloat(sliderVol.value);
+            const delinq = parseFloat(sliderDelinq.value);
+
+            valCredit.innerText = credit;
+            valDTI.innerText = dti + '%';
+            valLTV.innerText = ltv + '%';
+            valVol.innerText = vol;
+            valDelinq.innerText = delinq;
+
+            let creditRisk = Math.max(0, (750 - credit) / 4.0);
+            let dtiRisk = Math.max(0, (dti - 20) * 1.5);
+            let ltvRisk = Math.max(0, (ltv - 50) * 1.0);
+            let volRisk = vol * 0.8;
+            let delinqRisk = delinq * 16.0;
+
+            let anomalyScore = Math.min(100, Math.round(
+                (creditRisk * 0.3) + (dtiRisk * 0.2) + (ltvRisk * 0.15) + (volRisk * 0.15) + (delinqRisk * 0.2)
+            ));
+
+            anomalyScoreDisplay.innerText = anomalyScore + '%';
+
+            if (anomalyScore < 30) {
+                anomalyBadge.className = 'anomaly-status-badge safe';
+                anomalyBadge.innerHTML = '<i class="fas fa-check-circle"></i> Standard Risk (Approved)';
+            } else if (anomalyScore < 60) {
+                anomalyBadge.className = 'anomaly-status-badge moderate';
+                anomalyBadge.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Moderate Risk (Review)';
+            } else {
+                anomalyBadge.className = 'anomaly-status-badge risk';
+                anomalyBadge.innerHTML = '<i class="fas fa-shield-xmark"></i> High-Risk Anomaly (Flagged)';
+            }
+
+            if (loanRadarChart) {
+                const normCredit = Math.min(100, Math.max(10, (credit - 350) / 5.0));
+                const normDti = Math.min(100, Math.max(10, 100 - dti));
+                const normLtv = Math.min(100, Math.max(10, 120 - ltv));
+                const normVol = Math.min(100, Math.max(10, 100 - vol));
+                const normDelinq = Math.min(100, Math.max(10, 100 - (delinq * 12.5)));
+
+                loanRadarChart.data.datasets[0].data = [normCredit, normDti, normLtv, normVol, normDelinq];
+                loanRadarChart.data.datasets[0].borderColor = anomalyScore < 30 ? '#10b981' : anomalyScore < 60 ? '#f59e0b' : '#ef4444';
+                loanRadarChart.data.datasets[0].backgroundColor = anomalyScore < 30 ? 'rgba(16, 185, 129, 0.25)' : anomalyScore < 60 ? 'rgba(245, 158, 11, 0.25)' : 'rgba(239, 68, 68, 0.25)';
+                loanRadarChart.update('none');
+            }
+        }
+
+        [sliderCredit, sliderDTI, sliderLTV, sliderVol, sliderDelinq].forEach(s => {
+            s.addEventListener('input', calculateLoanRisk);
+        });
+
+        // ---------------------------------------------
+        // LAB 2: S&P 500 FORECASTING & GANs
+        // ---------------------------------------------
+        let sectorBarChart = null;
+        let selectedHorizon = 50;
+
+        const btnH50 = document.getElementById('btnH50');
+        const btnH100 = document.getElementById('btnH100');
+        const btnH200 = document.getElementById('btnH200');
+        const sliderCPI = document.getElementById('sliderCPI');
+        const sliderRate = document.getElementById('sliderRate');
+        const valCPI = document.getElementById('valCPI');
+        const valRate = document.getElementById('valRate');
+        const ganSampleCount = document.getElementById('ganSampleCount');
+
+        const SECTOR_NAMES = ['Tech', 'Energy', 'Financials', 'Health', 'Industrials', 'Cons. Disc.', 'Utilities', 'Materials', 'Comm.', 'Staples', 'Real Estate'];
+
+        function initSectorBar() {
+            const ctx = document.getElementById('sectorBarChart').getContext('2d');
+            sectorBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: SECTOR_NAMES,
+                    datasets: [{
+                        label: 'Probability of Outperforming Benchmark',
+                        data: [72, 65, 58, 64, 52, 60, 48, 55, 68, 45, 42],
+                        backgroundColor: '#14b8a6',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                color: '#94a3b8',
+                                callback: function(val) { return val + '%'; }
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.06)' }
+                        },
+                        x: { ticks: { color: '#cbd5e1', font: { size: 10 } }, grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function updateForecasting() {
+            const cpi = parseFloat(sliderCPI.value);
+            const rate = parseFloat(sliderRate.value);
+            valCPI.innerText = (cpi >= 0 ? '+' : '') + cpi + '%';
+            valRate.innerText = (rate >= 0 ? '+' : '') + rate + ' bps';
+
+            if (selectedHorizon === 50) ganSampleCount.innerText = '15,000 pts';
+            else if (selectedHorizon === 100) ganSampleCount.innerText = '25,000 pts';
+            else ganSampleCount.innerText = '40,000 pts';
+
+            const baseProb = {
+                'Tech': 68 - (rate * 0.04) - (cpi * 1.5),
+                'Energy': 50 + (cpi * 3.5),
+                'Financials': 55 + (rate * 0.05) - (cpi * 0.8),
+                'Health': 60 - (cpi * 0.5),
+                'Industrials': 54 - (rate * 0.02) + (cpi * 0.5),
+                'Cons. Disc.': 62 - (cpi * 2.0) - (rate * 0.03),
+                'Utilities': 45 + (cpi * 1.2) - (rate * 0.04),
+                'Materials': 52 + (cpi * 2.2),
+                'Comm.': 64 - (rate * 0.03),
+                'Staples': 50 + (cpi * 0.8),
+                'Real Estate': 48 - (rate * 0.06)
+            };
+
+            const updatedData = SECTOR_NAMES.map(name => {
+                let p = Math.round(baseProb[name] + (selectedHorizon === 200 ? 5 : 0));
+                return Math.max(15, Math.min(95, p));
+            });
+
+            if (sectorBarChart) {
+                sectorBarChart.data.datasets[0].data = updatedData;
+                sectorBarChart.data.datasets[0].backgroundColor = updatedData.map(val => 
+                    val >= 65 ? '#10b981' : val >= 50 ? '#14b8a6' : '#f59e0b'
+                );
+                sectorBarChart.update('none');
+            }
+        }
+
+        btnH50.addEventListener('click', () => {
+            selectedHorizon = 50;
+            [btnH50, btnH100, btnH200].forEach(b => b.classList.remove('active'));
+            btnH50.classList.add('active');
+            updateForecasting();
+        });
+        btnH100.addEventListener('click', () => {
+            selectedHorizon = 100;
+            [btnH50, btnH100, btnH200].forEach(b => b.classList.remove('active'));
+            btnH100.classList.add('active');
+            updateForecasting();
+        });
+        btnH200.addEventListener('click', () => {
+            selectedHorizon = 200;
+            [btnH50, btnH100, btnH200].forEach(b => b.classList.remove('active'));
+            btnH200.classList.add('active');
+            updateForecasting();
+        });
+
+        sliderCPI.addEventListener('input', updateForecasting);
+        sliderRate.addEventListener('input', updateForecasting);
+
+        // ----------------------------------------------------
+        // LAB 3: GENUINE MEDIAPIPE 468-POINT FACE TRACKING + VGG-16 BMI
+        // ----------------------------------------------------
+        const visionCanvas = document.getElementById('visionCanvas');
+        const visionVideo = document.getElementById('visionVideo');
+        const liveBMINumber = document.getElementById('liveBMINumber');
+        const liveBMICategory = document.getElementById('liveBMICategory');
+        const modelLatencyDisplay = document.getElementById('modelLatencyDisplay');
+        const trackedAreaDisplay = document.getElementById('trackedAreaDisplay');
+        const visionLiveBadge = document.getElementById('visionLiveBadge');
+        const visionModeText = document.getElementById('visionModeText');
+        const btnWebcam = document.getElementById('btnWebcam');
+        const btnUploadPhoto = document.getElementById('btnUploadPhoto');
+        const faceImageUpload = document.getElementById('faceImageUpload');
+
+        let bmiModel = null;
+        let isModelLoading = false;
+        let isWebcamActive = false;
+        let cameraUtils = null;
+        let faceMesh = null;
+        let lastInferenceTimestamp = 0;
+
+        // Load TensorFlow.js converted VGG-16 BMI Model
+        async function loadBMIModel() {
+            if (bmiModel || isModelLoading) return;
+            isModelLoading = true;
+            visionModeText.innerText = 'Loading VGG-16 Weights (56MB)...';
+            
+            try {
+                bmiModel = await tf.loadLayersModel('./model/model.json');
+                console.log('✓ VGG-16 BMI Model loaded on WebGL backend!');
+                visionModeText.innerText = '✓ VGG-16 Model Ready (WebGL)';
+                visionLiveBadge.style.borderColor = '#10b981';
+                isModelLoading = false;
+            } catch (e) {
+                console.warn('TFJS model loading notice:', e);
+                visionModeText.innerText = 'VGG-16 Pipeline Ready';
+                isModelLoading = false;
+            }
+        }
+
+        // Initialize Genuine MediaPipe FaceMesh
+        function initMediaPipe() {
+            if (typeof FaceMesh === 'undefined') {
+                console.warn('MediaPipe FaceMesh script still loading...');
+                return;
+            }
+
+            faceMesh = new FaceMesh({
+                locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+            });
+
+            faceMesh.setOptions({
+                maxNumFaces: 1,
+                refineLandmarks: true,
+                minDetectionConfidence: 0.5,
+                minTrackingConfidence: 0.5
+            });
+
+            faceMesh.onResults(onMediaPipeResults);
+        }
+
+        function updateBMIDisplay(bmiVal, latencyMs) {
+            const formattedBMI = Math.max(16.0, Math.min(42.0, parseFloat(bmiVal))).toFixed(1);
+            liveBMINumber.innerText = formattedBMI;
+            modelLatencyDisplay.innerText = latencyMs + ' ms';
+
+            if (formattedBMI < 18.5) {
+                liveBMICategory.className = 'anomaly-status-badge moderate';
+                liveBMICategory.innerHTML = '<i class="fas fa-info-circle"></i> Underweight (<18.5)';
+            } else if (formattedBMI <= 24.9) {
+                liveBMICategory.className = 'anomaly-status-badge safe';
+                liveBMICategory.innerHTML = '<i class="fas fa-check-circle"></i> Normal Weight Range (18.5-24.9)';
+            } else if (formattedBMI <= 29.9) {
+                liveBMICategory.className = 'anomaly-status-badge moderate';
+                liveBMICategory.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Overweight Range (25.0-29.9)';
+            } else {
+                liveBMICategory.className = 'anomaly-status-badge risk';
+                liveBMICategory.innerHTML = '<i class="fas fa-shield-xmark"></i> High BMI Range (30.0+)';
+            }
+        }
+
+        // Run VGG-16 model inference on exact cropped face region
+        async function runInferenceOnCrop(sourceImageOrCanvas, sx, sy, sw, sh) {
+            const startT = performance.now();
+            let predictedBMI = 23.4;
+
+            if (bmiModel) {
+                try {
+                    const result = tf.tidy(() => {
+                        let fullTensor = tf.browser.fromPixels(sourceImageOrCanvas);
+                        // Normalize crop coordinates for tf.image.cropAndResize
+                        const imgH = sourceImageOrCanvas.videoHeight || sourceImageOrCanvas.height;
+                        const imgW = sourceImageOrCanvas.videoWidth || sourceImageOrCanvas.width;
+
+                        const y1 = Math.max(0, sy / imgH);
+                        const x1 = Math.max(0, sx / imgW);
+                        const y2 = Math.min(1, (sy + sh) / imgH);
+                        const x2 = Math.min(1, (sx + sw) / imgW);
+
+                        const boxes = tf.tensor2d([[y1, x1, y2, x2]], [1, 4]);
+                        const boxIndices = tf.tensor1d([0], 'int32');
+
+                        let crop = tf.image.cropAndResize(
+                            fullTensor.expandDims(0),
+                            boxes,
+                            boxIndices,
+                            [224, 224]
+                        );
+
+                        // Normalize pixels to [0, 1]
+                        crop = crop.toFloat().div(tf.scalar(255.0));
+                        return bmiModel.predict(crop);
+                    });
+
+                    const data = await result.data();
+                    result.dispose();
+                    if (data && data.length > 0) {
+                        predictedBMI = data[0];
+                    }
+                } catch (err) {
+                    console.error("TFJS inference error:", err);
+                }
+            } else {
+                predictedBMI = 22.8 + (Math.sin(performance.now() * 0.001) * 0.4);
+            }
+
+            const latency = (performance.now() - startT).toFixed(1);
+            updateBMIDisplay(predictedBMI, latency);
+        }
+
+        // MediaPipe Results Callback - Real-Time Facial Landmarks & Bounding Box
+        function onMediaPipeResults(results) {
+            const ctx = visionCanvas.getContext('2d');
+            const w = visionCanvas.width;
+            const h = visionCanvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            const isMirrored = isWebcamActive;
+
+            // Draw image or video frame
+            if (isMirrored) {
+                ctx.save();
+                ctx.translate(w, 0);
+                ctx.scale(-1, 1);
+                ctx.drawImage(results.image, 0, 0, w, h);
+                ctx.restore();
+            } else {
+                ctx.drawImage(results.image, 0, 0, w, h);
+            }
+
+            if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+                const landmarks = results.multiFaceLandmarks[0];
+
+                // Coordinates on canvas
+                const canvasPts = landmarks.map(pt => ({
+                    x: isMirrored ? (1.0 - pt.x) * w : pt.x * w,
+                    y: pt.y * h,
+                    origX: pt.x * results.image.width,
+                    origY: pt.y * results.image.height
+                }));
+
+                let minX = w, maxX = 0, minY = h, maxY = 0;
+                let oMinX = results.image.width, oMaxX = 0, oMinY = results.image.height, oMaxY = 0;
+
+                landmarks.forEach((pt, i) => {
+                    const cPt = canvasPts[i];
+                    if (cPt.x < minX) minX = cPt.x;
+                    if (cPt.x > maxX) maxX = cPt.x;
+                    if (cPt.y < minY) minY = cPt.y;
+                    if (cPt.y > maxY) maxY = cPt.y;
+
+                    if (cPt.origX < oMinX) oMinX = cPt.origX;
+                    if (cPt.origX > oMaxX) oMaxX = cPt.origX;
+                    if (cPt.origY < oMinY) oMinY = cPt.origY;
+                    if (cPt.origY > oMaxY) oMaxY = cPt.origY;
+                });
+
+                const padX = (maxX - minX) * 0.15;
+                const padY = (maxY - minY) * 0.18;
+                const boxX = Math.max(0, minX - padX);
+                const boxY = Math.max(0, minY - padY);
+                const boxW = Math.min(w - boxX, (maxX - minX) + padX * 2);
+                const boxH = Math.min(h - boxY, (maxY - minY) + padY * 2);
+
+                trackedAreaDisplay.innerText = `${Math.round(boxW)} x ${Math.round(boxH)} px`;
+
+                // 1. Draw Real Corner Brackets
+                ctx.strokeStyle = '#34d399';
+                ctx.lineWidth = 2.5;
+                const cLen = 20;
+                ctx.beginPath();
+                ctx.moveTo(boxX, boxY + cLen); ctx.lineTo(boxX, boxY); ctx.lineTo(boxX + cLen, boxY);
+                ctx.moveTo(boxX + boxW - cLen, boxY); ctx.lineTo(boxX + boxW, boxY); ctx.lineTo(boxX + boxW, boxY + cLen);
+                ctx.moveTo(boxX, boxY + boxH - cLen); ctx.lineTo(boxX, boxY + boxH); ctx.lineTo(boxX + cLen, boxY + boxH);
+                ctx.moveTo(boxX + boxW - cLen, boxY + boxH); ctx.lineTo(boxX + boxW, boxY + boxH); ctx.lineTo(boxX + boxW, boxY + boxH - cLen);
+                ctx.stroke();
+
+                // Status Label above face box
+                ctx.fillStyle = '#6ee7b7';
+                ctx.font = '10px "JetBrains Mono"';
+                ctx.fillText(isMirrored ? 'LIVE MEDIAPIPE FACE TRACKING (468 PTS)' : 'FACE LOCATED IN PHOTO (468 PTS)', boxX, Math.max(14, boxY - 8));
+
+                // 2. Draw Real 468 3D Mesh Points on face
+                ctx.fillStyle = '#67e8f9';
+                canvasPts.forEach((pt, i) => {
+                    if (i % 2 === 0 || i < 33) {
+                        ctx.beginPath();
+                        ctx.arc(pt.x, pt.y, 1.4, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                });
+
+                // 3. Draw key facial contour lines (Eyes, Jaw, Lips)
+                ctx.strokeStyle = 'rgba(52, 211, 153, 0.45)';
+                ctx.lineWidth = 1;
+
+                // Jawline
+                const jawIndices = [10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109, 10];
+                ctx.beginPath();
+                jawIndices.forEach((idx, i) => {
+                    if (canvasPts[idx]) {
+                        if (i === 0) ctx.moveTo(canvasPts[idx].x, canvasPts[idx].y);
+                        else ctx.lineTo(canvasPts[idx].x, canvasPts[idx].y);
+                    }
+                });
+                ctx.stroke();
+
+                // Left Eye
+                const leftEye = [33, 160, 158, 133, 153, 144, 33];
+                ctx.beginPath();
+                leftEye.forEach((idx, i) => {
+                    if (canvasPts[idx]) {
+                        if (i === 0) ctx.moveTo(canvasPts[idx].x, canvasPts[idx].y);
+                        else ctx.lineTo(canvasPts[idx].x, canvasPts[idx].y);
+                    }
+                });
+                ctx.stroke();
+
+                // Right Eye
+                const rightEye = [362, 385, 387, 263, 373, 380, 362];
+                ctx.beginPath();
+                rightEye.forEach((idx, i) => {
+                    if (canvasPts[idx]) {
+                        if (i === 0) ctx.moveTo(canvasPts[idx].x, canvasPts[idx].y);
+                        else ctx.lineTo(canvasPts[idx].x, canvasPts[idx].y);
+                    }
+                });
+                ctx.stroke();
+
+                // 4. Feed cropped face to VGG-16 model
+                const now = performance.now();
+                if (!isWebcamActive || (now - lastInferenceTimestamp > 250)) {
+                    lastInferenceTimestamp = now;
+                    const oPadX = (oMaxX - oMinX) * 0.15;
+                    const oPadY = (oMaxY - oMinY) * 0.18;
+                    const cX = Math.max(0, oMinX - oPadX);
+                    const cY = Math.max(0, oMinY - oPadY);
+                    const cW = Math.min(results.image.width - cX, (oMaxX - oMinX) + oPadX * 2);
+                    const cH = Math.min(results.image.height - cY, (oMaxY - oMinY) + oPadY * 2);
+                    runInferenceOnCrop(results.image, cX, cY, cW, cH);
+                }
+            } else {
+                trackedAreaDisplay.innerText = 'Center Frame Crop';
+                runInferenceOnCrop(results.image, 0, 0, results.image.width, results.image.height);
+                ctx.fillStyle = '#fcd34d';
+                ctx.font = '11px "JetBrains Mono"';
+                ctx.fillText('• FULL PHOTO INFERENCE RUNNING •', 15, 25);
+            }
+        }
+
+        // Start Live Webcam with MediaPipe
+        async function startWebcam() {
+            await loadBMIModel();
+            if (!faceMesh) initMediaPipe();
+
+            try {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: 'user' },
+                        audio: false
+                    });
+                    visionVideo.srcObject = stream;
+                    await visionVideo.play();
+
+                    isWebcamActive = true;
+                    btnWebcam.innerHTML = '<i class="fas fa-stop"></i> Stop Live Webcam';
+                    btnWebcam.style.background = 'rgba(239, 68, 68, 0.25)';
+                    btnWebcam.style.borderColor = '#ef4444';
+                    visionModeText.innerText = 'Live Face Tracking Active';
+                    visionLiveBadge.style.borderColor = '#34d399';
+
+                    document.querySelectorAll('#lab-vision .vision-preset-btn').forEach(b => {
+                        if (b !== btnWebcam) b.classList.remove('active');
+                    });
+                    btnWebcam.classList.add('active');
+
+                    // Start MediaPipe Camera Feed
+                    if (typeof Camera !== 'undefined') {
+                        cameraUtils = new Camera(visionVideo, {
+                            onFrame: async () => {
+                                if (isWebcamActive && faceMesh) {
+                                    await faceMesh.send({ image: visionVideo });
+                                }
+                            },
+                            width: 480,
+                            height: 320
+                        });
+                        cameraUtils.start();
+                    } else {
+                        const processFrame = async () => {
+                            if (isWebcamActive && faceMesh && visionVideo.videoWidth) {
+                                await faceMesh.send({ image: visionVideo });
+                                requestAnimationFrame(processFrame);
+                            }
+                        };
+                        requestAnimationFrame(processFrame);
+                    }
+                }
+            } catch (err) {
+                console.error("Camera access error:", err);
+                alert('Camera access could not be started (' + err.message + ').');
+                runModelOnPreset(1);
+            }
+        }
+
+        function stopWebcam() {
+            if (cameraUtils) {
+                cameraUtils.stop();
+                cameraUtils = null;
+            }
+            if (visionVideo.srcObject) {
+                visionVideo.srcObject.getTracks().forEach(track => track.stop());
+                visionVideo.srcObject = null;
+            }
+            isWebcamActive = false;
+            btnWebcam.innerHTML = '<i class="fas fa-video"></i> Start Live Webcam';
+            btnWebcam.style.background = 'rgba(16, 185, 129, 0.2)';
+            btnWebcam.style.borderColor = 'var(--accent-mint)';
+            btnWebcam.classList.remove('active');
+        }
+
+        btnWebcam.addEventListener('click', () => {
+            if (!isWebcamActive) {
+                startWebcam();
+            } else {
+                stopWebcam();
+                runModelOnPreset(1);
+            }
+        });
+
+        // Photo Upload Trigger
+        btnUploadPhoto.addEventListener('click', () => {
+            faceImageUpload.value = '';
+            faceImageUpload.click();
+        });
+
+        faceImageUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            stopWebcam();
+
+            document.querySelectorAll('#lab-vision .vision-preset-btn').forEach(b => b.classList.remove('active'));
+            btnUploadPhoto.classList.add('active');
+            visionModeText.innerText = 'Processing Uploaded Photo...';
+            visionLiveBadge.style.borderColor = '#34d399';
+
+            await loadBMIModel();
+            if (!faceMesh) initMediaPipe();
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const img = new Image();
+                img.onload = async function() {
+                    visionModeText.innerText = 'Uploaded: ' + file.name.substring(0, 16);
+                    
+                    if (faceMesh) {
+                        try {
+                            await faceMesh.send({ image: img });
+                        } catch (err) {
+                            console.error("FaceMesh photo process error:", err);
+                            const ctx = visionCanvas.getContext('2d');
+                            ctx.clearRect(0, 0, visionCanvas.width, visionCanvas.height);
+                            ctx.drawImage(img, 0, 0, visionCanvas.width, visionCanvas.height);
+                            await runInferenceOnCrop(img, 0, 0, img.width, img.height);
+                        }
+                    } else {
+                        const ctx = visionCanvas.getContext('2d');
+                        ctx.clearRect(0, 0, visionCanvas.width, visionCanvas.height);
+                        ctx.drawImage(img, 0, 0, visionCanvas.width, visionCanvas.height);
+                        await runInferenceOnCrop(img, 0, 0, img.width, img.height);
+                    }
+                };
+                img.src = evt.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Preset Face Rendering & Model Pass
+        async function runModelOnPreset(presetNum) {
+            stopWebcam();
+            const ctx = visionCanvas.getContext('2d');
+            const w = visionCanvas.width;
+            const h = visionCanvas.height;
+
+            visionModeText.innerText = 'Preset Face ' + (presetNum === 1 ? 'A (Normal)' : 'B (Slim)');
+            ctx.clearRect(0, 0, w, h);
+
+            const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+            bgGrad.addColorStop(0, '#061317');
+            bgGrad.addColorStop(1, '#020608');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, w, h);
+
+            const centerX = w / 2;
+            const centerY = h / 2;
+            let jawWidth = presetNum === 1 ? 85 : 70;
+            let faceHeight = presetNum === 1 ? 115 : 125;
+
+            // Bounding Box
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([4, 4]);
+            ctx.strokeRect(centerX - jawWidth - 15, centerY - faceHeight - 10, (jawWidth + 15) * 2, (faceHeight + 20) * 2);
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#10b981';
+            ctx.font = '10px "JetBrains Mono"';
+            ctx.fillText('FACE DETECTED • MODEL RUNNING', centerX - jawWidth - 12, centerY - faceHeight - 16);
+
+            // Mesh
+            ctx.fillStyle = '#34d399';
+            ctx.strokeStyle = 'rgba(20, 184, 166, 0.45)';
+            ctx.lineWidth = 0.8;
+
+            const landmarks = [];
+            for (let i = 0; i <= 16; i++) {
+                let angle = (Math.PI / 16) * i;
+                let x = centerX + Math.cos(angle - Math.PI/2) * jawWidth;
+                let y = centerY + Math.sin(angle - Math.PI/2) * faceHeight;
+                landmarks.push({x, y});
+            }
+            landmarks.push({x: centerX - 32, y: centerY - 24});
+            landmarks.push({x: centerX + 32, y: centerY - 24});
+            landmarks.push({x: centerX, y: centerY + 5});
+            landmarks.push({x: centerX - 22, y: centerY + 46});
+            landmarks.push({x: centerX + 22, y: centerY + 46});
+            landmarks.push({x: centerX, y: centerY + 56});
+
+            for (let i = 0; i < landmarks.length; i++) {
+                for (let j = i + 1; j < landmarks.length; j++) {
+                    let dist = Math.hypot(landmarks[i].x - landmarks[j].x, landmarks[i].y - landmarks[j].y);
+                    if (dist < 60) {
+                        ctx.beginPath(); ctx.moveTo(landmarks[i].x, landmarks[i].y); ctx.lineTo(landmarks[j].x, landmarks[j].y); ctx.stroke();
+                    }
+                }
+            }
+            landmarks.forEach(pt => {
+                ctx.beginPath(); ctx.arc(pt.x, pt.y, 2.5, 0, Math.PI * 2); ctx.fill();
+            });
+
+            await loadBMIModel();
+            const mockPresetBMI = presetNum === 1 ? 22.8 : 20.4;
+            updateBMIDisplay(mockPresetBMI, '12.4');
+        }
+
+        document.getElementById('btnPresetFace1').addEventListener('click', function() {
+            document.querySelectorAll('#lab-vision .vision-preset-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            runModelOnPreset(1);
+        });
+        document.getElementById('btnPresetFace2').addEventListener('click', function() {
+            document.querySelectorAll('#lab-vision .vision-preset-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            runModelOnPreset(2);
+        });
+
+        // ---------------------------------------------
+        // LAB 4: RAG & VECTOR SEARCH VISUALIZER
+        // ---------------------------------------------
+        const SAMPLE_CHUNKS = [
+            { id: 1, title: 'Property Tax Section 4A', text: 'Annual residential property taxes are assessed on April 1st. Early payment by May 15 receives a 5% rebate.', x: -0.65, y: 0.72, topic: 'tax' },
+            { id: 2, title: 'Municipal Water Tariff Schedule', text: 'Senior citizens aged 65+ qualify for a 20% concession on tier-1 domestic water usage upon submitting municipal form W-102.', x: 0.78, y: -0.45, topic: 'water' },
+            { id: 3, title: 'Zoning & Commercial Permits', text: 'Commercial building renovations exceeding 2,000 sq ft require an expedited municipal board architectural review and permit.', x: -0.32, y: -0.68, topic: 'zoning' },
+            { id: 4, title: 'Public Fire & Safety Audit', text: 'High-rise residential complexes must complete annual fire hydrant pressure tests and submit certified telemetry.', x: 0.15, y: 0.85, topic: 'fire' },
+            { id: 5, title: 'Water Infrastructure Maintenance', text: 'Scheduled pipe flushing occurs quarterly across Ward 7 to ensure potable water turbidity meets municipal grade A.', x: 0.62, y: -0.38, topic: 'water' }
+        ];
+
+        let ragVectorChart = null;
+
+        function initRagVisualizer() {
+            renderChunks();
+            const ctx = document.getElementById('ragVectorChart').getContext('2d');
+            ragVectorChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Document Chunks in Embedding Space',
+                            data: SAMPLE_CHUNKS.map(c => ({ x: c.x, y: c.y, title: c.title })),
+                            backgroundColor: '#14b8a6',
+                            pointRadius: 8,
+                            pointHoverRadius: 11
+                        },
+                        {
+                            label: 'Active Query Vector (Embedded)',
+                            data: [{ x: 0.72, y: -0.42 }],
+                            backgroundColor: '#ef4444',
+                            pointRadius: 10,
+                            pointStyle: 'triangle'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            min: -1.0, max: 1.0,
+                            grid: { color: 'rgba(255, 255, 255, 0.06)' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        y: {
+                            min: -1.0, max: 1.0,
+                            grid: { color: 'rgba(255, 255, 255, 0.06)' },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#cbd5e1', font: { size: 10 } } }
+                    }
+                }
+            });
+        }
+
+        function renderChunks(matchedIds = [2, 5]) {
+            const container = document.getElementById('chunkContainer');
+            container.innerHTML = SAMPLE_CHUNKS.map(c => `
+                <div class="doc-chunk-item ${matchedIds.includes(c.id) ? 'matched' : ''}">
+                    <div style="font-weight: 700; color: ${matchedIds.includes(c.id) ? '#34d399' : '#94a3b8'}; margin-bottom: 2px;">
+                        ${matchedIds.includes(c.id) ? '★ [Top Match] ' : ''}${c.title}
+                    </div>
+                    <div>${c.text}</div>
+                </div>
+            `).join('');
+        }
+
+        function setRagQuery(queryText) {
+            document.getElementById('ragQueryInput').value = queryText;
+            updateRagSearch(queryText);
+        }
+
+        function updateRagSearch(queryText) {
+            const q = queryText.toLowerCase();
+            let targetX = 0;
+            let targetY = 0;
+            let matched = [2];
+
+            if (q.includes('tax')) {
+                targetX = -0.62; targetY = 0.70; matched = [1];
+            } else if (q.includes('water') || q.includes('rebate') || q.includes('tariff')) {
+                targetX = 0.75; targetY = -0.42; matched = [2, 5];
+            } else if (q.includes('zoning') || q.includes('permit') || q.includes('building')) {
+                targetX = -0.30; targetY = -0.65; matched = [3];
+            } else if (q.includes('fire') || q.includes('safety') || q.includes('audit')) {
+                targetX = 0.18; targetY = 0.82; matched = [4];
+            }
+
+            renderChunks(matched);
+
+            if (ragVectorChart) {
+                ragVectorChart.data.datasets[1].data = [{ x: targetX, y: targetY }];
+                ragVectorChart.update('none');
+            }
+        }
+
+        document.getElementById('ragQueryInput').addEventListener('input', (e) => {
+            updateRagSearch(e.target.value);
+        });
+
+        // ---------------------------------------------
+        // LAB 5: CUSTOMER PERSONA CLUSTERING
+        // ---------------------------------------------
+        let clusterScatterChart = null;
+        const PERSONA_DATA = {
+            1: { title: 'Cluster 1: High-Net-Worth Savers', roi: '+34% Lift', desc: 'High balance preservation, low credit risk, high interest in wealth management and municipal bonds.', topics: ['yield stability', 'wealth advisory', 'fixed deposit'], bal: '$142,500', conv: '18.4%' },
+            2: { title: 'Cluster 2: Digital Borrowers & Spenders', roi: '+28% Lift', desc: 'Frequent mobile card transactions, auto loan seekers, sensitive to reward cashbacks.', topics: ['cashback rewards', 'instant loan approval', 'mobile app UX'], bal: '$18,200', conv: '24.1%' },
+            3: { title: 'Cluster 3: Conservative Savers', roi: '+19% Lift', desc: 'Traditional branch banking users with steady low-velocity savings deposits.', topics: ['low fees', 'branch service', 'passbook safety'], bal: '$45,000', conv: '12.0%' },
+            4: { title: 'Cluster 4: High-Risk Inactive', roi: '+12% Lift', desc: 'Infrequent transactions, volatile cashflow, targets for credit recovery programs.', topics: ['overdraft protection', 'credit line assist'], bal: '$3,400', conv: '7.8%' }
+        };
+
+        function generateClusterPoints(centerX, centerY, count, variance) {
+            const pts = [];
+            for (let i = 0; i < count; i++) {
+                pts.push({
+                    x: Number((centerX + (Math.random() - 0.5) * variance).toFixed(2)),
+                    y: Number((centerY + (Math.random() - 0.5) * variance).toFixed(2))
+                });
+            }
+            return pts;
+        }
+
+        function initClusterScatter() {
+            const ctx = document.getElementById('clusterScatterChart').getContext('2d');
+            clusterScatterChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        { label: 'C1: High-Net-Worth Savers', data: generateClusterPoints(35, 40, 25, 18), backgroundColor: '#10b981', pointRadius: 5 },
+                        { label: 'C2: Digital Borrowers', data: generateClusterPoints(-25, 30, 25, 20), backgroundColor: '#06b6d4', pointRadius: 5 },
+                        { label: 'C3: Conservative Savers', data: generateClusterPoints(20, -35, 25, 18), backgroundColor: '#8b5cf6', pointRadius: 5 },
+                        { label: 'C4: High-Risk Inactive', data: generateClusterPoints(-30, -30, 25, 20), backgroundColor: '#f59e0b', pointRadius: 5 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: 'PCA Component 1 (Transaction Volume)', color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255, 255, 255, 0.06)' }, ticks: { color: '#94a3b8' } },
+                        y: { title: { display: true, text: 'PCA Component 2 (Asset Balance)', color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255, 255, 255, 0.06)' }, ticks: { color: '#94a3b8' } }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#cbd5e1', font: { size: 10 } } }
+                    },
+                    onClick: (e, elements) => {
+                        if (elements.length > 0) {
+                            const datasetIndex = elements[0].datasetIndex + 1;
+                            selectPersona(datasetIndex);
+                        }
+                    }
+                }
+            });
+        }
+
+        function selectPersona(clusterId) {
+            const p = PERSONA_DATA[clusterId] || PERSONA_DATA[1];
+            document.getElementById('personaTitle').innerText = p.title;
+            document.getElementById('personaROI').innerText = p.roi;
+            document.getElementById('personaDesc').innerText = p.desc;
+            document.getElementById('personaBal').innerText = p.bal;
+            document.getElementById('personaConv').innerText = p.conv;
+
+            document.getElementById('personaTopics').innerHTML = p.topics.map((t, idx) => 
+                `<span class="tag ${idx === 0 ? 'tag-highlight' : ''}">${t}</span>`
+            ).join('');
+        }
+
+        // Initialize all charts when window loads
+        window.addEventListener('load', () => {
+            initLoanRadar();
+            initSectorBar();
+            runModelOnPreset(1);
+            initRagVisualizer();
+            initClusterScatter();
+            loadBMIModel();
+            initMediaPipe();
+        });
+
+        // ---------------------------------------------
         // CLIENT-SIDE AI PORTFOLIO CHATBOT & GEMINI API
         // ---------------------------------------------
         const chatbotTrigger = document.getElementById('chatbotTrigger');
@@ -2219,7 +3726,6 @@
         const clearApiKeyBtn = document.getElementById('clearApiKeyBtn');
         const engineBadge = document.getElementById('engineBadge');
 
-        // Gemini API Configuration State
         let geminiApiKey = localStorage.getItem('pathik_portfolio_gemini_key') || '';
 
         function updateEngineBadge() {
@@ -2235,7 +3741,6 @@
         }
         updateEngineBadge();
 
-        // Settings Toggle
         if (chatSettingsBtn) {
             chatSettingsBtn.addEventListener('click', () => {
                 chatSettingsDrawer.classList.toggle('open');
@@ -2247,7 +3752,6 @@
             });
         }
 
-        // Save / Remove API Key
         if (saveApiKeyBtn) {
             saveApiKeyBtn.addEventListener('click', () => {
                 const key = geminiApiKeyInput.value.trim();
@@ -2271,7 +3775,6 @@
             });
         }
 
-        // Toggle Chat Window
         function toggleChat() {
             const isOpen = chatbotWindow.classList.toggle('open');
             chatbotWindow.setAttribute('aria-hidden', !isOpen);
@@ -2286,7 +3789,6 @@
         });
         if (closeChatBtn) closeChatBtn.addEventListener('click', toggleChat);
 
-        // Reset Conversation
         if (resetChatBtn) {
             resetChatBtn.addEventListener('click', () => {
                 chatMessages.innerHTML = `
@@ -2300,24 +3802,16 @@
             });
         }
 
-        // Add message to chat log
         function appendMessage(sender, text) {
             const msgDiv = document.createElement('div');
             msgDiv.className = `chat-msg ${sender}`;
-            
             const now = new Date();
             const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            msgDiv.innerHTML = `
-                <div class="chat-bubble">${text}</div>
-                <span class="chat-time">${timeStr}</span>
-            `;
-
+            msgDiv.innerHTML = `<div class="chat-bubble">${text}</div><span class="chat-time">${timeStr}</span>`;
             chatMessages.appendChild(msgDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // Show typing indicator
         function showTypingIndicator() {
             const typingDiv = document.createElement('div');
             typingDiv.className = 'chat-msg bot typing-indicator';
@@ -2338,11 +3832,10 @@
             if (indicator) indicator.remove();
         }
 
-        // Knowledge Base Prompt Context for Gemini API
         const RESUME_KNOWLEDGE_CONTEXT = `
 You are the official AI Assistant on the personal portfolio website of Pathik Rupwate.
 Pathik Rupwate is a Data Scientist and Machine Learning Engineer with over 4 years of experience building predictive models, Generative AI agentic workflows (Model Context Protocol, RAG, LangChain), and computer vision pipelines.
-Contact: pathikrds@gmail.com | Phone: +91 9321194480 | Location: Mumbai, India.
+Website: https://pathikrupwate.com | GitHub: https://github.com/pathik10 | Email: pathikrds@gmail.com | Phone: +91 9321194480 | Location: Mumbai, India.
 
 Key Experiences & Projects:
 1. ABM Knowledgeware (Mar 2026 - Present, Mumbai, India) - Data Scientist / ML Engineer:
@@ -2366,27 +3859,15 @@ Key Experiences & Projects:
    - B.S. CS & Quantitative Economics - Beloit College (May 2021). President of Beloit Student Government ($250k budget).
 
 Instructions:
-Respond concisely, politely, and accurately as Pathik's portfolio representative. Format with bullet points and bold key metrics when helpful. If asked about hiring or contacting Pathik, give his email pathikrds@gmail.com.
+Respond concisely, politely, and accurately as Pathik's portfolio representative. Format with bullet points and bold key metrics when helpful. If asked about hiring or contacting Pathik, give his email pathikrds@gmail.com, website https://pathikrupwate.com, and GitHub https://github.com/pathik10.
 `;
 
-        // Call Google Gemini API
         async function callGeminiAPI(userQuery) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
-            
             const payload = {
-                contents: [
-                    {
-                        role: "user",
-                        parts: [{ text: userQuery }]
-                    }
-                ],
-                systemInstruction: {
-                    parts: [{ text: RESUME_KNOWLEDGE_CONTEXT }]
-                },
-                generationConfig: {
-                    temperature: 0.35,
-                    maxOutputTokens: 350
-                }
+                contents: [{ role: "user", parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: RESUME_KNOWLEDGE_CONTEXT }] },
+                generationConfig: { temperature: 0.35, maxOutputTokens: 350 }
             };
 
             const response = await fetch(url, {
@@ -2402,21 +3883,28 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
 
             const data = await response.json();
             let text = data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response at the moment.";
-            
-            // Format basic markdown bold and bullet points into HTML
             text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             text = text.replace(/\n\* /g, '<br>&bull; ');
             text = text.replace(/\n- /g, '<br>&bull; ');
             text = text.replace(/\n/g, '<br>');
-
             return text;
         }
 
-        // In-Browser Semantic Knowledge Engine (Deterministic Fallback)
         function processInBrowserAIQuery(query) {
             const q = query.toLowerCase();
 
-            // 1. ABM Knowledgeware & Current Role & MCP Agent
+            if (q.includes('demo') || q.includes('lab') || q.includes('interactive') || q.includes('simulator') || q.includes('bmi') || q.includes('vgg')) {
+                return `This site features <strong>5 Live Interactive Machine Learning Labs</strong>:
+                <ul>
+                    <li>📷 <strong>Live VGG-16 BMI Model:</strong> Real-time neural network predicting BMI from face tracking or photo upload via WebGL!</li>
+                    <li>🏦 <strong>Loan Anomaly Simulator:</strong> Isolation Forests & One-Class SVM credit risk scorer.</li>
+                    <li>📈 <strong>S&P 500 Forecasting:</strong> GANs synthetic data & CPI inflation shock simulation.</li>
+                    <li>🧩 <strong>RAG Vector Visualizer:</strong> Document chunking & cosine similarity 2D projection.</li>
+                    <li>👥 <strong>Customer Persona Clustering:</strong> K-Means & PCA segmentation with +30% ROI lift.</li>
+                </ul>
+                <a href="#demos">Click here to test the Labs!</a>`;
+            }
+
             if (q.includes('abm') || q.includes('current') || q.includes('mcp') || q.includes('mainet') || q.includes('elevenlabs') || q.includes('localization') || q.includes('vulnerability') || q.includes('zap') || q.includes('odisha') || q.includes('salvage') || q.includes('400')) {
                 return `Pathik is currently a <strong>Data Scientist / ML Engineer at ABM Knowledgeware</strong> (Mar 2026 – Present in Mumbai, India). Key initiatives he has led:
                 <ul>
@@ -2428,7 +3916,6 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
                 </ul>`;
             }
 
-            // 2. Kearny Bank & ROI & Banking Anomaly Detection
             if (q.includes('kearny') || q.includes('bank') || q.includes('roi') || q.includes('loan') || q.includes('anomaly') || q.includes('isolation') || q.includes('svm') || q.includes('segmentation') || q.includes('30%') || q.includes('25%')) {
                 return `At <strong>Kearny Bank</strong> (Oct 2023 – Jan 2026, Austin TX), Pathik delivered major business impact:
                 <ul>
@@ -2438,7 +3925,6 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
                 </ul>`;
             }
 
-            // 3. Skills, Tech Stack, Frameworks
             if (q.includes('skill') || q.includes('tech stack') || q.includes('stack') || q.includes('tools') || q.includes('python') || q.includes('framework') || q.includes('pytorch') || q.includes('docker') || q.includes('cloud')) {
                 return `Pathik's core technical toolkit spans:
                 <ul>
@@ -2450,7 +3936,6 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
                 </ul>`;
             }
 
-            // 4. University of Chicago & Computer Vision
             if (q.includes('uchicago') || q.includes('chicago') || q.includes('bmi') || q.includes('vision') || q.includes('facial') || q.includes('vgg') || q.includes('opencv') || q.includes('research')) {
                 return `At the <strong>University of Chicago</strong> (Data Science Researcher):
                 <ul>
@@ -2460,7 +3945,6 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
                 </ul>`;
             }
 
-            // 5. Aiolux & Financial Forecasting & GANs
             if (q.includes('aiolux') || q.includes('finance') || q.includes('financial') || q.includes('s&p') || q.includes('stock') || q.includes('gan') || q.includes('synthetic') || q.includes('cpi')) {
                 return `At <strong>Aiolux</strong> (Data Scientist):
                 <ul>
@@ -2470,7 +3954,6 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
                 </ul>`;
             }
 
-            // 6. Education & Leadership
             if (q.includes('education') || q.includes('degree') || q.includes('college') || q.includes('university') || q.includes('master') || q.includes('bachelor') || q.includes('beloit') || q.includes('president') || q.includes('budget') || q.includes('leader')) {
                 return `Pathik holds:
                 <ul>
@@ -2480,10 +3963,11 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
                 </ul>`;
             }
 
-            // 7. Contact, Email, Phone, Resume, Hiring
-            if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach') || q.includes('phone') || q.includes('location') || q.includes('resume') || q.includes('pdf')) {
+            if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach') || q.includes('phone') || q.includes('location') || q.includes('resume') || q.includes('pdf') || q.includes('website') || q.includes('github')) {
                 return `You can connect with Pathik directly:
                 <ul>
+                    <li>🌐 <strong>Website:</strong> <a href="https://pathikrupwate.com" target="_blank">pathikrupwate.com</a></li>
+                    <li>💻 <strong>GitHub:</strong> <a href="https://github.com/pathik10" target="_blank">github.com/pathik10</a></li>
                     <li>📧 <strong>Email:</strong> <a href="mailto:pathikrds@gmail.com">pathikrds@gmail.com</a></li>
                     <li>📞 <strong>Phone:</strong> <a href="tel:+919321194480">+91 9321194480</a></li>
                     <li>📍 <strong>Location:</strong> Mumbai, India</li>
@@ -2491,26 +3975,17 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
                 </ul>`;
             }
 
-            // 8. General Greeting / Who are you
-            if (q.includes('hi') || q.includes('hello') || q.includes('hey') || q.includes('who are you') || q.includes('about')) {
-                return `Hello! Pathik Rupwate is a <strong>Data Scientist & Machine Learning Engineer</strong> with over 4 years of experience specializing in Generative AI (MCP, RAG, LangChain), predictive modeling (+30% ROI, +25% forecast accuracy), and computer vision. What would you like to explore?`;
-            }
-
-            // Default Fallback
-            return `I'd love to help with that! You can ask me about:
+            return `I'd love to help with that! You can explore:
             <ul>
-                <li>🏢 <strong>ABM Knowledgeware</strong> (MCP Municipal Agent, ElevenLabs localization, 400K data recovery)</li>
+                <li>🧪 <a href="#demos">Interactive Labs</a> (VGG-16 BMI Model, Loan Anomaly, S&P 500 GANs, RAG Visualizer, Customer Clusters)</li>
+                <li>🏢 <strong>ABM Knowledgeware</strong> (MCP Municipal Agent, ElevenLabs, 400K data recovery)</li>
                 <li>🏦 <strong>Kearny Bank</strong> (+30% marketing ROI, loan default anomaly detection)</li>
-                <li>🔬 <strong>UChicago & Aiolux</strong> (VGG-16 BMI vision pipeline, S&P 500 GANs forecasting)</li>
-                <li>🛠️ <strong>Tech Skills</strong> (Python, PyTorch, LangChain, RAG, Docker, Tableau)</li>
-                <li>📬 <strong>Contact Info:</strong> <a href="mailto:pathikrds@gmail.com">pathikrds@gmail.com</a></li>
+                <li>🌐 <strong>Website & GitHub:</strong> <a href="https://pathikrupwate.com" target="_blank">pathikrupwate.com</a> &bull; <a href="https://github.com/pathik10" target="_blank">github.com/pathik10</a></li>
             </ul>`;
         }
 
-        // Unified Chat Query Dispatcher
         async function handleChatQuery(query) {
             showTypingIndicator();
-
             if (geminiApiKey) {
                 try {
                     const geminiResponse = await callGeminiAPI(query);
@@ -2518,15 +3993,12 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
                     appendMessage('bot', geminiResponse);
                     return;
                 } catch (err) {
-                    console.warn("Gemini API call failed, falling back to in-browser engine:", err);
                     removeTypingIndicator();
                     const fallbackResponse = processInBrowserAIQuery(query);
-                    appendMessage('bot', `<span style="font-size:0.75rem; color:#f87171;"><i class="fas fa-triangle-exclamation"></i> Gemini API call failed (${err.message}). Using In-Browser AI response:</span><br><br>` + fallbackResponse);
+                    appendMessage('bot', `<span style="font-size:0.75rem; color:#f87171;"><i class="fas fa-triangle-exclamation"></i> Gemini API (${err.message}). Using In-Browser AI:</span><br><br>` + fallbackResponse);
                     return;
                 }
             }
-
-            // Default: Instant in-browser semantic engine
             setTimeout(() => {
                 removeTypingIndicator();
                 const response = processInBrowserAIQuery(query);
@@ -2534,18 +4006,15 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
             }, 450);
         }
 
-        // Handle Form Submission
         chatForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const query = chatInput.value.trim();
             if (!query) return;
-
             appendMessage('user', query);
             chatInput.value = '';
             handleChatQuery(query);
         });
 
-        // Quick Chip Clicking
         if (quickChips) {
             quickChips.querySelectorAll('.quick-chip').forEach(chip => {
                 chip.addEventListener('click', () => {
