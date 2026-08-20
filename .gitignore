@@ -1,3 +1,4 @@
 *.h5
+*.task
 index-preview.html
 __pycache__/
