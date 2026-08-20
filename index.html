@@ -98,6 +98,32 @@
             --gradient-primary: linear-gradient(135deg, #0d9488 0%, #059669 50%, #0284c7 100%);
         }
 
+        /* Light Theme Header & Navigation */
+        [data-theme="light"] header {
+            background: rgba(255, 255, 255, 0.96) !important;
+            border-bottom: 1px solid #cbd5e1 !important;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        }
+
+        [data-theme="light"] .nav-links a {
+            color: #334155 !important;
+            font-weight: 600;
+        }
+
+        [data-theme="light"] .nav-links a:hover,
+        [data-theme="light"] .nav-links a.active {
+            color: #0f172a !important;
+        }
+
+        [data-theme="light"] .nav-links a.highlight-link {
+            color: #0d9488 !important;
+            font-weight: 700;
+        }
+
+        [data-theme="light"] .logo-text {
+            color: #0f172a !important;
+        }
+
         [data-theme="light"] .hero-badge {
             background: rgba(15, 118, 110, 0.08);
             border-color: rgba(15, 118, 110, 0.25);
@@ -126,6 +152,7 @@
             font-weight: 600;
         }
 
+        /* Light Theme Interactive Labs */
         [data-theme="light"] .labs-container {
             background: #ffffff;
             border-color: #cbd5e1;
@@ -135,7 +162,8 @@
         [data-theme="light"] .lab-tab-btn {
             background: #f1f5f9;
             border-color: #cbd5e1;
-            color: #475569;
+            color: #334155;
+            font-weight: 600;
         }
 
         [data-theme="light"] .lab-tab-btn:hover {
@@ -148,12 +176,87 @@
             background: linear-gradient(135deg, #0d9488, #059669);
             color: #ffffff;
             border-color: transparent;
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.35);
         }
 
         [data-theme="light"] .lab-card {
             background: #f8fafc;
             border-color: #cbd5e1;
             box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+        }
+
+        [data-theme="light"] .lab-card-title {
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .lab-card-desc {
+            color: #475569;
+        }
+
+        [data-theme="light"] .control-label {
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        [data-theme="light"] .control-val {
+            color: #0d9488;
+            font-weight: 700;
+        }
+
+        [data-theme="light"] .range-slider {
+            background: #cbd5e1;
+        }
+
+        [data-theme="light"] .horizon-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+        }
+
+        [data-theme="light"] .horizon-btn.active,
+        [data-theme="light"] .horizon-btn:hover {
+            background: linear-gradient(135deg, #0d9488, #059669);
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        [data-theme="light"] .vision-preset-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        [data-theme="light"] .vision-preset-btn.active,
+        [data-theme="light"] .vision-preset-btn:hover {
+            background: linear-gradient(135deg, #0d9488, #059669);
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        [data-theme="light"] .bmi-telemetry-box {
+            background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 100%);
+            border: 1px solid #99f6e4;
+            box-shadow: 0 4px 20px rgba(13, 148, 136, 0.08);
+        }
+
+        [data-theme="light"] .persona-summary-box {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+        }
+
+        [data-theme="light"] .stat-tile {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+        }
+
+        [data-theme="light"] .stat-tile .tile-title {
+            color: #475569;
+            font-weight: 600;
+        }
+
+        [data-theme="light"] .stat-tile .tile-val {
+            color: #0f172a !important;
         }
 
         [data-theme="light"] .status-pill-row {
@@ -1144,6 +1247,48 @@
             background: var(--gradient-primary);
             color: #061517;
             font-weight: 700;
+        }
+
+        .horizon-btn {
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid var(--border-glass);
+            color: var(--text-body);
+            padding: 0.45rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .horizon-btn.active, .horizon-btn:hover {
+            background: var(--gradient-primary);
+            color: #061517;
+            font-weight: 700;
+        }
+
+        .bmi-telemetry-box {
+            background: radial-gradient(circle at top, rgba(16, 185, 129, 0.15), rgba(11, 25, 29, 0.8)), rgba(13, 30, 35, 0.7);
+            border: 1px solid var(--border-glass-hover);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 25px rgba(20, 184, 166, 0.15);
+        }
+
+        .persona-summary-box {
+            background: rgba(16, 37, 43, 0.6);
+            border: 1px solid var(--border-glass);
+            padding: 1.25rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .stat-tile {
+            background: rgba(20, 184, 166, 0.08);
+            border: 1px solid var(--border-glass);
+            padding: 0.85rem;
+            border-radius: 8px;
         }
 
         .vision-live-indicator {
@@ -2614,9 +2759,9 @@
                             <div class="control-group">
                                 <label style="font-size: 0.82rem; color: var(--text-body); font-weight: 600; display: block; margin-bottom: 0.4rem;">Forecast Time Horizon</label>
                                 <div style="display: flex; gap: 8px;">
-                                    <button class="vision-preset-btn active" id="btnH50">50 Days</button>
-                                    <button class="vision-preset-btn" id="btnH100">100 Days</button>
-                                    <button class="vision-preset-btn" id="btnH200">200 Days (80% Acc.)</button>
+                                    <button class="horizon-btn active" id="btnH50">50 Days</button>
+                                    <button class="horizon-btn" id="btnH100">100 Days</button>
+                                    <button class="horizon-btn" id="btnH200">200 Days (80% Acc.)</button>
                                 </div>
                             </div>
 
@@ -2713,7 +2858,7 @@
                             <p class="lab-card-desc">Real-time facial geometry & model prediction from your webcam feed.</p>
                             
                             <!-- Hero Predicted BMI Number -->
-                            <div style="background: radial-gradient(circle at top, rgba(16, 185, 129, 0.15), rgba(11, 25, 29, 0.8)), rgba(13, 30, 35, 0.7); border: 1px solid var(--border-glass-hover); border-radius: 12px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; box-shadow: 0 0 25px rgba(20, 184, 166, 0.15);">
+                            <div class="bmi-telemetry-box">
                                 <div style="font-size: 0.85rem; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Live Predicted BMI</div>
                                 <div style="font-size: 3.2rem; font-weight: 800; font-family: 'JetBrains Mono', monospace;" class="gradient-text" id="liveBMINumber">22.8</div>
                                 <div style="margin-top: 0.5rem;">
@@ -2724,21 +2869,21 @@
                             </div>
 
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                <div style="background: rgba(20, 184, 166, 0.08); border: 1px solid var(--border-glass); padding: 0.85rem; border-radius: 8px;">
-                                    <div style="font-size: 0.72rem; color: var(--text-sub);">Tracking Engine</div>
-                                    <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent-mint);">MediaPipe 468-Mesh</div>
+                                <div class="stat-tile">
+                                    <div class="tile-title" style="font-size: 0.72rem; color: var(--text-sub);">Tracking Engine</div>
+                                    <div class="tile-val" style="font-size: 0.95rem; font-weight: 700; color: var(--accent-mint);">MediaPipe 468-Mesh</div>
                                 </div>
-                                <div style="background: rgba(20, 184, 166, 0.08); border: 1px solid var(--border-glass); padding: 0.85rem; border-radius: 8px;">
-                                    <div style="font-size: 0.72rem; color: var(--text-sub);">Inference Backend</div>
-                                    <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent-cyan);">TFJS WebGL (GPU)</div>
+                                <div class="stat-tile">
+                                    <div class="tile-title" style="font-size: 0.72rem; color: var(--text-sub);">Inference Backend</div>
+                                    <div class="tile-val" style="font-size: 0.95rem; font-weight: 700; color: var(--accent-cyan);">TFJS WebGL (GPU)</div>
                                 </div>
-                                <div style="background: rgba(20, 184, 166, 0.08); border: 1px solid var(--border-glass); padding: 0.85rem; border-radius: 8px;">
-                                    <div style="font-size: 0.72rem; color: var(--text-sub);">Tracked Face Area</div>
-                                    <div style="font-size: 0.95rem; font-weight: 700; color: #fff;" id="trackedAreaDisplay">224 x 224 px</div>
+                                <div class="stat-tile">
+                                    <div class="tile-title" style="font-size: 0.72rem; color: var(--text-sub);">Tracked Face Area</div>
+                                    <div class="tile-val" style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary);" id="trackedAreaDisplay">224 x 224 px</div>
                                 </div>
-                                <div style="background: rgba(20, 184, 166, 0.08); border: 1px solid var(--border-glass); padding: 0.85rem; border-radius: 8px;">
-                                    <div style="font-size: 0.72rem; color: var(--text-sub);">Pipeline Latency</div>
-                                    <div style="font-size: 0.95rem; font-weight: 700; color: #6ee7b7;" id="modelLatencyDisplay">14.2 ms</div>
+                                <div class="stat-tile">
+                                    <div class="tile-title" style="font-size: 0.72rem; color: var(--text-sub);">Pipeline Latency</div>
+                                    <div class="tile-val" style="font-size: 0.95rem; font-weight: 700; color: #6ee7b7;" id="modelLatencyDisplay">14.2 ms</div>
                                 </div>
                             </div>
                         </div>
@@ -2797,7 +2942,7 @@
                             <h3 class="lab-card-title"><i class="fas fa-id-card-clip" style="color: var(--accent-cyan);"></i> Inspected Persona & NLP Sentiment Profile</h3>
                             <p class="lab-card-desc">Click points on the cluster chart to inspect customer behavioral persona and LDA topic keywords.</p>
                             
-                            <div style="background: rgba(16, 37, 43, 0.6); border: 1px solid var(--border-glass); padding: 1.25rem; border-radius: 10px; margin-bottom: 1rem;">
+                            <div class="persona-summary-box">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                                     <span style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);" id="personaTitle">Cluster 1: High-Net-Worth Savers</span>
                                     <span class="anomaly-status-badge safe" id="personaROI">+34% Campaign Lift</span>
@@ -2808,20 +2953,20 @@
                                 
                                 <div style="font-size: 0.78rem; color: var(--text-sub); margin-bottom: 0.4rem; font-weight: 600;">NLP Review Topics (LDA Extraction):</div>
                                 <div style="display: flex; gap: 6px; flex-wrap: wrap;" id="personaTopics">
-                                    <span class="tag tag-highlight">yield stability</span>
-                                    <span class="tag tag-highlight">wealth advisory</span>
-                                    <span class="tag">fixed deposit</span>
+                                    <span class="tag tag-emerald">yield stability</span>
+                                    <span class="tag tag-cyan">wealth advisory</span>
+                                    <span class="tag tag-amber">fixed deposit</span>
                                 </div>
                             </div>
 
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                <div style="background: rgba(20, 184, 166, 0.08); border: 1px solid var(--border-glass); padding: 0.85rem; border-radius: 8px;">
-                                    <div style="font-size: 0.72rem; color: var(--text-sub);">Avg. Balance</div>
-                                    <div style="font-size: 1.25rem; font-weight: 800; color: var(--accent-mint);" id="personaBal">$142,500</div>
+                                <div class="stat-tile">
+                                    <div class="tile-title" style="font-size: 0.72rem; color: var(--text-sub);">Avg. Balance</div>
+                                    <div class="tile-val" style="font-size: 1.25rem; font-weight: 800; color: var(--accent-mint);" id="personaBal">$142,500</div>
                                 </div>
-                                <div style="background: rgba(20, 184, 166, 0.08); border: 1px solid var(--border-glass); padding: 0.85rem; border-radius: 8px;">
-                                    <div style="font-size: 0.72rem; color: var(--text-sub);">Conversion Rate</div>
-                                    <div style="font-size: 1.25rem; font-weight: 800; color: var(--accent-cyan);" id="personaConv">18.4%</div>
+                                <div class="stat-tile">
+                                    <div class="tile-title" style="font-size: 0.72rem; color: var(--text-sub);">Conversion Rate</div>
+                                    <div class="tile-val" style="font-size: 1.25rem; font-weight: 800; color: var(--accent-cyan);" id="personaConv">18.4%</div>
                                 </div>
                             </div>
                         </div>
