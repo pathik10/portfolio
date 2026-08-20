@@ -73,28 +73,328 @@
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Light Theme Palette - Ultra-Crisp Data Science Aesthetic */
+        /* High-Contrast Light Theme Overrides */
         [data-theme="light"] {
-            --bg-dark: #f8fafc;
+            --bg-dark: #f1f5f9;
             --bg-surface: #ffffff;
-            --bg-glass: rgba(255, 255, 255, 0.85);
-            --bg-glass-card: rgba(255, 255, 255, 0.95);
-            --bg-glass-hover: rgba(241, 245, 249, 0.98);
+            --bg-glass: rgba(255, 255, 255, 0.95);
+            --bg-glass-card: #ffffff;
+            --bg-glass-hover: #f8fafc;
             --bg-glass-subtle: rgba(13, 148, 136, 0.08);
 
-            --border-glass: rgba(20, 184, 166, 0.25);
-            --border-glass-hover: rgba(13, 148, 136, 0.6);
-            --border-subtle: rgba(15, 23, 42, 0.08);
+            --border-glass: #cbd5e1;
+            --border-glass-hover: #0d9488;
+            --border-subtle: #e2e8f0;
 
             --text-primary: #0f172a;
             --text-secondary: #0f766e;
             --text-muted: #0d9488;
             --text-sub: #475569;
-            --text-body: #334155;
+            --text-body: #1e293b;
 
-            --shadow-glow: 0 4px 25px rgba(13, 148, 136, 0.15);
-            --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.08);
-            --gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.9) 100%);
+            --shadow-glow: 0 4px 25px rgba(13, 148, 136, 0.12);
+            --shadow-card: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 2px 6px -2px rgba(15, 23, 42, 0.04);
+            --gradient-card: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            --gradient-primary: linear-gradient(135deg, #0d9488 0%, #059669 50%, #0284c7 100%);
+        }
+
+        [data-theme="light"] .hero-badge {
+            background: rgba(15, 118, 110, 0.08);
+            border-color: rgba(15, 118, 110, 0.25);
+            color: #0f766e;
+            font-weight: 600;
+        }
+
+        [data-theme="light"] .avatar-status-pill {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            color: #0f172a;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.08);
+        }
+
+        [data-theme="light"] .section-tag {
+            color: #0d9488;
+            font-weight: 700;
+        }
+
+        [data-theme="light"] .metric-val {
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .metric-label {
+            color: #475569;
+            font-weight: 600;
+        }
+
+        [data-theme="light"] .labs-container {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
+        }
+
+        [data-theme="light"] .lab-tab-btn {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            color: #475569;
+        }
+
+        [data-theme="light"] .lab-tab-btn:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #0d9488;
+        }
+
+        [data-theme="light"] .lab-tab-btn.active {
+            background: linear-gradient(135deg, #0d9488, #059669);
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        [data-theme="light"] .lab-card {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+        }
+
+        [data-theme="light"] .status-pill-row {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        [data-theme="light"] .tag {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            color: #1e293b;
+        }
+
+        [data-theme="light"] .tag-cyan {
+            background: #e0f2fe;
+            border-color: #7dd3fc;
+            color: #0369a1;
+        }
+
+        [data-theme="light"] .tag-purple {
+            background: #f3e8ff;
+            border-color: #d8b4fe;
+            color: #6b21a8;
+        }
+
+        [data-theme="light"] .tag-amber {
+            background: #fef3c7;
+            border-color: #fcd34d;
+            color: #92400e;
+        }
+
+        [data-theme="light"] .tag-emerald {
+            background: #d1fae5;
+            border-color: #6ee7b7;
+            color: #047857;
+        }
+
+        [data-theme="light"] .project-card {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        [data-theme="light"] .project-card:hover {
+            border-color: #0d9488;
+            box-shadow: 0 15px 35px rgba(13, 148, 136, 0.15);
+            background: #ffffff;
+        }
+
+        [data-theme="light"] .project-category {
+            background: #ecfdf5;
+            border-color: #a7f3d0;
+            color: #065f46;
+        }
+
+        [data-theme="light"] .project-metrics-row {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+        }
+
+        [data-theme="light"] .project-metric-item .val {
+            color: #0f766e;
+        }
+
+        [data-theme="light"] .project-metric-item .lbl {
+            color: #64748b;
+        }
+
+        [data-theme="light"] .filter-btn {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            color: #475569;
+        }
+
+        [data-theme="light"] .filter-btn.active,
+        [data-theme="light"] .filter-btn:hover {
+            background: linear-gradient(135deg, #0d9488, #059669);
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        [data-theme="light"] .timeline-content {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+        }
+
+        [data-theme="light"] .timeline-role {
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .timeline-company {
+            color: #0f766e;
+            font-weight: 700;
+        }
+
+        [data-theme="light"] .timeline-meta {
+            color: #64748b;
+        }
+
+        [data-theme="light"] .timeline-bullets li {
+            color: #334155;
+        }
+
+        [data-theme="light"] .edu-card {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+        }
+
+        [data-theme="light"] .edu-degree {
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .edu-school {
+            color: #0f766e;
+            font-weight: 700;
+        }
+
+        [data-theme="light"] .contact-cta {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            box-shadow: 0 15px 45px rgba(15, 23, 42, 0.08);
+        }
+
+        [data-theme="light"] .info-pill {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: #1e293b;
+        }
+
+        [data-theme="light"] .info-pill:hover {
+            background: #f1f5f9;
+            border-color: #0d9488;
+        }
+
+        [data-theme="light"] .social-btn {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: #0f766e;
+        }
+
+        [data-theme="light"] .social-btn:hover {
+            background: #0f766e;
+            color: #ffffff;
+            border-color: #0f766e;
+        }
+
+        [data-theme="light"] .btn-outline {
+            border-color: #0d9488;
+            color: #0f766e;
+            background: rgba(13, 148, 136, 0.06);
+        }
+
+        [data-theme="light"] .btn-outline:hover {
+            background: #0d9488;
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .chatbot-window {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+        }
+
+        [data-theme="light"] .chat-header {
+            background: #f8fafc;
+            border-bottom-color: #e2e8f0;
+        }
+
+        [data-theme="light"] .chat-title {
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .chat-msg.bot .chat-bubble {
+            background: #f1f5f9;
+            border-color: #e2e8f0;
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .chat-msg.user .chat-bubble {
+            background: linear-gradient(135deg, #0d9488, #059669);
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .quick-chip {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: #0f766e;
+        }
+
+        [data-theme="light"] .quick-chip:hover {
+            background: #0f766e;
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .chat-input {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .doc-chunk-item {
+            background: #ffffff;
+            border-color: #e2e8f0;
+            color: #334155;
+        }
+
+        [data-theme="light"] .doc-chunk-item.matched {
+            background: #ecfdf5;
+            border-color: #34d399;
+            color: #064e3b;
+        }
+
+        [data-theme="light"] .sample-face-card {
+            background: #ffffff;
+            border-color: #cbd5e1;
+        }
+
+        [data-theme="light"] .sample-face-card.active {
+            background: #ecfdf5;
+            border-color: #059669;
+        }
+
+        [data-theme="light"] .sample-face-label {
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .sample-face-sub {
+            color: #047857;
+        }
+
+        [data-theme="light"] .vision-preview-box {
+            background: #0f172a;
+            border-color: #cbd5e1;
+        }
+
+        [data-theme="light"] footer {
+            background: #f8fafc;
+            border-top-color: #e2e8f0;
+            color: #64748b;
         }
 
         /* Theme Toggle Button */
@@ -3084,7 +3384,8 @@
         const themeIcon = document.getElementById('themeIcon');
 
         function applyTheme(theme) {
-            if (theme === 'light') {
+            const isLight = theme === 'light';
+            if (isLight) {
                 document.documentElement.setAttribute('data-theme', 'light');
                 if (themeIcon) {
                     themeIcon.classList.remove('fa-sun');
@@ -3096,6 +3397,47 @@
                     themeIcon.classList.remove('fa-moon');
                     themeIcon.classList.add('fa-sun');
                 }
+            }
+
+            // Dynamically refresh Chart.js axis text & grid colors for high contrast
+            const tickColor = isLight ? '#334155' : '#94a3b8';
+            const gridColor = isLight ? 'rgba(0, 0, 0, 0.07)' : 'rgba(255, 255, 255, 0.06)';
+
+            try {
+                if (sectorBarChart && sectorBarChart.options && sectorBarChart.options.scales) {
+                    if (sectorBarChart.options.scales.y) {
+                        sectorBarChart.options.scales.y.ticks.color = tickColor;
+                        sectorBarChart.options.scales.y.grid.color = gridColor;
+                    }
+                    if (sectorBarChart.options.scales.x) {
+                        sectorBarChart.options.scales.x.ticks.color = tickColor;
+                    }
+                    sectorBarChart.update('none');
+                }
+                if (ragVectorChart && ragVectorChart.options && ragVectorChart.options.scales) {
+                    if (ragVectorChart.options.scales.x) {
+                        ragVectorChart.options.scales.x.ticks.color = tickColor;
+                        ragVectorChart.options.scales.x.grid.color = gridColor;
+                    }
+                    if (ragVectorChart.options.scales.y) {
+                        ragVectorChart.options.scales.y.ticks.color = tickColor;
+                        ragVectorChart.options.scales.y.grid.color = gridColor;
+                    }
+                    ragVectorChart.update('none');
+                }
+                if (clusterScatterChart && clusterScatterChart.options && clusterScatterChart.options.scales) {
+                    if (clusterScatterChart.options.scales.x) {
+                        clusterScatterChart.options.scales.x.ticks.color = tickColor;
+                        clusterScatterChart.options.scales.x.grid.color = gridColor;
+                    }
+                    if (clusterScatterChart.options.scales.y) {
+                        clusterScatterChart.options.scales.y.ticks.color = tickColor;
+                        clusterScatterChart.options.scales.y.grid.color = gridColor;
+                    }
+                    clusterScatterChart.update('none');
+                }
+            } catch(e) {
+                console.debug('Chart theme update notice:', e);
             }
         }
 
