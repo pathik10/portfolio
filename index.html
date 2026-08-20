@@ -915,6 +915,334 @@
             backdrop-filter: blur(10px);
         }
 
+        /* ---------------------------------------------------- */
+        /* IN-BROWSER AI PORTFOLIO CHATBOT WIDGET               */
+        /* ---------------------------------------------------- */
+        .chatbot-trigger {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--gradient-primary);
+            color: #061517;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.45), 0 0 15px rgba(52, 211, 153, 0.6);
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .chatbot-trigger:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 12px 35px rgba(20, 184, 166, 0.6), 0 0 25px rgba(52, 211, 153, 0.8);
+        }
+
+        .chatbot-trigger .trigger-icon {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbot-window {
+            position: fixed;
+            bottom: 90px;
+            right: 25px;
+            width: 410px;
+            max-width: calc(100vw - 30px);
+            height: 580px;
+            max-height: calc(100vh - 120px);
+            background: rgba(8, 20, 24, 0.92);
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            border-radius: var(--radius-lg);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(16, 185, 129, 0.25);
+            backdrop-filter: blur(25px) saturate(190%);
+            -webkit-backdrop-filter: blur(25px) saturate(190%);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+        }
+
+        .chatbot-window.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .chat-header {
+            padding: 1rem 1.25rem;
+            background: rgba(13, 30, 35, 0.7);
+            border-bottom: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid var(--accent-mint);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            color: var(--accent-mint);
+        }
+
+        .chat-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .chat-status {
+            font-size: 0.75rem;
+            color: var(--accent-mint);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chat-status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-mint);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-mint);
+        }
+
+        .chat-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chat-btn-icon {
+            background: transparent;
+            border: none;
+            color: var(--text-sub);
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 5px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .chat-btn-icon:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.25rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scroll-behavior: smooth;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(20, 184, 166, 0.3);
+            border-radius: 10px;
+        }
+
+        .chat-msg {
+            display: flex;
+            flex-direction: column;
+            max-width: 86%;
+            animation: fadeInMsg 0.3s ease forwards;
+        }
+
+        @keyframes fadeInMsg {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-msg.bot {
+            align-self: flex-start;
+        }
+
+        .chat-msg.user {
+            align-self: flex-end;
+        }
+
+        .chat-bubble {
+            padding: 0.75rem 1rem;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .chat-msg.bot .chat-bubble {
+            background: rgba(13, 30, 35, 0.8);
+            border: 1px solid rgba(20, 184, 166, 0.25);
+            color: #f1f5f9;
+            border-radius: 16px 16px 16px 4px;
+        }
+
+        .chat-msg.bot .chat-bubble strong {
+            color: var(--accent-mint);
+        }
+
+        .chat-msg.bot .chat-bubble a {
+            color: #6ee7b7;
+            text-decoration: underline;
+        }
+
+        .chat-msg.bot .chat-bubble ul {
+            margin-top: 6px;
+            margin-left: 16px;
+        }
+
+        .chat-msg.bot .chat-bubble li {
+            margin-bottom: 4px;
+        }
+
+        .chat-msg.user .chat-bubble {
+            background: linear-gradient(135deg, #10b981 0%, #0d9488 100%);
+            color: #041518;
+            font-weight: 600;
+            border-radius: 16px 16px 4px 16px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .chat-time {
+            font-size: 0.7rem;
+            color: var(--text-sub);
+            margin-top: 4px;
+            padding: 0 4px;
+        }
+
+        .chat-msg.user .chat-time {
+            text-align: right;
+        }
+
+        /* Quick Suggestion Chips */
+        .chat-quick-chips {
+            padding: 0.5rem 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            background: rgba(6, 13, 15, 0.5);
+            border-top: 1px solid rgba(20, 184, 166, 0.1);
+        }
+
+        .quick-chip {
+            background: rgba(20, 184, 166, 0.08);
+            border: 1px solid rgba(52, 211, 153, 0.25);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            padding: 0.3rem 0.65rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .quick-chip:hover {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--accent-mint);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .chat-input-area {
+            padding: 0.9rem 1rem;
+            background: rgba(13, 30, 35, 0.9);
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(6, 13, 15, 0.8);
+            border: 1px solid var(--border-glass);
+            border-radius: 50px;
+            padding: 0.65rem 1.1rem;
+            color: #fff;
+            font-size: 0.88rem;
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .chat-input:focus {
+            border-color: var(--accent-mint);
+            box-shadow: 0 0 12px rgba(52, 211, 153, 0.3);
+        }
+
+        .chat-send-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            border: none;
+            color: #061517;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .chat-send-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 15px rgba(52, 211, 153, 0.5);
+        }
+
+        /* Typing Dots Animation */
+        .typing-bubble {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 14px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-mint);
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typingBounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
         /* Responsive Media Queries */
         @media (max-width: 992px) {
             .hero-title {
@@ -980,6 +1308,14 @@
             .timeline-dot {
                 left: -1.5rem;
                 transform: translateX(-5px);
+            }
+
+            .chatbot-window {
+                bottom: 80px;
+                right: 15px;
+                left: 15px;
+                width: auto;
+                height: 520px;
             }
         }
     </style>
@@ -1074,9 +1410,9 @@
                 <a href="Pathik_Rupwate_Resume_DS.pdf" target="_blank" class="btn btn-outline">
                     <i class="fas fa-download"></i> Download Full Resume
                 </a>
-                <a href="#contact" class="btn btn-outline">
-                    <i class="fas fa-envelope"></i> Get In Touch
-                </a>
+                <button class="btn btn-outline" id="heroChatTrigger">
+                    <i class="fas fa-robot"></i> Chat With My AI
+                </button>
             </div>
 
             <!-- Impact Metrics -->
@@ -1403,21 +1739,21 @@
                     <div>
                         <div class="project-badge-row">
                             <span class="project-category">GenAI & Chatbots</span>
-                            <span class="project-client">Personal Project</span>
+                            <span class="project-client">Live In-Browser Agent</span>
                         </div>
                         <h3 class="project-title">AI-Powered Portfolio Chatbot</h3>
                         <div class="project-impact">
-                            <i class="fas fa-comments"></i> Agentic RAG QA System
+                            <i class="fas fa-comments"></i> Active Live On This Site!
                         </div>
                         <p class="project-desc">
-                            Interactive AI chatbot integrating modern LLM APIs, LangChain, and Retrieval-Augmented Generation (RAG) to dynamically parse, retrieve, and answer inquiries regarding technical projects, experience, and domain skills.
+                            Interactive client-side AI agent embedded directly in this portfolio! Utilizing structured semantic search and knowledge graph retrieval to dynamically answer questions about Pathik's background, models, and career.
                         </p>
                     </div>
                     <div class="project-tech-stack">
-                        <span class="tag">LangChain</span>
-                        <span class="tag">RAG</span>
-                        <span class="tag">LLM APIs</span>
-                        <span class="tag">Vector Search</span>
+                        <span class="tag">Semantic Engine</span>
+                        <span class="tag">Client RAG</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">In-Browser NLP</span>
                     </div>
                 </div>
             </div>
@@ -1642,9 +1978,69 @@
         </div>
     </footer>
 
-    <!-- Interactive Filtering & Mobile Menu Script -->
+    <!-- ---------------------------------------------------- -->
+    <!-- INTERACTIVE AI PORTFOLIO CHATBOT UI                  -->
+    <!-- ---------------------------------------------------- -->
+    <!-- Trigger Floating Button -->
+    <button class="chatbot-trigger" id="chatbotTrigger" aria-label="Open AI Assistant">
+        <span class="trigger-icon"><i class="fas fa-robot"></i></span>
+        <span>Chat with Pathik's AI</span>
+    </button>
+
+    <!-- Floating Chat Window -->
+    <div class="chatbot-window" id="chatbotWindow" aria-hidden="true">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <div class="chat-avatar"><i class="fas fa-brain"></i></div>
+                <div>
+                    <div class="chat-title">Pathik's AI Assistant</div>
+                    <div class="chat-status">
+                        <span class="chat-status-dot"></span> In-Browser Agent &bull; Online
+                    </div>
+                </div>
+            </div>
+            <div class="chat-controls">
+                <button class="chat-btn-icon" id="resetChatBtn" title="Reset Conversation"><i class="fas fa-rotate-right"></i></button>
+                <button class="chat-btn-icon" id="closeChatBtn" title="Close"><i class="fas fa-xmark"></i></button>
+            </div>
+        </div>
+
+        <!-- Messages History -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg bot">
+                <div class="chat-bubble">
+                    👋 Hi there! I'm <strong>Pathik's AI Assistant</strong>, running directly in your browser. 
+                    <br><br>
+                    Ask me anything about Pathik's <strong>experience</strong> (ABM, Kearny Bank), <strong>Generative AI & MCP projects</strong>, <strong>technical skills</strong>, or <strong>how to get in touch</strong>!
+                </div>
+                <span class="chat-time">Just now</span>
+            </div>
+        </div>
+
+        <!-- Quick Question Chips -->
+        <div class="chat-quick-chips" id="quickChips">
+            <button class="quick-chip" data-query="What is Pathik currently doing at ABM Knowledgeware?">🏢 ABM Work & MCP Agent</button>
+            <button class="quick-chip" data-query="How did he improve campaign ROI by 30%?">📈 30% ROI & Kearny Bank</button>
+            <button class="quick-chip" data-query="What is his full technical stack?">🛠️ Tech Stack & Skills</button>
+            <button class="quick-chip" data-query="Tell me about his education and leadership.">🎓 UChicago & Leadership</button>
+            <button class="quick-chip" data-query="How can I contact or hire Pathik?">📬 Contact & Hire</button>
+        </div>
+
+        <!-- Input Box -->
+        <form class="chat-input-area" id="chatForm">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask a question about Pathik..." autocomplete="off" required>
+            <button type="submit" class="chat-send-btn" aria-label="Send message">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Interactive Scripts -->
     <script>
+        // ---------------------------------------------
         // Mobile Navigation Toggle
+        // ---------------------------------------------
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navLinks = document.getElementById('navLinks');
 
@@ -1661,7 +2057,6 @@
                 }
             });
 
-            // Close mobile menu when clicking any nav link
             navLinks.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
                     navLinks.classList.remove('open');
@@ -1674,7 +2069,9 @@
             });
         }
 
+        // ---------------------------------------------
         // Project Category Filter
+        // ---------------------------------------------
         const filterBtns = document.querySelectorAll('.filter-btn');
         const projectCards = document.querySelectorAll('.project-card');
 
@@ -1695,6 +2092,218 @@
                 });
             });
         });
+
+        // ---------------------------------------------
+        // CLIENT-SIDE IN-BROWSER AI CHATBOT ENGINE
+        // ---------------------------------------------
+        const chatbotTrigger = document.getElementById('chatbotTrigger');
+        const heroChatTrigger = document.getElementById('heroChatTrigger');
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const closeChatBtn = document.getElementById('closeChatBtn');
+        const resetChatBtn = document.getElementById('resetChatBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatForm = document.getElementById('chatForm');
+        const chatInput = document.getElementById('chatInput');
+        const quickChips = document.getElementById('quickChips');
+
+        // Toggle Chat Window
+        function toggleChat() {
+            const isOpen = chatbotWindow.classList.toggle('open');
+            chatbotWindow.setAttribute('aria-hidden', !isOpen);
+            if (isOpen) {
+                setTimeout(() => chatInput.focus(), 300);
+            }
+        }
+
+        if (chatbotTrigger) chatbotTrigger.addEventListener('click', toggleChat);
+        if (heroChatTrigger) heroChatTrigger.addEventListener('click', () => {
+            if (!chatbotWindow.classList.contains('open')) toggleChat();
+        });
+        if (closeChatBtn) closeChatBtn.addEventListener('click', toggleChat);
+
+        // Reset Conversation
+        if (resetChatBtn) {
+            resetChatBtn.addEventListener('click', () => {
+                chatMessages.innerHTML = `
+                    <div class="chat-msg bot">
+                        <div class="chat-bubble">
+                            👋 Conversation reset! Feel free to ask me anything about Pathik's background, models, or projects.
+                        </div>
+                        <span class="chat-time">Just now</span>
+                    </div>
+                `;
+            });
+        }
+
+        // Add message to chat log
+        function appendMessage(sender, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `chat-msg ${sender}`;
+            
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            msgDiv.innerHTML = `
+                <div class="chat-bubble">${text}</div>
+                <span class="chat-time">${timeStr}</span>
+            `;
+
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-msg bot typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="chat-bubble typing-bubble">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+
+        // In-Browser Semantic Knowledge Engine
+        function processAIQuery(query) {
+            const q = query.toLowerCase();
+
+            // 1. ABM Knowledgeware & Current Role & MCP Agent
+            if (q.includes('abm') || q.includes('current') || q.includes('mcp') || q.includes('mainet') || q.includes('elevenlabs') || q.includes('localization') || q.includes('vulnerability') || q.includes('zap') || q.includes('odisha') || q.includes('salvage') || q.includes('400')) {
+                return `Pathik is currently a <strong>Data Scientist / ML Engineer at ABM Knowledgeware</strong> (Mar 2026 – Present in Mumbai, India). Key initiatives he has led:
+                <ul>
+                    <li><strong>Municipal AI Agent (Mainet Upgrade):</strong> Built an agent leveraging the <em>Model Context Protocol (MCP)</em>, RAG, and live data APIs to revolutionize data accessibility for government officials.</li>
+                    <li><strong>Automated Localization:</strong> Automated multi-lingual tutorial video generation using Python and ElevenLabs API, cutting 80+ hours of production per release.</li>
+                    <li><strong>Large-Scale Data Recovery:</strong> Engineered pattern-matching parsing to salvage 80% of 400,000+ unstructured files after an AWS incident.</li>
+                    <li><strong>AI Vulnerability Tester:</strong> Integrated OWASP ZAP with Gemini AI to automate exploit detection and generate code remediation patches.</li>
+                    <li><strong>Odisha Government Agent:</strong> Building a scalable administrative AI agent for millions of citizens.</li>
+                </ul>`;
+            }
+
+            // 2. Kearny Bank & ROI & Banking Anomaly Detection
+            if (q.includes('kearny') || q.includes('bank') || q.includes('roi') || q.includes('loan') || q.includes('anomaly') || q.includes('isolation') || q.includes('svm') || q.includes('segmentation') || q.includes('30%') || q.includes('25%')) {
+                return `At <strong>Kearny Bank</strong> (Oct 2023 – Jan 2026, Austin TX), Pathik delivered major business impact:
+                <ul>
+                    <li><strong>+30% Campaign ROI Boost:</strong> Led customer segmentation using K-means, DBSCAN, PCA, Random Forest, and NLP (LDA/TF-IDF) topic modeling on user feedback.</li>
+                    <li><strong>+25% Loan Default Accuracy:</strong> Implemented Isolation Forests and One-Class SVMs to detect rare credit risk anomalies.</li>
+                    <li><strong>Executive Dashboards:</strong> Designed live interactive BI dashboards in Tableau and Power BI.</li>
+                </ul>`;
+            }
+
+            // 3. Skills, Tech Stack, Frameworks
+            if (q.includes('skill') || q.includes('tech stack') || q.includes('stack') || q.includes('tools') || q.includes('python') || q.includes('framework') || q.includes('pytorch') || q.includes('docker') || q.includes('cloud')) {
+                return `Pathik's core technical toolkit spans:
+                <ul>
+                    <li><strong>Generative AI & Agents:</strong> LLMs, RAG, Model Context Protocol (MCP), LangChain, Gemini AI, ElevenLabs API.</li>
+                    <li><strong>Machine Learning:</strong> PyTorch, scikit-learn, TensorFlow, Keras, Time-Series Forecasting, Anomaly Detection, Computer Vision (OpenCV), NLP, GANs, Causal Inference.</li>
+                    <li><strong>Programming:</strong> Python, R (ggplot2, caret), SQL, C++, Java, HTML, CSS.</li>
+                    <li><strong>MLOps & Cloud:</strong> Docker, Flask APIs, GCP, AWS, Linux, GitHub Copilot, MongoDB.</li>
+                    <li><strong>Analytics & BI:</strong> Tableau, Power BI, A/B & Multivariate Testing.</li>
+                </ul>`;
+            }
+
+            // 4. University of Chicago & Computer Vision
+            if (q.includes('uchicago') || q.includes('chicago') || q.includes('bmi') || q.includes('vision') || q.includes('facial') || q.includes('vgg') || q.includes('opencv') || q.includes('research')) {
+                return `At the <strong>University of Chicago</strong> (Data Science Researcher):
+                <ul>
+                    <li>Built and deployed a real-time BMI prediction pipeline utilizing a <strong>VGG-16 Convolutional Neural Network (CNN)</strong>.</li>
+                    <li>Served the deep learning model via a <strong>Flask API</strong> processing live video streams.</li>
+                    <li>Optimized facial recognition algorithms using TensorFlow and OpenCV to achieve low-latency inference.</li>
+                </ul>`;
+            }
+
+            // 5. Aiolux & Financial Forecasting & GANs
+            if (q.includes('aiolux') || q.includes('finance') || q.includes('financial') || q.includes('s&p') || q.includes('stock') || q.includes('gan') || q.includes('synthetic') || q.includes('cpi')) {
+                return `At <strong>Aiolux</strong> (Data Scientist):
+                <ul>
+                    <li>Predicted S&P 500 sector performance across 50, 100, and 200 days with <strong>80% average accuracy</strong>.</li>
+                    <li>Engineered Tabular GANs (Generative Adversarial Networks) and SMOTE to synthesize macroeconomic data for severe class imbalance (+20% robustness).</li>
+                    <li>Identified macroeconomic drivers (CPI) through causal inference modeling.</li>
+                </ul>`;
+            }
+
+            // 6. Education & Leadership
+            if (q.includes('education') || q.includes('degree') || q.includes('college') || q.includes('university') || q.includes('master') || q.includes('bachelor') || q.includes('beloit') || q.includes('president') || q.includes('budget') || q.includes('leader')) {
+                return `Pathik holds:
+                <ul>
+                    <li>🎓 <strong>Master of Science, Applied Data Science</strong> &mdash; University of Chicago (Jun 2023).</li>
+                    <li>🎓 <strong>Bachelor of Science, Computer Science & Quantitative Economics</strong> &mdash; Beloit College (May 2021).</li>
+                    <li>🏆 <strong>Leadership:</strong> Served as <em>President of the Beloit Student Government</em>, managing and allocating a $250,000 annual funding budget for campus organizations.</li>
+                </ul>`;
+            }
+
+            // 7. Contact, Email, Phone, Resume, Hiring
+            if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach') || q.includes('phone') || q.includes('location') || q.includes('resume') || q.includes('pdf')) {
+                return `You can connect with Pathik directly:
+                <ul>
+                    <li>📧 <strong>Email:</strong> <a href="mailto:pathikrds@gmail.com">pathikrds@gmail.com</a></li>
+                    <li>📞 <strong>Phone:</strong> <a href="tel:+919321194480">+91 9321194480</a></li>
+                    <li>📍 <strong>Location:</strong> Mumbai, India</li>
+                    <li>📄 <strong>Resume:</strong> <a href="Pathik_Rupwate_Resume_DS.pdf" target="_blank">Download PDF Resume</a></li>
+                </ul>`;
+            }
+
+            // 8. General Greeting / Who are you
+            if (q.includes('hi') || q.includes('hello') || q.includes('hey') || q.includes('who are you') || q.includes('about')) {
+                return `Hello! Pathik Rupwate is a <strong>Data Scientist & Machine Learning Engineer</strong> with over 4 years of experience specializing in Generative AI (MCP, RAG, LangChain), predictive modeling (+30% ROI, +25% forecast accuracy), and computer vision. What would you like to explore?`;
+            }
+
+            // Default Fallback
+            return `I'd love to help with that! You can ask me about:
+            <ul>
+                <li>🏢 <strong>ABM Knowledgeware</strong> (MCP Municipal Agent, ElevenLabs localization, 400K data recovery)</li>
+                <li>🏦 <strong>Kearny Bank</strong> (+30% marketing ROI, loan default anomaly detection)</li>
+                <li>🔬 <strong>UChicago & Aiolux</strong> (VGG-16 BMI vision pipeline, S&P 500 GANs forecasting)</li>
+                <li>🛠️ <strong>Tech Skills</strong> (Python, PyTorch, LangChain, RAG, Docker, Tableau)</li>
+                <li>📬 <strong>Contact Info:</strong> <a href="mailto:pathikrds@gmail.com">pathikrds@gmail.com</a></li>
+            </ul>`;
+        }
+
+        // Handle Form Submission
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const query = chatInput.value.trim();
+            if (!query) return;
+
+            // Display user message
+            appendMessage('user', query);
+            chatInput.value = '';
+
+            // Show typing animation
+            showTypingIndicator();
+
+            // Simulate natural AI thinking delay (400-700ms)
+            setTimeout(() => {
+                removeTypingIndicator();
+                const response = processAIQuery(query);
+                appendMessage('bot', response);
+            }, 550);
+        });
+
+        // Quick Chip Clicking
+        if (quickChips) {
+            quickChips.querySelectorAll('.quick-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const query = chip.getAttribute('data-query');
+                    appendMessage('user', query);
+                    showTypingIndicator();
+                    setTimeout(() => {
+                        removeTypingIndicator();
+                        const response = processAIQuery(query);
+                        appendMessage('bot', response);
+                    }, 500);
+                });
+            });
+        }
     </script>
 </body>
 </html>
