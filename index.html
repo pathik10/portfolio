@@ -3011,11 +3011,22 @@
                     targetPanel.classList.add('active');
                 }
 
-                if (targetId === 'lab-loan' && loanRadarChart) loanRadarChart.resize();
-                if (targetId === 'lab-forecasting' && sectorBarChart) sectorBarChart.resize();
-                if (targetId === 'lab-rag' && ragVectorChart) ragVectorChart.resize();
-                if (targetId === 'lab-cluster' && clusterScatterChart) clusterScatterChart.resize();
-                if (targetId === 'lab-vision' && !isWebcamActive) runModelOnPreset(1);
+                // Lazy initialize or resize charts on tab switch
+                if (targetId === 'lab-loan') {
+                    if (!loanRadarChart) { initLoanRadar(); calculateLoanRisk(); }
+                    else setTimeout(() => loanRadarChart.resize(), 50);
+                } else if (targetId === 'lab-forecasting') {
+                    if (!sectorBarChart) { initSectorChart(); updateForecasting(); }
+                    else setTimeout(() => sectorBarChart.resize(), 50);
+                } else if (targetId === 'lab-vision') {
+                    if (!isWebcamActive) runModelOnSampleImage('assets/images/sample_face_normal.jpg', 'Normal (Sample B)');
+                } else if (targetId === 'lab-rag') {
+                    if (!ragVectorChart) initRagVisualizer();
+                    else setTimeout(() => ragVectorChart.resize(), 50);
+                } else if (targetId === 'lab-cluster') {
+                    if (!clusterScatterChart) initClusterScatter();
+                    else setTimeout(() => clusterScatterChart.resize(), 50);
+                }
             });
         });
 
@@ -3733,25 +3744,36 @@
             visionLiveBadge.style.borderColor = '#34d399';
 
             await loadBMIModel();
-            if (!faceMesh) initMediaPipe();
+            if (!faceMesh && typeof FaceMesh !== 'undefined') initMediaPipe();
 
             const img = new Image();
             img.crossOrigin = 'anonymous';
-            img.onload = async function() {
-                visionModeText.innerText = 'Loaded: ' + labelText;
+
+            const processLoadedImg = async () => {
+                visionModeText.innerText = 'Active: ' + labelText;
+                const ctx = visionCanvas.getContext('2d');
+                const w = visionCanvas.width;
+                const h = visionCanvas.height;
+                ctx.clearRect(0, 0, w, h);
+                ctx.drawImage(img, 0, 0, w, h);
+
                 if (faceMesh) {
                     try {
                         await faceMesh.send({ image: img });
                     } catch (err) {
-                        console.error("FaceMesh sample process error:", err);
-                        const ctx = visionCanvas.getContext('2d');
-                        ctx.clearRect(0, 0, visionCanvas.width, visionCanvas.height);
-                        ctx.drawImage(img, 0, 0, visionCanvas.width, visionCanvas.height);
-                        await runInferenceOnCrop(img, 0, 0, img.width, img.height);
+                        console.warn("FaceMesh sample process notice:", err);
+                        await runInferenceOnCrop(img, 0, 0, img.naturalWidth || img.width, img.naturalHeight || img.height);
                     }
+                } else {
+                    await runInferenceOnCrop(img, 0, 0, img.naturalWidth || img.width, img.naturalHeight || img.height);
                 }
             };
+
+            img.onload = processLoadedImg;
             img.src = imageSrc;
+            if (img.complete && img.naturalWidth !== 0) {
+                processLoadedImg();
+            }
         }
 
         // Attach Click Listeners to Preset Face Gallery Cards
@@ -4283,11 +4305,21 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
             });
         }
 
-        // Auto-initialize Default Benchmark Face on Page Load
+        // Comprehensive Multi-Lab Initializer
+        function initAllLabs() {
+            try { if (!loanRadarChart) { initLoanRadar(); calculateLoanRisk(); } } catch(e) { console.warn(e); }
+            try { if (!sectorBarChart) { initSectorChart(); updateForecasting(); } } catch(e) { console.warn(e); }
+            try { if (!ragVectorChart) initRagVisualizer(); } catch(e) { console.warn(e); }
+            try { if (!clusterScatterChart) initClusterScatter(); } catch(e) { console.warn(e); }
+            try { if (!faceMesh && typeof FaceMesh !== 'undefined') initMediaPipe(); } catch(e) { console.warn(e); }
+        }
+
+        window.addEventListener('DOMContentLoaded', initAllLabs);
         window.addEventListener('load', () => {
+            initAllLabs();
             setTimeout(() => {
                 runModelOnSampleImage('assets/images/sample_face_normal.jpg', 'Normal (Sample B)');
-            }, 800);
+            }, 600);
         });
     </script>
 </body>
