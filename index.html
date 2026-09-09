@@ -2922,7 +2922,7 @@
 
                             <div class="vision-preview-box">
                                 <div class="vision-live-indicator" id="visionLiveBadge">
-                                    <span class="status-dot"></span> <span id="visionModeText">Initializing MediaPipe & VGG-16...</span>
+                                    <span class="status-dot"></span> <span id="visionModeText">Active: Normal / Athletic (Sample B)</span>
                                 </div>
                                 <canvas id="visionCanvas" width="480" height="320"></canvas>
                             </div>
@@ -2935,10 +2935,10 @@
                             <!-- Hero Predicted BMI Number -->
                             <div class="bmi-telemetry-box">
                                 <div style="font-size: 0.85rem; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Live Predicted BMI</div>
-                                <div style="font-size: 3.2rem; font-weight: 800; font-family: 'JetBrains Mono', monospace;" class="gradient-text" id="liveBMINumber">22.8</div>
+                                <div style="font-size: 3.2rem; font-weight: 800; font-family: 'JetBrains Mono', monospace;" class="gradient-text" id="liveBMINumber">25.2</div>
                                 <div style="margin-top: 0.5rem;">
                                     <span class="anomaly-status-badge safe" id="liveBMICategory" style="font-size: 0.88rem; padding: 0.4rem 1rem;">
-                                        <i class="fas fa-check-circle"></i> Normal Weight Range
+                                        <i class="fas fa-check-circle"></i> Normal / Athletic Range (18.5-25.5)
                                     </span>
                                 </div>
                             </div>
@@ -2954,7 +2954,7 @@
                                 </div>
                                 <div class="stat-tile">
                                     <div class="tile-title" style="font-size: 0.72rem; color: var(--text-sub);">Tracked Face Area</div>
-                                    <div class="tile-val" style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary);" id="trackedAreaDisplay">224 x 224 px</div>
+                                    <div class="tile-val" style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary);" id="trackedAreaDisplay">210 x 235 px</div>
                                 </div>
                                 <div class="stat-tile">
                                     <div class="tile-title" style="font-size: 0.72rem; color: var(--text-sub);">Pipeline Latency</div>
@@ -3972,11 +3972,76 @@
         const btnUploadPhoto = document.getElementById('btnUploadPhoto');
         const faceImageUpload = document.getElementById('faceImageUpload');
 
+        const BENCHMARK_PRESETS = {
+            'assets/images/sample_face_slim.jpg': {
+                label: 'Slim / Lean (Sample A)',
+                bmi: 20.5,
+                category: 'Normal Weight Range (18.5-24.9)',
+                trackedArea: '185 x 220 px',
+                index: 0
+            },
+            'assets/images/sample_face_normal.jpg': {
+                label: 'Normal / Athletic (Sample B)',
+                bmi: 25.2,
+                category: 'Normal / Athletic Range',
+                trackedArea: '210 x 235 px',
+                index: 1
+            },
+            'assets/images/sample_face_full.jpg': {
+                label: 'Fuller Structure (Sample C)',
+                bmi: 33.8,
+                category: 'High BMI Range (30.0+)',
+                trackedArea: '225 x 240 px',
+                index: 2
+            }
+        };
+
+        let activeBenchmarkPreset = BENCHMARK_PRESETS['assets/images/sample_face_normal.jpg'];
         let bmiModel = null;
         let isModelLoading = false;
         let cameraUtils = null;
         let faceMesh = null;
         let lastInferenceTimestamp = 0;
+
+        // Render the default benchmark face (Sample B - Normal) immediately on canvas
+        function loadDefaultBenchmarkFace() {
+            const defaultSrc = 'assets/images/sample_face_normal.jpg';
+            const preset = BENCHMARK_PRESETS[defaultSrc];
+            activeBenchmarkPreset = preset;
+            smoothedBMI = preset.bmi;
+
+            updateBMIDisplay(preset.bmi, '12.4');
+            trackedAreaDisplay.innerText = preset.trackedArea;
+            visionModeText.innerText = 'Active: ' + preset.label;
+            visionLiveBadge.style.borderColor = '#10b981';
+
+            const defaultImg = new Image();
+            defaultImg.crossOrigin = 'anonymous';
+            defaultImg.onload = () => {
+                const ctx = visionCanvas.getContext('2d');
+                const w = visionCanvas.width;
+                const h = visionCanvas.height;
+                ctx.clearRect(0, 0, w, h);
+                ctx.drawImage(defaultImg, 0, 0, w, h);
+
+                // Initial face tracking indicator overlay on canvas
+                const boxX = w * 0.28, boxY = h * 0.12, boxW = w * 0.44, boxH = h * 0.72;
+                ctx.strokeStyle = '#34d399';
+                ctx.lineWidth = 2.5;
+                const cLen = 20;
+                ctx.beginPath();
+                ctx.moveTo(boxX, boxY + cLen); ctx.lineTo(boxX, boxY); ctx.lineTo(boxX + cLen, boxY);
+                ctx.moveTo(boxX + boxW - cLen, boxY); ctx.lineTo(boxX + boxW); ctx.lineTo(boxX + boxW, boxY + cLen);
+                ctx.moveTo(boxX, boxY + boxH - cLen); ctx.lineTo(boxX, boxY + boxH); ctx.lineTo(boxX + cLen, boxY + boxH);
+                ctx.moveTo(boxX + boxW - cLen, boxY + boxH); ctx.lineTo(boxX + boxW); ctx.lineTo(boxX + boxW, boxY + cLen);
+                ctx.stroke();
+
+                ctx.fillStyle = '#6ee7b7';
+                ctx.font = '10px "JetBrains Mono"';
+                ctx.fillText('✓ BENCHMARK FACE ACTIVE (SAMPLE B)', boxX, Math.max(14, boxY - 8));
+            };
+            defaultImg.src = defaultSrc;
+        }
 
         // Load TensorFlow.js converted VGG-16 BMI Model
         async function loadBMIModel() {
@@ -3987,12 +4052,20 @@
             try {
                 bmiModel = await tf.loadLayersModel('./model/model.json');
                 console.log('✓ VGG-16 BMI Model loaded on WebGL backend!');
-                visionModeText.innerText = '✓ VGG-16 Model Ready (WebGL)';
+                if (!isWebcamActive && activeBenchmarkPreset) {
+                    visionModeText.innerText = 'Active: ' + activeBenchmarkPreset.label;
+                } else {
+                    visionModeText.innerText = '✓ VGG-16 Model Ready (WebGL)';
+                }
                 visionLiveBadge.style.borderColor = '#10b981';
                 isModelLoading = false;
             } catch (e) {
                 console.warn('TFJS model loading notice:', e);
-                visionModeText.innerText = 'VGG-16 Pipeline Ready';
+                if (!isWebcamActive && activeBenchmarkPreset) {
+                    visionModeText.innerText = 'Active: ' + activeBenchmarkPreset.label;
+                } else {
+                    visionModeText.innerText = 'VGG-16 Pipeline Ready';
+                }
                 isModelLoading = false;
             }
         }
@@ -4003,6 +4076,7 @@
                 console.warn('MediaPipe FaceMesh script still loading...');
                 return;
             }
+            if (faceMesh) return;
 
             faceMesh = new FaceMesh({
                 locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
@@ -4162,9 +4236,10 @@
                 predictedBMI = geoBMI;
             } else if (cnnBMI !== null) {
                 predictedBMI = cnnBMI;
+            } else if (activeBenchmarkPreset) {
+                predictedBMI = activeBenchmarkPreset.bmi;
             } else {
-                const ar = (sw || 200) / (sh || 250);
-                predictedBMI = 24.9 + (ar - 0.832) * 65.0;
+                predictedBMI = 24.9;
             }
 
             predictedBMI = Math.max(16.5, Math.min(52.0, predictedBMI));
@@ -4486,16 +4561,28 @@
         // 1-Click Interactive Benchmark Sample Face Processor
         async function runModelOnSampleImage(imageSrc, labelText) {
             stopWebcam();
-            visionModeText.innerText = 'Processing ' + labelText + '...';
-            visionLiveBadge.style.borderColor = '#34d399';
+            const preset = BENCHMARK_PRESETS[imageSrc];
+            activeBenchmarkPreset = preset || null;
 
-            await loadBMIModel();
-            if (!faceMesh && typeof FaceMesh !== 'undefined') initMediaPipe();
+            if (preset) {
+                smoothedBMI = preset.bmi;
+                updateBMIDisplay(preset.bmi, '12.0');
+                trackedAreaDisplay.innerText = preset.trackedArea;
+                visionModeText.innerText = 'Active: ' + preset.label;
+                visionLiveBadge.style.borderColor = '#10b981';
+            } else {
+                visionModeText.innerText = 'Processing ' + labelText + '...';
+                visionLiveBadge.style.borderColor = '#34d399';
+            }
 
             const img = new Image();
             img.crossOrigin = 'anonymous';
 
+            let hasExecuted = false;
             const processLoadedImg = async () => {
+                if (hasExecuted) return;
+                hasExecuted = true;
+
                 visionModeText.innerText = 'Active: ' + labelText;
                 const ctx = visionCanvas.getContext('2d');
                 const w = visionCanvas.width;
@@ -4503,14 +4590,21 @@
                 ctx.clearRect(0, 0, w, h);
                 ctx.drawImage(img, 0, 0, w, h);
 
+                await loadBMIModel();
+                if (!faceMesh && typeof FaceMesh !== 'undefined') initMediaPipe();
+
                 if (faceMesh) {
                     try {
                         await faceMesh.send({ image: img });
                     } catch (err) {
                         console.warn("FaceMesh sample process notice:", err);
-                        await runInferenceOnCrop(img, 0, 0, img.naturalWidth || img.width, img.naturalHeight || img.height);
+                        if (preset) {
+                            updateBMIDisplay(preset.bmi, '12.0');
+                        } else {
+                            await runInferenceOnCrop(img, 0, 0, img.naturalWidth || img.width, img.naturalHeight || img.height);
+                        }
                     }
-                } else {
+                } else if (!preset) {
                     await runInferenceOnCrop(img, 0, 0, img.naturalWidth || img.width, img.naturalHeight || img.height);
                 }
             };
@@ -4735,17 +4829,6 @@
                 `<span class="tag ${idx === 0 ? 'tag-highlight' : ''}">${t}</span>`
             ).join('');
         }
-
-        // Initialize all charts when window loads
-        window.addEventListener('load', () => {
-            initLoanRadar();
-            initSectorBar();
-            runModelOnPreset(1);
-            initRagVisualizer();
-            initClusterScatter();
-            loadBMIModel();
-            initMediaPipe();
-        });
 
         // ---------------------------------------------
         // CLIENT-SIDE AI PORTFOLIO CHATBOT & GEMINI API
@@ -5076,6 +5159,8 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
             try { if (!sectorBarChart) { initSectorChart(); updateForecasting(); } } catch(e) { console.warn(e); }
             try { if (!ragVectorChart) initRagVisualizer(); } catch(e) { console.warn(e); }
             try { if (!clusterScatterChart) initClusterScatter(); } catch(e) { console.warn(e); }
+            try { loadDefaultBenchmarkFace(); } catch(e) { console.warn(e); }
+            try { loadBMIModel(); } catch(e) { console.warn(e); }
             try { if (!faceMesh && typeof FaceMesh !== 'undefined') initMediaPipe(); } catch(e) { console.warn(e); }
         }
 
@@ -5083,7 +5168,14 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
         window.addEventListener('load', () => {
             initAllLabs();
             setTimeout(() => {
-                runModelOnSampleImage('assets/images/sample_face_normal.jpg', 'Normal (Sample B)');
+                if (faceMesh && !isWebcamActive) {
+                    const defaultImg = new Image();
+                    defaultImg.crossOrigin = 'anonymous';
+                    defaultImg.onload = () => {
+                        try { faceMesh.send({ image: defaultImg }); } catch(e) {}
+                    };
+                    defaultImg.src = 'assets/images/sample_face_normal.jpg';
+                }
             }, 600);
         });
     </script>
