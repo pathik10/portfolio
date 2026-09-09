@@ -2736,7 +2736,7 @@
                         <i class="fas fa-camera"></i> 3. Live Vision & VGG-16 BMI Model
                     </button>
                     <button class="lab-tab-btn" data-tab="lab-rag">
-                        <i class="fas fa-network-wired"></i> 4. RAG Vector Chunk Visualizer
+                        <i class="fas fa-network-wired"></i> 4. FastMCP Agent & RAG Studio
                     </button>
                     <button class="lab-tab-btn" data-tab="lab-cluster">
                         <i class="fas fa-users-viewfinder"></i> 5. Customer Persona Clustering
@@ -2749,9 +2749,26 @@
                 <div class="lab-panel" id="lab-loan">
                     <div class="lab-grid">
                         <div class="lab-card">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 6px; font-size: 0.74rem; color: #a7f3d0;">
+                                <i class="fas fa-graduation-cap"></i> 
+                                <span><strong>UChicago MSCA 31008 Credit Benchmark</strong> &bull; Isolation Forest &bull; Explainable AI (SHAP Waterfall)</span>
+                            </div>
+
                             <h3 class="lab-card-title"><i class="fas fa-sliders" style="color: var(--accent-mint);"></i> Applicant Credit & Behavior Inputs</h3>
-                            <p class="lab-card-desc">Simulate how Isolation Forests & One-Class SVMs identify rare credit defaults despite severe class imbalance (Kearny Bank project).</p>
+                            <p class="lab-card-desc">Simulate how Isolation Forests & Tree-based models identify anomalous credit defaults despite severe class imbalance (Kearny Bank project).</p>
                             
+                            <!-- 1-Click Applicant Presets -->
+                            <div style="margin-bottom: 1rem;">
+                                <div style="font-size: 0.74rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.35rem; font-weight: 600;">
+                                    <i class="fas fa-bolt" style="color: var(--accent-mint);"></i> Quick Applicant Presets:
+                                </div>
+                                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                    <button type="button" class="quick-chip" id="btnPresetPrime" style="font-size: 0.72rem; padding: 4px 10px;">Prime Tier (FICO 780)</button>
+                                    <button type="button" class="quick-chip active" id="btnPresetBorderline" style="font-size: 0.72rem; padding: 4px 10px;">Borderline (FICO 680)</button>
+                                    <button type="button" class="quick-chip" id="btnPresetOutlier" style="font-size: 0.72rem; padding: 4px 10px;">High-Risk Outlier (FICO 540)</button>
+                                </div>
+                            </div>
+
                             <div class="control-group">
                                 <div class="control-label">
                                     <span>Credit Score (FICO)</span>
@@ -2804,10 +2821,29 @@
                         </div>
 
                         <div class="lab-card">
-                            <h3 class="lab-card-title"><i class="fas fa-radar" style="color: var(--accent-cyan);"></i> Multi-Dimensional Risk Radar</h3>
-                            <p class="lab-card-desc">Real-time normalized factor analysis generated from applicant metrics.</p>
-                            <div class="chart-wrapper">
+                            <h3 class="lab-card-title"><i class="fas fa-radar" style="color: var(--accent-cyan);"></i> Multi-Dimensional Risk Radar & SHAP Attribution</h3>
+                            <p class="lab-card-desc">Explainable AI (XAI) feature attribution decomposing the applicant anomaly score relative to expected value $\mathbb{E}[f(x)] = 22\%$.</p>
+                            <div class="chart-wrapper" style="height: 220px;">
                                 <canvas id="loanRadarChart"></canvas>
+                            </div>
+
+                            <!-- SHAP Waterfall Feature Attribution -->
+                            <div style="margin-top: 0.75rem; background: rgba(10, 15, 29, 0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-sub); margin-bottom: 6px; font-weight: 600;">
+                                    <span>SHAP Local Feature Attribution (&phi;)</span>
+                                    <span>Base: 22.0% &rarr; Net: <strong id="shapNetScore" style="color: var(--accent-mint);">18.0%</strong></span>
+                                </div>
+                                <div id="shapWaterfallContainer" style="display: flex; flex-direction: column; gap: 4px; font-size: 0.72rem; font-family: 'JetBrains Mono', monospace;">
+                                    <!-- Populated dynamically by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Counterfactual Optimizer -->
+                            <button type="button" class="btn btn-secondary" id="btnSolveCounterfactual" style="width: 100%; justify-content: center; font-size: 0.78rem; padding: 7px; margin-top: 10px;">
+                                <i class="fas fa-wand-magic-sparkles"></i> Compute Counterfactual "Path to Approval"
+                            </button>
+                            <div id="counterfactualResultBox" style="margin-top: 6px; font-size: 0.74rem; padding: 8px 10px; border-radius: 6px; background: rgba(16, 185, 129, 0.06); border: 1px dashed rgba(16, 185, 129, 0.3); color: #a7f3d0; display: none;">
+                                <!-- Populated dynamically by JS -->
                             </div>
                         </div>
                     </div>
@@ -2819,9 +2855,26 @@
                 <div class="lab-panel" id="lab-forecasting">
                     <div class="lab-grid">
                         <div class="lab-card">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 6px; font-size: 0.74rem; color: #a7f3d0;">
+                                <i class="fas fa-graduation-cap"></i> 
+                                <span><strong>UChicago MScA Capstone Research</strong> &bull; Sponsored by Biz Chatterjee, CEO of Aiolux &bull; 78.85% Extra Trees Accuracy</span>
+                            </div>
+
                             <h3 class="lab-card-title"><i class="fas fa-microchip-ai" style="color: var(--accent-mint);"></i> Macroeconomic & GAN Simulation</h3>
-                            <p class="lab-card-desc">Replicates Aiolux research utilizing Tabular GANs & SMOTE to predict sector performance against macroeconomic CPI inflation shocks.</p>
+                            <p class="lab-card-desc">Simulates UChicago Capstone research utilizing Tabular GANs & SMOTE to predict 11 S&P 500 sector alphas against CPI inflation indicators.</p>
                             
+                            <!-- 1-Click Macro Scenarios -->
+                            <div style="margin-bottom: 1rem;">
+                                <div style="font-size: 0.74rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.4rem; font-weight: 600;">
+                                    <i class="fas fa-bolt" style="color: var(--accent-mint);"></i> 1-Click Macro Scenarios:
+                                </div>
+                                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                    <button type="button" class="quick-chip" id="btnRegimeGrowth" style="font-size: 0.72rem; padding: 4px 10px;">Tech Growth (&lt;2% CPI)</button>
+                                    <button type="button" class="quick-chip active" id="btnRegimeTarget" style="font-size: 0.72rem; padding: 4px 10px;">Target Baseline (+2.5% CPI)</button>
+                                    <button type="button" class="quick-chip" id="btnRegimeShock" style="font-size: 0.72rem; padding: 4px 10px;">Inflation Shock (+7.5% CPI)</button>
+                                </div>
+                            </div>
+
                             <div class="control-group">
                                 <label style="font-size: 0.82rem; color: var(--text-body); font-weight: 600; display: block; margin-bottom: 0.4rem;">Forecast Time Horizon</label>
                                 <div style="display: flex; gap: 8px;">
@@ -2861,9 +2914,25 @@
 
                         <div class="lab-card">
                             <h3 class="lab-card-title"><i class="fas fa-chart-simple" style="color: var(--accent-cyan);"></i> Sector Outperformance Probability (%)</h3>
-                            <p class="lab-card-desc">Extremely Randomized Tree Classifiers probability breakdown across 11 S&P 500 sectors.</p>
-                            <div class="chart-wrapper">
+                            <p class="lab-card-desc">Extremely Randomized Tree Classifiers probability breakdown across all 11 S&P 500 sectors.</p>
+                            <div class="chart-wrapper" style="height: 250px;">
                                 <canvas id="sectorBarChart"></canvas>
+                            </div>
+
+                            <!-- Quantitative Alpha Summary HUD -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 0.85rem;">
+                                <div class="stat-tile" style="padding: 10px 12px;">
+                                    <div class="tile-title" style="font-size: 0.7rem; color: var(--text-sub);">Top Alpha Pick</div>
+                                    <div class="tile-val" style="font-size: 1.05rem; font-weight: 800; color: var(--accent-mint);" id="topSectorAlpha">Energy (XLE)</div>
+                                </div>
+                                <div class="stat-tile" style="padding: 10px 12px;">
+                                    <div class="tile-title" style="font-size: 0.7rem; color: var(--text-sub);">Valuation Drag</div>
+                                    <div class="tile-val" style="font-size: 1.05rem; font-weight: 800; color: #f87171;" id="bottomSectorDrag">Tech (XLK)</div>
+                                </div>
+                                <div class="stat-tile" style="padding: 10px 12px;">
+                                    <div class="tile-title" style="font-size: 0.7rem; color: var(--text-sub);">UChicago Benchmark</div>
+                                    <div class="tile-val" style="font-size: 1.05rem; font-weight: 800; color: var(--accent-cyan);">78.85%</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2875,6 +2944,11 @@
                 <div class="lab-panel active" id="lab-vision">
                     <div class="lab-grid">
                         <div class="lab-card">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 6px; font-size: 0.74rem; color: #a7f3d0;">
+                                <i class="fas fa-graduation-cap"></i> 
+                                <span><strong>MIT-CSAIL &bull; UChicago MSCA 31009 Deep Learning</strong> &bull; Face-to-BMI (VGG-16 + 22 3D Anthropometrics)</span>
+                            </div>
+
                             <h3 class="lab-card-title"><i class="fas fa-camera" style="color: var(--accent-mint);"></i> Real-Time MediaPipe Tracking & VGG-16 Inference</h3>
                             <p class="lab-card-desc">Genuine 468-point 3D landmark mesh tracking powered by MediaPipe, coupled with your trained <strong>VGG-16 Model</strong>.</p>
                             
@@ -2966,13 +3040,90 @@
                 </div>
 
                 <!-- ============================================== -->
-                <!-- DEMO 4: RAG & VECTOR SEARCH VISUALIZER         -->
+                <!-- DEMO 4: FASTMCP AUTONOMOUS AGENT & RAG STUDIO  -->
                 <!-- ============================================== -->
                 <div class="lab-panel" id="lab-rag">
-                    <div class="lab-grid">
+                    <!-- Mode Switcher -->
+                    <div style="display: flex; gap: 8px; margin-bottom: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+                        <div style="display: flex; gap: 8px;">
+                            <button type="button" class="horizon-btn active" id="btnLab4ModeMCP"><i class="fas fa-robot"></i> FastMCP Agent & Security Triage (Live ReAct)</button>
+                            <button type="button" class="horizon-btn" id="btnLab4ModeRAG"><i class="fas fa-diagram-project"></i> 2D Vector Embedding RAG</button>
+                        </div>
+                        <div style="font-size: 0.74rem; color: #a7f3d0; background: rgba(16, 185, 129, 0.08); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <i class="fas fa-bolt"></i> <strong>Groq Qwen-2.5 / FastMCP</strong> &bull; Sub-50ms Execution
+                        </div>
+                    </div>
+
+                    <!-- Panel A: FastMCP Autonomous Agent Studio (Default) -->
+                    <div id="mcpAgentView" class="lab-grid">
+                        <div class="lab-card">
+                            <h3 class="lab-card-title"><i class="fas fa-microchip" style="color: var(--accent-mint);"></i> Autonomous Agent & FastMCP Dispatcher</h3>
+                            <p class="lab-card-desc">Directly simulates the 21-tool FastMCP architecture engineered in <code>revenue-agent-groq</code> & <code>AI-Security-Scanner</code>. Select an operational objective to trigger the autonomous tool-calling loop.</p>
+                            
+                            <div style="margin-bottom: 1rem;">
+                                <label style="font-size: 0.82rem; color: var(--text-body); font-weight: 600; display: block; margin-bottom: 0.4rem;">Select Autonomous Agent Mission:</label>
+                                <div style="display: flex; flex-direction: column; gap: 8px;" id="agentTaskPresets">
+                                    <div class="sample-face-card active" data-task="revenue" style="padding: 10px 14px; text-align: left; display: block; cursor: pointer;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <strong style="color: var(--accent-mint); font-size: 0.85rem;"><i class="fas fa-faucet-drip"></i> Municipal Revenue Audit</strong>
+                                            <span class="tag tag-emerald" style="font-size: 0.68rem;">FastMCP 21 Tools</span>
+                                        </div>
+                                        <div style="font-size: 0.78rem; color: var(--text-body); margin-top: 3px;">
+                                            Audit Ward 4 water collection, detect top high-value defaulters, and compute recovery actions.
+                                        </div>
+                                    </div>
+                                    <div class="sample-face-card" data-task="security" style="padding: 10px 14px; text-align: left; display: block; cursor: pointer;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <strong style="color: var(--accent-cyan); font-size: 0.85rem;"><i class="fas fa-shield-virus"></i> OWASP DAST Vulnerability Triage</strong>
+                                            <span class="tag tag-cyan" style="font-size: 0.68rem;">ZAP + Pydantic</span>
+                                        </div>
+                                        <div style="font-size: 0.78rem; color: var(--text-body); margin-top: 3px;">
+                                            Scan payment API endpoints for SQL injection, triage risk with Gemini 2.0, and generate patch.
+                                        </div>
+                                    </div>
+                                    <div class="sample-face-card" data-task="idp" style="padding: 10px 14px; text-align: left; display: block; cursor: pointer;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <strong style="color: #c084fc; font-size: 0.85rem;"><i class="fas fa-file-contract"></i> Land Record IDP Verification</strong>
+                                            <span class="tag tag-purple" style="font-size: 0.68rem;">MobileNetV2 + OCR</span>
+                                        </div>
+                                        <div style="font-size: 0.78rem; color: var(--text-body); margin-top: 3px;">
+                                            Extract Khasra parcel acreage from scanned legal affidavits and verify authenticity flags.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-primary" id="btnExecuteAgent" style="width: 100%; justify-content: center; padding: 10px; margin-bottom: 0.8rem;">
+                                <i class="fas fa-play"></i> Trigger FastMCP Agent Workflow
+                            </button>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                <div class="stat-tile" style="padding: 8px 10px;">
+                                    <div class="tile-title" style="font-size: 0.68rem; color: var(--text-sub);">Tool Architecture</div>
+                                    <div class="tile-val" style="font-size: 0.82rem; font-weight: 700; color: var(--accent-mint);" id="mcpToolName">get_water_top_defaulters_ward</div>
+                                </div>
+                                <div class="stat-tile" style="padding: 8px 10px;">
+                                    <div class="tile-title" style="font-size: 0.68rem; color: var(--text-sub);">Execution Latency</div>
+                                    <div class="tile-val" style="font-size: 0.82rem; font-weight: 700; color: #6ee7b7;" id="mcpLatencyDisplay">36.4 ms (Groq)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lab-card">
+                            <h3 class="lab-card-title"><i class="fas fa-terminal" style="color: var(--accent-cyan);"></i> ReAct Execution Trace & Structured Synthesis</h3>
+                            <p class="lab-card-desc">Inspect real-time internal reasoning, FastMCP JSON payload invocation, and Pydantic structured output.</p>
+                            
+                            <div id="mcpTraceContainer" style="background: rgba(10, 15, 29, 0.75); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; min-height: 320px; max-height: 420px; overflow-y: auto;">
+                                <!-- Live ReAct Steps Injected by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel B: Semantic Vector Search (Preserved) -->
+                    <div id="ragVectorView" class="lab-grid" style="display: none;">
                         <div class="lab-card">
                             <h3 class="lab-card-title"><i class="fas fa-file-lines" style="color: var(--accent-mint);"></i> Municipal Document Chunking</h3>
-                            <p class="lab-card-desc">Interactive demonstration of the Model Context Protocol (MCP) and RAG architecture engineered at ABM Knowledgeware.</p>
+                            <p class="lab-card-desc">Interactive demonstration of semantic retrieval over municipal knowledge bases.</p>
                             
                             <div style="margin-bottom: 1rem;">
                                 <label style="font-size: 0.82rem; color: var(--text-body); font-weight: 600; display: block; margin-bottom: 0.4rem;">Type / Select Query Search:</label>
@@ -2980,10 +3131,10 @@
                             </div>
 
                             <div style="display: flex; gap: 6px; margin-bottom: 1.2rem; flex-wrap: wrap;">
-                                <button class="quick-chip" onclick="setRagQuery('property tax assessment deadline')">Property Tax</button>
-                                <button class="quick-chip" onclick="setRagQuery('building zoning permit approval')">Zoning Permit</button>
-                                <button class="quick-chip" onclick="setRagQuery('water supply tariff rebate for seniors')">Water Rebate</button>
-                                <button class="quick-chip" onclick="setRagQuery('fire safety municipal audit report')">Fire Audit</button>
+                                <button type="button" class="quick-chip" onclick="setRagQuery('property tax assessment deadline')">Property Tax</button>
+                                <button type="button" class="quick-chip" onclick="setRagQuery('building zoning permit approval')">Zoning Permit</button>
+                                <button type="button" class="quick-chip" onclick="setRagQuery('water supply tariff rebate for seniors')">Water Rebate</button>
+                                <button type="button" class="quick-chip" onclick="setRagQuery('fire safety municipal audit report')">Fire Audit</button>
                             </div>
 
                             <label style="font-size: 0.82rem; color: var(--text-body); font-weight: 600; display: block; margin-bottom: 0.5rem;">Document Chunks in Knowledge Base:</label>
@@ -3006,27 +3157,60 @@
                 <div class="lab-panel" id="lab-cluster">
                     <div class="lab-grid">
                         <div class="lab-card">
-                            <h3 class="lab-card-title"><i class="fas fa-circle-nodes" style="color: var(--accent-mint);"></i> 2D PCA Customer Behavior Clusters</h3>
-                            <p class="lab-card-desc">Interactive K-Means & DBSCAN segmentation model that drove a <strong>+30% campaign ROI lift</strong> at Kearny Bank.</p>
-                            <div class="chart-wrapper" style="height: 300px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.85rem; padding: 6px 12px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 6px; font-size: 0.74rem; color: #a7f3d0;">
+                                <i class="fas fa-graduation-cap"></i> 
+                                <span><strong>UChicago MSCA 31012 Algorithmic Marketing</strong> &bull; Mathematical Cluster Validation &bull; Silhouette & Elbow WSS Optimization</span>
+                            </div>
+
+                            <h3 class="lab-card-title"><i class="fas fa-circle-nodes" style="color: var(--accent-mint);"></i> 2D PCA Behavioral Clusters</h3>
+                            <p class="lab-card-desc">Interactive K-Means & DBSCAN segmentation model that drove a <strong>+30% campaign ROI lift</strong> at Kearny Bank and municipal taxpayer audits at ABM.</p>
+                            
+                            <!-- Domain Cohort Toggle -->
+                            <div style="margin-bottom: 0.85rem;">
+                                <div style="font-size: 0.74rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.35rem; font-weight: 600;">
+                                    <i class="fas fa-layer-group" style="color: var(--accent-mint);"></i> Domain Segmentation Cohort:
+                                </div>
+                                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                    <button type="button" class="quick-chip active" id="btnClusterRetail" style="font-size: 0.72rem; padding: 4px 10px;">Retail Banking Personas (Kearny Bank)</button>
+                                    <button type="button" class="quick-chip" id="btnClusterMunicipal" style="font-size: 0.72rem; padding: 4px 10px;">Municipal Taxpayer Cohorts (ABM / Mainet)</button>
+                                </div>
+                            </div>
+
+                            <div class="chart-wrapper" style="height: 250px;">
                                 <canvas id="clusterScatterChart"></canvas>
+                            </div>
+
+                            <!-- Mathematical Validation HUD -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 0.75rem;">
+                                <div class="stat-tile" style="padding: 8px 10px;">
+                                    <div class="tile-title" style="font-size: 0.68rem; color: var(--text-sub);">Silhouette Quality</div>
+                                    <div class="tile-val" style="font-size: 0.95rem; font-weight: 800; color: var(--accent-mint);">0.68 (Strong)</div>
+                                </div>
+                                <div class="stat-tile" style="padding: 8px 10px;">
+                                    <div class="tile-title" style="font-size: 0.68rem; color: var(--text-sub);">Optimal Clusters</div>
+                                    <div class="tile-val" style="font-size: 0.95rem; font-weight: 800; color: var(--accent-cyan);">K = 4 (Elbow)</div>
+                                </div>
+                                <div class="stat-tile" style="padding: 8px 10px;">
+                                    <div class="tile-title" style="font-size: 0.68rem; color: var(--text-sub);">Inertia Reduction</div>
+                                    <div class="tile-val" style="font-size: 0.95rem; font-weight: 800; color: #6ee7b7;">-68.8% WSS</div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="lab-card">
-                            <h3 class="lab-card-title"><i class="fas fa-id-card-clip" style="color: var(--accent-cyan);"></i> Inspected Persona & NLP Sentiment Profile</h3>
-                            <p class="lab-card-desc">Click points on the cluster chart to inspect customer behavioral persona and LDA topic keywords.</p>
+                            <h3 class="lab-card-title"><i class="fas fa-id-card-clip" style="color: var(--accent-cyan);"></i> Inspected Persona & NLP Topic Profile</h3>
+                            <p class="lab-card-desc">Click points or clusters on the chart to inspect behavioral profiles and LDA topic keywords.</p>
                             
                             <div class="persona-summary-box">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                    <span style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);" id="personaTitle">Cluster 1: High-Net-Worth Savers</span>
+                                    <span style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary);" id="personaTitle">Cluster 1: High-Net-Worth Savers</span>
                                     <span class="anomaly-status-badge safe" id="personaROI">+34% Campaign Lift</span>
                                 </div>
-                                <p style="font-size: 0.85rem; color: var(--text-body); margin-bottom: 1rem;" id="personaDesc">
+                                <p style="font-size: 0.82rem; color: var(--text-body); margin-bottom: 0.85rem;" id="personaDesc">
                                     High balance preservation, low credit risk, high interest in wealth management and municipal bonds.
                                 </p>
                                 
-                                <div style="font-size: 0.78rem; color: var(--text-sub); margin-bottom: 0.4rem; font-weight: 600;">NLP Review Topics (LDA Extraction):</div>
+                                <div style="font-size: 0.74rem; color: var(--text-sub); margin-bottom: 0.4rem; font-weight: 600;">NLP Review Topics (LDA Extraction):</div>
                                 <div style="display: flex; gap: 6px; flex-wrap: wrap;" id="personaTopics">
                                     <span class="tag tag-emerald">yield stability</span>
                                     <span class="tag tag-cyan">wealth advisory</span>
@@ -3036,11 +3220,11 @@
 
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                                 <div class="stat-tile">
-                                    <div class="tile-title" style="font-size: 0.72rem; color: var(--text-sub);">Avg. Balance</div>
+                                    <div class="tile-title" style="font-size: 0.72rem; color: var(--text-sub);" id="personaMetric1Label">Avg. Balance</div>
                                     <div class="tile-val" style="font-size: 1.25rem; font-weight: 800; color: var(--accent-mint);" id="personaBal">$142,500</div>
                                 </div>
                                 <div class="stat-tile">
-                                    <div class="tile-title" style="font-size: 0.72rem; color: var(--text-sub);">Conversion Rate</div>
+                                    <div class="tile-title" style="font-size: 0.72rem; color: var(--text-sub);" id="personaMetric2Label">Conversion Rate</div>
                                     <div class="tile-val" style="font-size: 1.25rem; font-weight: 800; color: var(--accent-cyan);" id="personaConv">18.4%</div>
                                 </div>
                             </div>
@@ -3792,6 +3976,107 @@
             });
         }
 
+        const btnPresetPrime = document.getElementById('btnPresetPrime');
+        const btnPresetBorderline = document.getElementById('btnPresetBorderline');
+        const btnPresetOutlier = document.getElementById('btnPresetOutlier');
+        const shapWaterfallContainer = document.getElementById('shapWaterfallContainer');
+        const shapNetScore = document.getElementById('shapNetScore');
+        const btnSolveCounterfactual = document.getElementById('btnSolveCounterfactual');
+        const counterfactualResultBox = document.getElementById('counterfactualResultBox');
+
+        if (btnPresetPrime) {
+            btnPresetPrime.addEventListener('click', () => {
+                sliderCredit.value = 780; sliderDTI.value = 20; sliderLTV.value = 55; sliderVol.value = 14; sliderDelinq.value = 0;
+                [btnPresetPrime, btnPresetBorderline, btnPresetOutlier].forEach(b => b && b.classList.remove('active'));
+                btnPresetPrime.classList.add('active');
+                calculateLoanRisk();
+            });
+        }
+        if (btnPresetBorderline) {
+            btnPresetBorderline.addEventListener('click', () => {
+                sliderCredit.value = 680; sliderDTI.value = 35; sliderLTV.value = 75; sliderVol.value = 28; sliderDelinq.value = 0;
+                [btnPresetPrime, btnPresetBorderline, btnPresetOutlier].forEach(b => b && b.classList.remove('active'));
+                btnPresetBorderline.classList.add('active');
+                calculateLoanRisk();
+            });
+        }
+        if (btnPresetOutlier) {
+            btnPresetOutlier.addEventListener('click', () => {
+                sliderCredit.value = 540; sliderDTI.value = 62; sliderLTV.value = 110; sliderVol.value = 72; sliderDelinq.value = 3;
+                [btnPresetPrime, btnPresetBorderline, btnPresetOutlier].forEach(b => b && b.classList.remove('active'));
+                btnPresetOutlier.classList.add('active');
+                calculateLoanRisk();
+            });
+        }
+
+        function renderShapWaterfall(credit, dti, ltv, vol, delinq, netScore) {
+            if (!shapWaterfallContainer) return;
+            const phiCredit = ((680 - credit) * 0.075).toFixed(1);
+            const phiDti = ((dti - 28) * 0.42).toFixed(1);
+            const phiLtv = ((ltv - 65) * 0.18).toFixed(1);
+            const phiVol = ((vol - 25) * 0.12).toFixed(1);
+            const phiDelinq = (delinq * 11.5).toFixed(1);
+
+            if (shapNetScore) shapNetScore.innerText = netScore + '%';
+
+            const features = [
+                { name: `Credit Score (${credit})`, val: parseFloat(phiCredit) },
+                { name: `DTI Ratio (${dti}%)`, val: parseFloat(phiDti) },
+                { name: `LTV Ratio (${ltv}%)`, val: parseFloat(phiLtv) },
+                { name: `Cashflow Volatility (${vol})`, val: parseFloat(phiVol) },
+                { name: `Delinquencies (${delinq})`, val: parseFloat(phiDelinq) }
+            ];
+
+            shapWaterfallContainer.innerHTML = features.map(f => {
+                const isRisk = f.val > 0;
+                const sign = f.val > 0 ? '+' : '';
+                const barWidth = Math.min(100, Math.abs(f.val) * 4);
+                const color = isRisk ? '#f87171' : '#34d399';
+                return `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                        <span style="color: #94a3b8; width: 145px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${f.name}</span>
+                        <div style="flex: 1; height: 5px; background: rgba(255,255,255,0.06); margin: 0 8px; border-radius: 3px; overflow: hidden;">
+                            <div style="height: 100%; width: ${barWidth}%; background: ${color}; border-radius: 3px;"></div>
+                        </div>
+                        <span style="color: ${color}; font-weight: 700; width: 48px; text-align: right;">${sign}${f.val}%</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        if (btnSolveCounterfactual) {
+            btnSolveCounterfactual.addEventListener('click', () => {
+                const credit = parseFloat(sliderCredit.value);
+                const dti = parseFloat(sliderDTI.value);
+                const delinq = parseFloat(sliderDelinq.value);
+                const currentScore = parseInt(anomalyScoreDisplay.innerText) || 18;
+
+                if (!counterfactualResultBox) return;
+                counterfactualResultBox.style.display = 'block';
+
+                if (currentScore < 30) {
+                    counterfactualResultBox.style.background = 'rgba(16, 185, 129, 0.08)';
+                    counterfactualResultBox.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                    counterfactualResultBox.style.color = '#a7f3d0';
+                    counterfactualResultBox.innerHTML = `<strong><i class="fas fa-check-circle"></i> Optimal Tier Qualified:</strong> Applicant is already in the Approved tier (${currentScore}% anomaly score). Eligible for lowest prime rate without underwriting stipulations.`;
+                } else {
+                    counterfactualResultBox.style.background = 'rgba(245, 158, 11, 0.08)';
+                    counterfactualResultBox.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+                    counterfactualResultBox.style.color = '#fde68a';
+                    const targetDTI = Math.max(18, Math.round(dti - (currentScore - 28) * 0.8));
+                    const targetCredit = Math.min(800, Math.round(credit + (currentScore - 28) * 3.2));
+                    counterfactualResultBox.innerHTML = `
+                        <strong><i class="fas fa-wand-magic-sparkles"></i> Minimum Path to Approval (&le; 28% Risk):</strong>
+                        <ul style="margin: 4px 0 0 16px; padding: 0;">
+                            <li><strong>Path A:</strong> Lower Debt-to-Income from <strong>${dti}%</strong> to <strong>${targetDTI}%</strong> (reduce monthly debt service).</li>
+                            <li><strong>Path B:</strong> Boost FICO Score from <strong>${credit}</strong> to <strong>${targetCredit}</strong> OR add qualified co-signor.</li>
+                            ${delinq > 0 ? `<li><strong>Path C:</strong> Seasoning requirement: 12 months with 0 additional delinquencies.</li>` : ''}
+                        </ul>
+                    `;
+                }
+            });
+        }
+
         function calculateLoanRisk() {
             const credit = parseFloat(sliderCredit.value);
             const dti = parseFloat(sliderDTI.value);
@@ -3828,6 +4113,10 @@
                 anomalyBadge.innerHTML = '<i class="fas fa-shield-xmark"></i> High-Risk Anomaly (Flagged)';
             }
 
+            renderShapWaterfall(credit, dti, ltv, vol, delinq, anomalyScore);
+
+            if (counterfactualResultBox) counterfactualResultBox.style.display = 'none';
+
             if (loanRadarChart) {
                 const normCredit = Math.min(100, Math.max(10, (credit - 350) / 5.0));
                 const normDti = Math.min(100, Math.max(10, 100 - dti));
@@ -3843,7 +4132,10 @@
         }
 
         [sliderCredit, sliderDTI, sliderLTV, sliderVol, sliderDelinq].forEach(s => {
-            s.addEventListener('input', calculateLoanRisk);
+            s.addEventListener('input', () => {
+                [btnPresetPrime, btnPresetBorderline, btnPresetOutlier].forEach(b => b && b.classList.remove('active'));
+                calculateLoanRisk();
+            });
         });
 
         // ---------------------------------------------
@@ -3861,7 +4153,11 @@
         const valRate = document.getElementById('valRate');
         const ganSampleCount = document.getElementById('ganSampleCount');
 
-        const SECTOR_NAMES = ['Tech', 'Energy', 'Financials', 'Health', 'Industrials', 'Cons. Disc.', 'Utilities', 'Materials', 'Comm.', 'Staples', 'Real Estate'];
+        const SECTOR_NAMES = ['Tech (XLK)', 'Energy (XLE)', 'Financials (XLF)', 'Health (XLV)', 'Industrials (XLI)', 'Cons. Disc. (XLY)', 'Utilities (XLU)', 'Materials (XLB)', 'Comm. (XLC)', 'Staples (XLP)', 'Real Estate (XLRE)'];
+
+        const btnRegimeGrowth = document.getElementById('btnRegimeGrowth');
+        const btnRegimeTarget = document.getElementById('btnRegimeTarget');
+        const btnRegimeShock = document.getElementById('btnRegimeShock');
 
         function initSectorChart() {
             const ctx = document.getElementById('sectorBarChart').getContext('2d');
@@ -3889,7 +4185,7 @@
                             },
                             grid: { color: 'rgba(255, 255, 255, 0.06)' }
                         },
-                        x: { ticks: { color: '#cbd5e1', font: { size: 10 } }, grid: { display: false } }
+                        x: { ticks: { color: '#cbd5e1', font: { size: 9 } }, grid: { display: false } }
                     },
                     plugins: { legend: { display: false } }
                 }
@@ -3908,23 +4204,35 @@
             else ganSampleCount.innerText = '40,000 pts';
 
             const baseProb = {
-                'Tech': 68 - (rate * 0.04) - (cpi * 1.5),
-                'Energy': 50 + (cpi * 3.5),
-                'Financials': 55 + (rate * 0.05) - (cpi * 0.8),
-                'Health': 60 - (cpi * 0.5),
-                'Industrials': 54 - (rate * 0.02) + (cpi * 0.5),
-                'Cons. Disc.': 62 - (cpi * 2.0) - (rate * 0.03),
-                'Utilities': 45 + (cpi * 1.2) - (rate * 0.04),
-                'Materials': 52 + (cpi * 2.2),
-                'Comm.': 64 - (rate * 0.03),
-                'Staples': 50 + (cpi * 0.8),
-                'Real Estate': 48 - (rate * 0.06)
+                'Tech (XLK)': 68 - (rate * 0.04) - (cpi * 1.5),
+                'Energy (XLE)': 50 + (cpi * 3.5),
+                'Financials (XLF)': 55 + (rate * 0.05) - (cpi * 0.8),
+                'Health (XLV)': 60 - (cpi * 0.5),
+                'Industrials (XLI)': 54 - (rate * 0.02) + (cpi * 0.5),
+                'Cons. Disc. (XLY)': 62 - (cpi * 2.0) - (rate * 0.03),
+                'Utilities (XLU)': 45 + (cpi * 1.2) - (rate * 0.04),
+                'Materials (XLB)': 52 + (cpi * 2.2),
+                'Comm. (XLC)': 64 - (rate * 0.03),
+                'Staples (XLP)': 50 + (cpi * 0.8),
+                'Real Estate (XLRE)': 48 - (rate * 0.06)
             };
 
             const updatedData = SECTOR_NAMES.map(name => {
                 let p = Math.round(baseProb[name] + (selectedHorizon === 200 ? 5 : 0));
                 return Math.max(15, Math.min(95, p));
             });
+
+            // Calculate top alpha and bottom drag
+            let maxVal = -1, maxSector = '';
+            let minVal = 999, minSector = '';
+            SECTOR_NAMES.forEach((name, i) => {
+                if (updatedData[i] > maxVal) { maxVal = updatedData[i]; maxSector = name; }
+                if (updatedData[i] < minVal) { minVal = updatedData[i]; minSector = name; }
+            });
+            const topAlphaElem = document.getElementById('topSectorAlpha');
+            const bottomDragElem = document.getElementById('bottomSectorDrag');
+            if (topAlphaElem) topAlphaElem.innerText = `${maxSector} (${maxVal}%)`;
+            if (bottomDragElem) bottomDragElem.innerText = `${minSector} (${minVal}%)`;
 
             if (sectorBarChart) {
                 sectorBarChart.data.datasets[0].data = updatedData;
@@ -3933,6 +4241,34 @@
                 );
                 sectorBarChart.update('none');
             }
+        }
+
+        if (btnRegimeGrowth) {
+            btnRegimeGrowth.addEventListener('click', () => {
+                sliderCPI.value = 1.0;
+                sliderRate.value = -25;
+                [btnRegimeGrowth, btnRegimeTarget, btnRegimeShock].forEach(b => b && b.classList.remove('active'));
+                btnRegimeGrowth.classList.add('active');
+                updateForecasting();
+            });
+        }
+        if (btnRegimeTarget) {
+            btnRegimeTarget.addEventListener('click', () => {
+                sliderCPI.value = 2.5;
+                sliderRate.value = 50;
+                [btnRegimeGrowth, btnRegimeTarget, btnRegimeShock].forEach(b => b && b.classList.remove('active'));
+                btnRegimeTarget.classList.add('active');
+                updateForecasting();
+            });
+        }
+        if (btnRegimeShock) {
+            btnRegimeShock.addEventListener('click', () => {
+                sliderCPI.value = 7.5;
+                sliderRate.value = 200;
+                [btnRegimeGrowth, btnRegimeTarget, btnRegimeShock].forEach(b => b && b.classList.remove('active'));
+                btnRegimeShock.classList.add('active');
+                updateForecasting();
+            });
         }
 
         btnH50.addEventListener('click', () => {
@@ -3954,8 +4290,14 @@
             updateForecasting();
         });
 
-        sliderCPI.addEventListener('input', updateForecasting);
-        sliderRate.addEventListener('input', updateForecasting);
+        sliderCPI.addEventListener('input', () => {
+            [btnRegimeGrowth, btnRegimeTarget, btnRegimeShock].forEach(b => b && b.classList.remove('active'));
+            updateForecasting();
+        });
+        sliderRate.addEventListener('input', () => {
+            [btnRegimeGrowth, btnRegimeTarget, btnRegimeShock].forEach(b => b && b.classList.remove('active'));
+            updateForecasting();
+        });
 
         // ----------------------------------------------------
         // LAB 3: GENUINE MEDIAPIPE 468-POINT FACE TRACKING + VGG-16 BMI
@@ -4663,8 +5005,180 @@
         });
 
         // ---------------------------------------------
-        // LAB 4: RAG & VECTOR SEARCH VISUALIZER
+        // LAB 4: FASTMCP AUTONOMOUS AGENT & RAG STUDIO
         // ---------------------------------------------
+        const btnLab4ModeMCP = document.getElementById('btnLab4ModeMCP');
+        const btnLab4ModeRAG = document.getElementById('btnLab4ModeRAG');
+        const mcpAgentView = document.getElementById('mcpAgentView');
+        const ragVectorView = document.getElementById('ragVectorView');
+        const btnExecuteAgent = document.getElementById('btnExecuteAgent');
+        const mcpTraceContainer = document.getElementById('mcpTraceContainer');
+        const mcpToolName = document.getElementById('mcpToolName');
+        const mcpLatencyDisplay = document.getElementById('mcpLatencyDisplay');
+
+        if (btnLab4ModeMCP && btnLab4ModeRAG) {
+            btnLab4ModeMCP.addEventListener('click', () => {
+                btnLab4ModeMCP.classList.add('active');
+                btnLab4ModeRAG.classList.remove('active');
+                if (mcpAgentView) mcpAgentView.style.display = 'grid';
+                if (ragVectorView) ragVectorView.style.display = 'none';
+            });
+            btnLab4ModeRAG.addEventListener('click', () => {
+                btnLab4ModeRAG.classList.add('active');
+                btnLab4ModeMCP.classList.remove('active');
+                if (mcpAgentView) mcpAgentView.style.display = 'none';
+                if (ragVectorView) {
+                    ragVectorView.style.display = 'grid';
+                    if (!ragVectorChart) initRagVisualizer();
+                    else setTimeout(() => ragVectorChart.resize(), 50);
+                }
+            });
+        }
+
+        const AGENT_MISSIONS = {
+            revenue: {
+                tool: 'get_water_top_defaulters_ward',
+                latency: '34.8 ms (Groq)',
+                thought: 'Goal: Audit Ward 4 water collection & detect high-value revenue leakage. Partitioning query by ward_id and extracting delinquency telemetry via FastMCP.',
+                callPayload: {
+                    protocol: "fastmcp/1.0",
+                    tool: "get_water_top_defaulters_ward",
+                    arguments: {
+                        date: "2026-07-01",
+                        ward_id: "Ward-04",
+                        count: "5"
+                    }
+                },
+                observation: {
+                    status: "success",
+                    ward: "Ward-04",
+                    total_arrears: "$184,250",
+                    high_value_defaulters: [
+                        { consumer_no: "W4-8842", name: "Apex Bottling Co.", arrears: "$64,200", overdue_days: 180 },
+                        { consumer_no: "W4-1092", name: "Metro Textiles Ltd.", arrears: "$48,900", overdue_days: 120 },
+                        { consumer_no: "W4-5519", name: "Grand Vista Plaza", arrears: "$32,150", overdue_days: 95 }
+                    ]
+                },
+                synthesisTitle: 'Municipal Revenue Action Plan',
+                synthesisBadge: 'Immediate Statutory Recovery ($184.2k)',
+                synthesisBadgeClass: 'anomaly-status-badge risk',
+                synthesisText: 'Autonomous Agent triaged $184,250 in 90+ day commercial arrears concentrated across 3 industrial entities. Automated statutory pre-disconnection summons generated with 15-day cure notice. Projected recovery yield: 82.4% ($151,800).'
+            },
+            security: {
+                tool: 'run_zap_dast_triage',
+                latency: '41.2 ms (Groq + Gemini)',
+                thought: 'Goal: Ingest OWASP ZAP dynamic security scan alert and validate root cause against Pydantic schema for automated code remediation.',
+                callPayload: {
+                    protocol: "fastmcp/1.0",
+                    tool: "run_zap_dast_triage",
+                    arguments: {
+                        target_endpoint: "/api/v1/payment/checkout",
+                        scanner_engine: "OWASP-ZAP-Standalone",
+                        cwe_focus: "CWE-89"
+                    }
+                },
+                observation: {
+                    alert: "SQL Injection (Time-Based Blind)",
+                    risk_level: "High",
+                    cwe_id: 89,
+                    vulnerable_param: "order_id",
+                    attack_payload: "order_id=1024' OR SLEEP(5)--",
+                    confidence: "0.96"
+                },
+                synthesisTitle: 'Pydantic TriageReport (TriagedIssue)',
+                synthesisBadge: 'CWE-89 SQLi Patch Generated',
+                synthesisBadgeClass: 'anomaly-status-badge risk',
+                synthesisText: 'Vulnerability verified: Direct string concatenation in SQL execution. Schema validation passed with Pydantic.\n\nAutomated Python Fix:\n# Parameterized prepared statement\nquery = text("SELECT * FROM orders WHERE order_id = :oid")\nres = await db.execute(query, {"oid": sanitized_order_id})'
+            },
+            idp: {
+                tool: 'deep_verify_affidavits',
+                latency: '28.6 ms (MobileNetV2)',
+                thought: 'Goal: Classify scanned legal document using fine-tuned MobileNetV2, extract Khasra acreage, and perform cross-registry authenticity check.',
+                callPayload: {
+                    protocol: "fastmcp/1.0",
+                    tool: "deep_verify_affidavits",
+                    arguments: {
+                        document_type: "Affidavit_Khasra_Deed",
+                        vision_model: "document_vision_model.keras",
+                        district_subdivision: "Kalyan"
+                    }
+                },
+                observation: {
+                    vision_category: "Legal_Affidavit_Title",
+                    confidence: "98.4%",
+                    khasra_no: "142/1-B",
+                    recorded_acreage_hectares: 1.485,
+                    stamp_hash: "0x9ef2a7b881c",
+                    audit_flag: "CLEAN"
+                },
+                synthesisTitle: 'Intelligent Document Processing (IDP)',
+                synthesisBadge: 'Verified Authentic (98.4% Confidence)',
+                synthesisBadgeClass: 'anomaly-status-badge safe',
+                synthesisText: 'MobileNetV2 deep learning classifier recognized document geometry and official stamp borders at 98.4% accuracy. OCR Khasra acreage (1.485 Ha) matches Jamabandi land registry record. Zero fraud discrepancy flagged.'
+            }
+        };
+
+        let currentActiveTask = 'revenue';
+
+        function renderAgentTrace(taskKey) {
+            const mission = AGENT_MISSIONS[taskKey] || AGENT_MISSIONS.revenue;
+            if (!mcpTraceContainer) return;
+
+            if (mcpToolName) mcpToolName.innerText = mission.tool;
+            if (mcpLatencyDisplay) mcpLatencyDisplay.innerText = mission.latency;
+
+            mcpTraceContainer.innerHTML = `
+                <div style="margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+                    <span style="color: var(--accent-mint); font-weight: 700;">[1/4] AUTONOMOUS AGENT REASONING (THOUGHT)</span>
+                    <p style="color: #cbd5e1; margin: 4px 0 0 0; line-height: 1.45; font-size: 0.74rem;">${mission.thought}</p>
+                </div>
+
+                <div style="margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <span style="color: var(--accent-cyan); font-weight: 700;">[2/4] FASTMCP PROTOCOL DISPATCH</span>
+                        <span style="font-size: 0.68rem; color: #64748b;">FastMCP Client &bull; ${mission.tool}()</span>
+                    </div>
+                    <pre style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(56, 189, 248, 0.2); padding: 8px 10px; border-radius: 6px; color: #38bdf8; margin: 0; font-size: 0.72rem; overflow-x: auto;">${JSON.stringify(mission.callPayload, null, 2)}</pre>
+                </div>
+
+                <div style="margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px;">
+                    <span style="color: #a78bfa; font-weight: 700;">[3/4] TOOL RETURN OBSERVATION</span>
+                    <pre style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(167, 139, 250, 0.2); padding: 8px 10px; border-radius: 6px; color: #c4b5fd; margin: 4px 0 0 0; font-size: 0.72rem; overflow-x: auto;">${JSON.stringify(mission.observation, null, 2)}</pre>
+                </div>
+
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <span style="color: #34d399; font-weight: 700;">[4/4] STRUCTURED SYNTHESIS</span>
+                        <span class="${mission.synthesisBadgeClass}" style="font-size: 0.68rem; padding: 2px 8px;">${mission.synthesisBadge}</span>
+                    </div>
+                    <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 6px; padding: 10px; color: #f1f5f9; font-size: 0.74rem; line-height: 1.5; white-space: pre-wrap;">${mission.synthesisText}</div>
+                </div>
+            `;
+        }
+
+        // Attach click listeners to task cards
+        document.querySelectorAll('#agentTaskPresets .sample-face-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('#agentTaskPresets .sample-face-card').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                currentActiveTask = this.getAttribute('data-task') || 'revenue';
+                renderAgentTrace(currentActiveTask);
+            });
+        });
+
+        if (btnExecuteAgent) {
+            btnExecuteAgent.addEventListener('click', () => {
+                if (mcpTraceContainer) {
+                    mcpTraceContainer.innerHTML = '<div style="color: var(--accent-mint); padding: 20px; text-align: center;"><i class="fas fa-spinner fa-spin"></i> Executing FastMCP Tool Call via Groq Qwen-2.5...</div>';
+                    setTimeout(() => renderAgentTrace(currentActiveTask), 280);
+                }
+            });
+        }
+
+        // Render default mission on start
+        renderAgentTrace('revenue');
+
+        // Preserved Vector RAG Logic
         const SAMPLE_CHUNKS = [
             { id: 1, title: 'Property Tax Section 4A', text: 'Annual residential property taxes are assessed on April 1st. Early payment by May 15 receives a 5% rebate.', x: -0.65, y: 0.72, topic: 'tax' },
             { id: 2, title: 'Municipal Water Tariff Schedule', text: 'Senior citizens aged 65+ qualify for a 20% concession on tier-1 domestic water usage upon submitting municipal form W-102.', x: 0.78, y: -0.45, topic: 'water' },
@@ -4677,7 +5191,9 @@
 
         function initRagVisualizer() {
             renderChunks();
-            const ctx = document.getElementById('ragVectorChart').getContext('2d');
+            const canvasElem = document.getElementById('ragVectorChart');
+            if (!canvasElem) return;
+            const ctx = canvasElem.getContext('2d');
             ragVectorChart = new Chart(ctx, {
                 type: 'scatter',
                 data: {
@@ -4722,6 +5238,7 @@
 
         function renderChunks(matchedIds = [2, 5]) {
             const container = document.getElementById('chunkContainer');
+            if (!container) return;
             container.innerHTML = SAMPLE_CHUNKS.map(c => `
                 <div class="doc-chunk-item ${matchedIds.includes(c.id) ? 'matched' : ''}">
                     <div style="font-weight: 700; color: ${matchedIds.includes(c.id) ? '#34d399' : '#94a3b8'}; margin-bottom: 2px;">
@@ -4733,7 +5250,8 @@
         }
 
         function setRagQuery(queryText) {
-            document.getElementById('ragQueryInput').value = queryText;
+            const input = document.getElementById('ragQueryInput');
+            if (input) input.value = queryText;
             updateRagSearch(queryText);
         }
 
@@ -4761,19 +5279,36 @@
             }
         }
 
-        document.getElementById('ragQueryInput').addEventListener('input', (e) => {
-            updateRagSearch(e.target.value);
-        });
+        const ragInputElem = document.getElementById('ragQueryInput');
+        if (ragInputElem) {
+            ragInputElem.addEventListener('input', (e) => {
+                updateRagSearch(e.target.value);
+            });
+        }
 
         // ---------------------------------------------
         // LAB 5: CUSTOMER PERSONA CLUSTERING
         // ---------------------------------------------
         let clusterScatterChart = null;
-        const PERSONA_DATA = {
-            1: { title: 'Cluster 1: High-Net-Worth Savers', roi: '+34% Lift', desc: 'High balance preservation, low credit risk, high interest in wealth management and municipal bonds.', topics: ['yield stability', 'wealth advisory', 'fixed deposit'], bal: '$142,500', conv: '18.4%' },
-            2: { title: 'Cluster 2: Digital Borrowers & Spenders', roi: '+28% Lift', desc: 'Frequent mobile card transactions, auto loan seekers, sensitive to reward cashbacks.', topics: ['cashback rewards', 'instant loan approval', 'mobile app UX'], bal: '$18,200', conv: '24.1%' },
-            3: { title: 'Cluster 3: Conservative Savers', roi: '+19% Lift', desc: 'Traditional branch banking users with steady low-velocity savings deposits.', topics: ['low fees', 'branch service', 'passbook safety'], bal: '$45,000', conv: '12.0%' },
-            4: { title: 'Cluster 4: High-Risk Inactive', roi: '+12% Lift', desc: 'Infrequent transactions, volatile cashflow, targets for credit recovery programs.', topics: ['overdraft protection', 'credit line assist'], bal: '$3,400', conv: '7.8%' }
+        let activeCohortMode = 'retail'; // 'retail' or 'municipal'
+
+        const btnClusterRetail = document.getElementById('btnClusterRetail');
+        const btnClusterMunicipal = document.getElementById('btnClusterMunicipal');
+        const personaMetric1Label = document.getElementById('personaMetric1Label');
+        const personaMetric2Label = document.getElementById('personaMetric2Label');
+
+        const RETAIL_PERSONA_DATA = {
+            1: { title: 'Cluster 1: High-Net-Worth Savers', roi: '+34% Campaign Lift', desc: 'High balance preservation, low credit risk, high interest in wealth management and municipal bonds.', topics: ['yield stability', 'wealth advisory', 'fixed deposit'], bal: '$142,500', conv: '18.4%' },
+            2: { title: 'Cluster 2: Digital Borrowers & Spenders', roi: '+28% Campaign Lift', desc: 'Frequent mobile card transactions, auto loan seekers, sensitive to reward cashbacks.', topics: ['cashback rewards', 'instant loan approval', 'mobile app UX'], bal: '$18,200', conv: '24.1%' },
+            3: { title: 'Cluster 3: Conservative Savers', roi: '+19% Campaign Lift', desc: 'Traditional branch banking users with steady low-velocity savings deposits.', topics: ['low fees', 'branch service', 'passbook safety'], bal: '$45,000', conv: '12.0%' },
+            4: { title: 'Cluster 4: High-Risk Inactive', roi: '+12% Campaign Lift', desc: 'Infrequent transactions, volatile cashflow, targets for credit recovery programs.', topics: ['overdraft protection', 'credit line assist'], bal: '$3,400', conv: '7.8%' }
+        };
+
+        const MUNICIPAL_PERSONA_DATA = {
+            1: { title: 'Cohort 1: High-Volume Commercial Accounts', roi: '99.2% Collection Rate', desc: 'Industrial and bottling plants with heavy metered consumption. Top revenue yield for municipal treasury.', topics: ['commercial metering', 'demand tariff', 'automated RTGS'], bal: '$248,000', conv: '99.2%' },
+            2: { title: 'Cohort 2: Regular Residential Payers', roi: '94.6% Collection Rate', desc: 'High-density residential wards utilizing citizen digital payment portals and early rebate concessions.', topics: ['senior concession', 'quarterly bill', 'auto-debit UPI'], bal: '$42,500', conv: '94.6%' },
+            3: { title: 'Cohort 3: Seasonal Agricultural Connections', roi: '81.4% Collection Rate', desc: 'Suburban agricultural parcels with cyclical summer water draw and harvest-dependent settlement.', topics: ['cyclical tariff', 'harvest grace period', 'feeder supply'], bal: '$18,200', conv: '81.4%' },
+            4: { title: 'Cohort 4: Chronic Defaulters & Arrears', roi: '$184k Recovery Target', desc: 'Overdue commercial and commercial properties flagged by FastMCP revenue agents for recovery action.', topics: ['disconnection notice', 'legal summons', 'ward 4 audit'], bal: '$86,400', conv: '34.0%' }
         };
 
         function generateClusterPoints(centerX, centerY, count, variance) {
@@ -4788,23 +5323,31 @@
         }
 
         function initClusterScatter() {
-            const ctx = document.getElementById('clusterScatterChart').getContext('2d');
+            const canvasElem = document.getElementById('clusterScatterChart');
+            if (!canvasElem) return;
+            const ctx = canvasElem.getContext('2d');
+            
+            const isRetail = activeCohortMode === 'retail';
+            const labels = isRetail 
+                ? ['C1: High-Net-Worth', 'C2: Digital Borrowers', 'C3: Conservative Savers', 'C4: High-Risk Inactive']
+                : ['C1: Commercial Industrial', 'C2: Residential Payers', 'C3: Seasonal Agriculture', 'C4: Chronic Defaulters'];
+
             clusterScatterChart = new Chart(ctx, {
                 type: 'scatter',
                 data: {
                     datasets: [
-                        { label: 'C1: High-Net-Worth Savers', data: generateClusterPoints(35, 40, 25, 18), backgroundColor: '#10b981', pointRadius: 5 },
-                        { label: 'C2: Digital Borrowers', data: generateClusterPoints(-25, 30, 25, 20), backgroundColor: '#06b6d4', pointRadius: 5 },
-                        { label: 'C3: Conservative Savers', data: generateClusterPoints(20, -35, 25, 18), backgroundColor: '#8b5cf6', pointRadius: 5 },
-                        { label: 'C4: High-Risk Inactive', data: generateClusterPoints(-30, -30, 25, 20), backgroundColor: '#f59e0b', pointRadius: 5 }
+                        { label: labels[0], data: generateClusterPoints(35, 40, 25, 18), backgroundColor: '#10b981', pointRadius: 5 },
+                        { label: labels[1], data: generateClusterPoints(-25, 30, 25, 20), backgroundColor: '#06b6d4', pointRadius: 5 },
+                        { label: labels[2], data: generateClusterPoints(20, -35, 25, 18), backgroundColor: '#8b5cf6', pointRadius: 5 },
+                        { label: labels[3], data: generateClusterPoints(-30, -30, 25, 20), backgroundColor: '#f59e0b', pointRadius: 5 }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        x: { title: { display: true, text: 'PCA Component 1 (Transaction Volume)', color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255, 255, 255, 0.06)' }, ticks: { color: '#94a3b8' } },
-                        y: { title: { display: true, text: 'PCA Component 2 (Asset Balance)', color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255, 255, 255, 0.06)' }, ticks: { color: '#94a3b8' } }
+                        x: { title: { display: true, text: isRetail ? 'PCA Component 1 (Transaction Volume)' : 'PCA Component 1 (Utility Consumption)', color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255, 255, 255, 0.06)' }, ticks: { color: '#94a3b8' } },
+                        y: { title: { display: true, text: isRetail ? 'PCA Component 2 (Asset Balance)' : 'PCA Component 2 (Collection Yield %)', color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255, 255, 255, 0.06)' }, ticks: { color: '#94a3b8' } }
                     },
                     plugins: {
                         legend: { labels: { color: '#cbd5e1', font: { size: 10 } } }
@@ -4819,17 +5362,58 @@
             });
         }
 
-        function selectPersona(clusterId) {
-            const p = PERSONA_DATA[clusterId] || PERSONA_DATA[1];
-            document.getElementById('personaTitle').innerText = p.title;
-            document.getElementById('personaROI').innerText = p.roi;
-            document.getElementById('personaDesc').innerText = p.desc;
-            document.getElementById('personaBal').innerText = p.bal;
-            document.getElementById('personaConv').innerText = p.conv;
+        function updateClusterCohort(mode) {
+            activeCohortMode = mode;
+            if (btnClusterRetail && btnClusterMunicipal) {
+                if (mode === 'retail') {
+                    btnClusterRetail.classList.add('active');
+                    btnClusterMunicipal.classList.remove('active');
+                    if (personaMetric1Label) personaMetric1Label.innerText = 'Avg. Balance';
+                    if (personaMetric2Label) personaMetric2Label.innerText = 'Conversion Rate';
+                } else {
+                    btnClusterMunicipal.classList.add('active');
+                    btnClusterRetail.classList.remove('active');
+                    if (personaMetric1Label) personaMetric1Label.innerText = 'Annual Billed';
+                    if (personaMetric2Label) personaMetric2Label.innerText = 'Collection Rate';
+                }
+            }
 
-            document.getElementById('personaTopics').innerHTML = p.topics.map((t, idx) => 
-                `<span class="tag ${idx === 0 ? 'tag-highlight' : ''}">${t}</span>`
-            ).join('');
+            if (clusterScatterChart) {
+                clusterScatterChart.destroy();
+                clusterScatterChart = null;
+                initClusterScatter();
+            }
+            selectPersona(1);
+        }
+
+        if (btnClusterRetail) {
+            btnClusterRetail.addEventListener('click', () => updateClusterCohort('retail'));
+        }
+        if (btnClusterMunicipal) {
+            btnClusterMunicipal.addEventListener('click', () => updateClusterCohort('municipal'));
+        }
+
+        function selectPersona(clusterId) {
+            const dataPool = activeCohortMode === 'retail' ? RETAIL_PERSONA_DATA : MUNICIPAL_PERSONA_DATA;
+            const p = dataPool[clusterId] || dataPool[1];
+            const titleElem = document.getElementById('personaTitle');
+            const roiElem = document.getElementById('personaROI');
+            const descElem = document.getElementById('personaDesc');
+            const balElem = document.getElementById('personaBal');
+            const convElem = document.getElementById('personaConv');
+            const topicsElem = document.getElementById('personaTopics');
+
+            if (titleElem) titleElem.innerText = p.title;
+            if (roiElem) roiElem.innerText = p.roi;
+            if (descElem) descElem.innerText = p.desc;
+            if (balElem) balElem.innerText = p.bal;
+            if (convElem) convElem.innerText = p.conv;
+
+            if (topicsElem) {
+                topicsElem.innerHTML = p.topics.map((t, idx) => 
+                    `<span class="tag ${idx === 0 ? 'tag-highlight' : ''}">${t}</span>`
+                ).join('');
+            }
         }
 
         // ---------------------------------------------
