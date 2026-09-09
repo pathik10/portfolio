@@ -2018,12 +2018,20 @@
             color: var(--text-muted);
             background: rgba(20, 184, 166, 0.1);
             border: 1px solid rgba(52, 211, 153, 0.25);
-            padding: 2px 6px;
+            padding: 2px 7px;
             border-radius: 4px;
             display: inline-flex;
             align-items: center;
             gap: 4px;
             margin-top: 2px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chat-engine-badge:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.15);
+            color: #a5f3fc;
         }
 
         .chat-engine-badge.active-gemini {
@@ -2053,6 +2061,81 @@
         .chat-btn-icon:hover {
             color: var(--text-primary);
             background: rgba(255, 255, 255, 0.08);
+        }
+
+        .chat-btn-icon.settings-highlight {
+            background: rgba(6, 182, 212, 0.12);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(6, 182, 212, 0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 9px;
+            font-size: 0.74rem;
+            font-weight: 600;
+        }
+
+        .chat-btn-icon.settings-highlight:hover {
+            background: rgba(6, 182, 212, 0.25);
+            color: #a5f3fc;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+        }
+
+        /* Banner across top of chatbot */
+        .chat-api-banner {
+            background: linear-gradient(90deg, rgba(6, 182, 212, 0.14), rgba(16, 185, 129, 0.09));
+            border-bottom: 1px solid rgba(6, 182, 212, 0.25);
+            padding: 7px 12px;
+            font-size: 0.74rem;
+            color: var(--text-body);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            animation: slideDown 0.2s ease forwards;
+        }
+
+        .chat-banner-text {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            flex: 1;
+            line-height: 1.35;
+        }
+
+        .chat-banner-btn {
+            background: rgba(6, 182, 212, 0.22);
+            border: 1px solid var(--accent-cyan);
+            color: #67e8f9;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .chat-banner-btn:hover {
+            background: var(--accent-cyan);
+            color: #061517;
+        }
+
+        .chat-banner-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .chat-banner-close:hover {
+            color: var(--text-primary);
         }
 
         /* Settings Drawer */
@@ -3687,33 +3770,60 @@
                 <div class="chat-avatar"><i class="fas fa-brain"></i></div>
                 <div>
                     <div class="chat-title">Pathik's AI Assistant</div>
-                    <div id="engineBadge" class="chat-engine-badge">
+                    <div id="engineBadge" class="chat-engine-badge" title="Click to use your own Google Gemini API Key">
                         <i class="fas fa-microchip"></i> In-Browser AI
                     </div>
                 </div>
             </div>
             <div class="chat-controls">
-                <button class="chat-btn-icon" id="chatSettingsBtn" title="Gemini API Key Settings"><i class="fas fa-gear"></i></button>
+                <button class="chat-btn-icon settings-highlight" id="chatSettingsBtn" title="Use Your Own Gemini API (Settings)"><i class="fas fa-gear"></i> Settings</button>
                 <button class="chat-btn-icon" id="resetChatBtn" title="Reset Conversation"><i class="fas fa-rotate-right"></i></button>
                 <button class="chat-btn-icon" id="closeChatBtn" title="Close"><i class="fas fa-xmark"></i></button>
             </div>
         </div>
 
+        <!-- Gemini API Notice Banner -->
+        <div class="chat-api-banner" id="chatApiBanner">
+            <div class="chat-banner-text">
+                <i class="fas fa-sparkles" style="color: var(--accent-cyan);"></i>
+                <span id="chatBannerText">Want live LLM reasoning? Click <button type="button" class="chat-banner-btn" id="bannerOpenSettingsBtn"><i class="fas fa-gear"></i> Settings</button> to use your own Gemini API.</span>
+            </div>
+            <button type="button" class="chat-banner-close" id="bannerDismissBtn" title="Dismiss banner">&times;</button>
+        </div>
+
         <div class="chat-settings-drawer" id="chatSettingsDrawer">
             <div class="settings-title">
-                <span><i class="fas fa-sparkles" style="color: var(--accent-cyan);"></i> Google Gemini API Mode</span>
+                <span><i class="fas fa-sparkles" style="color: var(--accent-cyan);"></i> Google Gemini API Settings</span>
                 <button class="chat-btn-icon" id="closeSettingsBtn"><i class="fas fa-times"></i></button>
             </div>
-            <p style="font-size: 0.76rem; color: var(--text-sub);">
-                Connect your Google Gemini API key to enable live generative AI reasoning with Gemini 1.5 Flash.
+            <p style="font-size: 0.76rem; color: var(--text-sub); margin-bottom: 0.65rem; line-height: 1.4;">
+                Connect your personal Google Gemini API key to unlock live generative AI reasoning. Your key is stored client-side in your browser's localStorage and is never shared.
             </p>
+            
+            <div style="margin-bottom: 0.6rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                    <label style="font-size: 0.72rem; color: var(--text-sub); font-weight: 600;">Active Gemini Model:</label>
+                    <span style="font-size: 0.68rem; color: var(--accent-mint); font-weight: 600;"><i class="fas fa-circle-check"></i> Currently Supported</span>
+                </div>
+                <select class="settings-input" id="geminiModelSelect" style="width: 100%; cursor: pointer;">
+                    <option value="gemini-2.0-flash">Gemini 2.0 Flash (Recommended &bull; Fast, High Accuracy)</option>
+                    <option value="gemini-1.5-flash">Gemini 1.5 Flash (Production Standard)</option>
+                    <option value="gemini-1.5-pro">Gemini 1.5 Pro (Deep Context & Complex Logic)</option>
+                </select>
+            </div>
+
             <div class="settings-input-group">
                 <input type="password" class="settings-input" id="geminiApiKeyInput" placeholder="Enter Gemini API Key (AIzaSy...)">
-                <button class="settings-btn" id="saveApiKeyBtn">Save</button>
+                <button class="settings-btn" id="saveApiKeyBtn">
+                    <i class="fas fa-check"></i> Save Key
+                </button>
             </div>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+
+            <div id="apiKeyStatus" style="font-size: 0.74rem; margin-top: 4px; margin-bottom: 6px; display: none;"></div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
                 <span class="settings-help">
-                    Free key from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>
+                    Free key from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio <i class="fas fa-external-link-alt" style="font-size: 0.62rem;"></i></a>
                 </span>
                 <button class="chat-btn-icon" id="clearApiKeyBtn" style="font-size: 0.72rem; color: #f87171;" title="Remove saved key">Remove Key</button>
             </div>
@@ -3725,12 +3835,20 @@
                     👋 Welcome! I'm <strong>Pathik's AI Assistant</strong>, running directly in your browser. 
                     <br><br>
                     Ask me anything about Pathik's <strong>background</strong>, <strong>enterprise AI agents & MCP architectures</strong>, <strong>machine learning benchmarks</strong>, or <strong>availability for roles</strong>!
+                    
+                    <div style="margin-top: 10px; padding: 10px 12px; background: rgba(6, 182, 212, 0.08); border: 1px dashed rgba(6, 182, 212, 0.35); border-radius: 8px; font-size: 0.76rem; color: var(--text-body);">
+                        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px; color: var(--accent-cyan); font-weight: 700;">
+                            <i class="fas fa-sparkles"></i> <span>Use Your Own Gemini API:</span>
+                        </div>
+                        <span>You can connect your personal Google Gemini API key by clicking <button type="button" class="chat-inline-settings-btn" id="welcomeInlineSettingsBtn" style="background: rgba(6, 182, 212, 0.18); border: 1px solid rgba(6, 182, 212, 0.5); color: #67e8f9; font-weight: 700; cursor: pointer; padding: 2px 7px; border-radius: 4px; font-size: 0.72rem;"><i class="fas fa-gear"></i> Settings</button> above. Supports currently available models: <strong>Gemini 2.0 Flash</strong> & <strong>1.5 Flash</strong>.</span>
+                    </div>
                 </div>
                 <span class="chat-time">Just now</span>
             </div>
         </div>
 
         <div class="chat-quick-chips" id="quickChips">
+            <button class="quick-chip" id="chipGeminiSettings" style="border: 1px solid rgba(6, 182, 212, 0.4); background: rgba(6, 182, 212, 0.1); color: #67e8f9; font-weight: 600;"><i class="fas fa-gear"></i> Use Gemini API</button>
             <button class="quick-chip" data-query="Tell me about the interactive machine learning labs and VGG-16 computer vision model.">🧪 Interactive Labs</button>
             <button class="quick-chip" data-query="What enterprise AI agents and MCP workflows has Pathik built?">🤖 Enterprise AI & MCP</button>
             <button class="quick-chip" data-query="How did Pathik achieve a 30% ROI lift and 25% default detection improvement in banking?">📈 FinTech & ML Impact</button>
@@ -5432,30 +5550,91 @@
         const chatSettingsDrawer = document.getElementById('chatSettingsDrawer');
         const closeSettingsBtn = document.getElementById('closeSettingsBtn');
         const geminiApiKeyInput = document.getElementById('geminiApiKeyInput');
+        const geminiModelSelect = document.getElementById('geminiModelSelect');
         const saveApiKeyBtn = document.getElementById('saveApiKeyBtn');
         const clearApiKeyBtn = document.getElementById('clearApiKeyBtn');
         const engineBadge = document.getElementById('engineBadge');
+        const apiKeyStatus = document.getElementById('apiKeyStatus');
+        const chatApiBanner = document.getElementById('chatApiBanner');
+        const chatBannerText = document.getElementById('chatBannerText');
+        const bannerOpenSettingsBtn = document.getElementById('bannerOpenSettingsBtn');
+        const bannerDismissBtn = document.getElementById('bannerDismissBtn');
+        const chipGeminiSettings = document.getElementById('chipGeminiSettings');
+        const welcomeInlineSettingsBtn = document.getElementById('welcomeInlineSettingsBtn');
 
         let geminiApiKey = localStorage.getItem('pathik_portfolio_gemini_key') || '';
+        let activeGeminiModel = localStorage.getItem('pathik_portfolio_gemini_model') || 'gemini-2.0-flash';
+
+        if (geminiModelSelect) {
+            geminiModelSelect.value = activeGeminiModel;
+            geminiModelSelect.addEventListener('change', (e) => {
+                activeGeminiModel = e.target.value;
+                localStorage.setItem('pathik_portfolio_gemini_model', activeGeminiModel);
+                updateEngineBadge();
+            });
+        }
+
+        function getModelDisplayName(modelId) {
+            if (modelId === 'gemini-2.0-flash') return 'Gemini 2.0 Flash';
+            if (modelId === 'gemini-1.5-flash') return 'Gemini 1.5 Flash';
+            if (modelId === 'gemini-1.5-pro') return 'Gemini 1.5 Pro';
+            return modelId;
+        }
 
         function updateEngineBadge() {
+            const modelLabel = getModelDisplayName(activeGeminiModel);
             if (geminiApiKey) {
                 engineBadge.className = 'chat-engine-badge active-gemini';
-                engineBadge.innerHTML = '<i class="fas fa-sparkles"></i> Gemini Flash Live ✨';
-                geminiApiKeyInput.value = geminiApiKey;
+                engineBadge.innerHTML = `<i class="fas fa-sparkles"></i> ${modelLabel} Live ✨`;
+                if (geminiApiKeyInput) geminiApiKeyInput.value = geminiApiKey;
+                if (chatBannerText) {
+                    chatBannerText.innerHTML = `✨ <strong>Active: ${modelLabel}</strong>. Click <button type="button" class="chat-banner-btn" id="bannerOpenSettingsBtn"><i class="fas fa-gear"></i> Settings</button> to modify.`;
+                    const newBtn = document.getElementById('bannerOpenSettingsBtn');
+                    if (newBtn) newBtn.addEventListener('click', openSettings);
+                }
             } else {
                 engineBadge.className = 'chat-engine-badge';
-                engineBadge.innerHTML = '<i class="fas fa-microchip"></i> In-Browser AI';
-                geminiApiKeyInput.value = '';
+                engineBadge.innerHTML = '<i class="fas fa-microchip"></i> In-Browser AI &bull; <span style="text-decoration: underline; color: var(--accent-cyan); font-weight: 600;">Use Gemini ⚙️</span>';
+                if (geminiApiKeyInput) geminiApiKeyInput.value = '';
+                if (chatBannerText) {
+                    chatBannerText.innerHTML = `Want live LLM reasoning? Click <button type="button" class="chat-banner-btn" id="bannerOpenSettingsBtn"><i class="fas fa-gear"></i> Settings</button> to use your own Gemini API.`;
+                    const newBtn = document.getElementById('bannerOpenSettingsBtn');
+                    if (newBtn) newBtn.addEventListener('click', openSettings);
+                }
             }
         }
         updateEngineBadge();
 
-        if (chatSettingsBtn) {
-            chatSettingsBtn.addEventListener('click', () => {
-                chatSettingsDrawer.classList.toggle('open');
+        function openSettings() {
+            if (chatSettingsDrawer) {
+                chatSettingsDrawer.classList.add('open');
+                if (geminiApiKeyInput) setTimeout(() => geminiApiKeyInput.focus(), 150);
+            }
+        }
+
+        if (chatSettingsBtn) chatSettingsBtn.addEventListener('click', () => {
+            if (chatSettingsDrawer) chatSettingsDrawer.classList.toggle('open');
+        });
+        if (engineBadge) engineBadge.addEventListener('click', openSettings);
+        if (bannerOpenSettingsBtn) bannerOpenSettingsBtn.addEventListener('click', openSettings);
+        if (chipGeminiSettings) chipGeminiSettings.addEventListener('click', openSettings);
+        if (welcomeInlineSettingsBtn) welcomeInlineSettingsBtn.addEventListener('click', openSettings);
+
+        // Allow inline settings buttons dynamically generated in messages
+        if (chatMessages) {
+            chatMessages.addEventListener('click', (e) => {
+                if (e.target.closest('.chat-inline-settings-btn') || e.target.closest('#welcomeInlineSettingsBtn')) {
+                    openSettings();
+                }
             });
         }
+
+        if (bannerDismissBtn && chatApiBanner) {
+            bannerDismissBtn.addEventListener('click', () => {
+                chatApiBanner.style.display = 'none';
+            });
+        }
+
         if (closeSettingsBtn) {
             closeSettingsBtn.addEventListener('click', () => {
                 chatSettingsDrawer.classList.remove('open');
@@ -5463,14 +5642,65 @@
         }
 
         if (saveApiKeyBtn) {
-            saveApiKeyBtn.addEventListener('click', () => {
+            saveApiKeyBtn.addEventListener('click', async () => {
                 const key = geminiApiKeyInput.value.trim();
-                if (key) {
+                const selectedModel = geminiModelSelect ? geminiModelSelect.value : 'gemini-2.0-flash';
+                if (!key) {
+                    if (apiKeyStatus) {
+                        apiKeyStatus.style.display = 'block';
+                        apiKeyStatus.style.color = '#f87171';
+                        apiKeyStatus.innerHTML = '<i class="fas fa-circle-exclamation"></i> Please enter an API key first.';
+                    }
+                    return;
+                }
+
+                if (apiKeyStatus) {
+                    apiKeyStatus.style.display = 'block';
+                    apiKeyStatus.style.color = 'var(--accent-cyan)';
+                    apiKeyStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validating with Google Gemini API...';
+                }
+
+                try {
+                    // Test ping to verify key & model availability
+                    const testUrl = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${key}`;
+                    const testResp = await fetch(testUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ role: 'user', parts: [{ text: 'ping' }] }],
+                            generationConfig: { maxOutputTokens: 3 }
+                        })
+                    });
+
+                    if (!testResp.ok) {
+                        const errJson = await testResp.json().catch(() => ({}));
+                        const errMsg = (errJson && errJson.error && errJson.error.message) ? errJson.error.message : `HTTP ${testResp.status}`;
+                        throw new Error(errMsg);
+                    }
+
+                    // Success!
                     geminiApiKey = key;
+                    activeGeminiModel = selectedModel;
                     localStorage.setItem('pathik_portfolio_gemini_key', key);
+                    localStorage.setItem('pathik_portfolio_gemini_model', selectedModel);
                     updateEngineBadge();
-                    chatSettingsDrawer.classList.remove('open');
-                    appendMessage('bot', '✨ <strong>Google Gemini API connected!</strong> Live generative reasoning is now active for your questions.');
+
+                    if (apiKeyStatus) {
+                        apiKeyStatus.style.color = '#34d399';
+                        apiKeyStatus.innerHTML = `<i class="fas fa-circle-check"></i> Validated! Connected to <strong>${getModelDisplayName(selectedModel)}</strong>.`;
+                    }
+
+                    setTimeout(() => {
+                        chatSettingsDrawer.classList.remove('open');
+                        if (apiKeyStatus) apiKeyStatus.style.display = 'none';
+                        appendMessage('bot', `✨ <strong>Google Gemini API Connected!</strong> Live generative reasoning is now active powered by <strong>${getModelDisplayName(selectedModel)}</strong>.`);
+                    }, 800);
+
+                } catch (err) {
+                    if (apiKeyStatus) {
+                        apiKeyStatus.style.color = '#f87171';
+                        apiKeyStatus.innerHTML = `<i class="fas fa-circle-xmark"></i> Validation error: ${err.message}`;
+                    }
                 }
             });
         }
@@ -5480,6 +5710,12 @@
                 geminiApiKey = '';
                 localStorage.removeItem('pathik_portfolio_gemini_key');
                 updateEngineBadge();
+                if (apiKeyStatus) {
+                    apiKeyStatus.style.display = 'block';
+                    apiKeyStatus.style.color = 'var(--text-sub)';
+                    apiKeyStatus.innerHTML = 'Key removed.';
+                    setTimeout(() => { apiKeyStatus.style.display = 'none'; }, 1000);
+                }
                 chatSettingsDrawer.classList.remove('open');
                 appendMessage('bot', '🔄 Switched back to the instant <strong>In-Browser Semantic Engine</strong>.');
             });
@@ -5505,6 +5741,13 @@
                     <div class="chat-msg bot">
                         <div class="chat-bubble">
                             👋 Conversation reset! Feel free to ask me anything about Pathik's background, models, or projects.
+                            
+                            <div style="margin-top: 10px; padding: 10px 12px; background: rgba(6, 182, 212, 0.08); border: 1px dashed rgba(6, 182, 212, 0.35); border-radius: 8px; font-size: 0.76rem; color: var(--text-body);">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px; color: var(--accent-cyan); font-weight: 700;">
+                                    <i class="fas fa-sparkles"></i> <span>Use Your Own Gemini API:</span>
+                                </div>
+                                <span>Click <button type="button" class="chat-inline-settings-btn" style="background: rgba(6, 182, 212, 0.18); border: 1px solid rgba(6, 182, 212, 0.5); color: #67e8f9; font-weight: 700; cursor: pointer; padding: 2px 7px; border-radius: 4px; font-size: 0.72rem;"><i class="fas fa-gear"></i> Settings</button> above to use your own API key (supports <strong>Gemini 2.0 Flash</strong> & <strong>1.5 Flash</strong>).</span>
+                            </div>
                         </div>
                         <span class="chat-time">Just now</span>
                     </div>
@@ -5573,34 +5816,50 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
 `;
 
         async function callGeminiAPI(userQuery) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
-            const payload = {
-                contents: [{ role: "user", parts: [{ text: userQuery }] }],
-                systemInstruction: { parts: [{ text: RESUME_KNOWLEDGE_CONTEXT }] },
-                generationConfig: { temperature: 0.35, maxOutputTokens: 350 }
-            };
-
-            const response = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                const errData = await response.json().catch(() => ({}));
-                const errMsg = (errData && errData.error && errData.error.message) ? errData.error.message : `HTTP ${response.status}`;
-                throw new Error(errMsg);
+            const modelsToTry = [activeGeminiModel];
+            if (activeGeminiModel !== 'gemini-1.5-flash') {
+                modelsToTry.push('gemini-1.5-flash'); // High-reliability fallback
             }
 
-            const data = await response.json();
-            let text = (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text) 
-                ? data.candidates[0].content.parts[0].text 
-                : "I couldn't generate a response at the moment.";
-            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            text = text.replace(/\n\* /g, '<br>&bull; ');
-            text = text.replace(/\n- /g, '<br>&bull; ');
-            text = text.replace(/\n/g, '<br>');
-            return text;
+            let lastError = null;
+
+            for (const model of modelsToTry) {
+                try {
+                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey}`;
+                    const payload = {
+                        contents: [{ role: "user", parts: [{ text: userQuery }] }],
+                        systemInstruction: { parts: [{ text: RESUME_KNOWLEDGE_CONTEXT }] },
+                        generationConfig: { temperature: 0.35, maxOutputTokens: 350 }
+                    };
+
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errData = await response.json().catch(() => ({}));
+                        const errMsg = (errData && errData.error && errData.error.message) ? errData.error.message : `HTTP ${response.status}`;
+                        throw new Error(errMsg);
+                    }
+
+                    const data = await response.json();
+                    let text = (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text) 
+                        ? data.candidates[0].content.parts[0].text 
+                        : "I couldn't generate a response at the moment.";
+                    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    text = text.replace(/\n\* /g, '<br>&bull; ');
+                    text = text.replace(/\n- /g, '<br>&bull; ');
+                    text = text.replace(/\n/g, '<br>');
+                    return text;
+                } catch (err) {
+                    lastError = err;
+                    // If error occurred with primary model, try fallback model in loop
+                }
+            }
+
+            throw lastError;
         }
 
         function processInBrowserAIQuery(query) {
