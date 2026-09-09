@@ -3,10 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Pathik Rupwate - Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     @page {
       size: letter;
-      margin: 0.38in 0.46in 0.38in 0.46in;
+      margin: 0.36in 0.46in 0.36in 0.46in;
     }
 
     * {
@@ -16,11 +19,12 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: #0f172a;
       background-color: #ffffff;
       font-size: 8.9pt;
-      line-height: 1.32;
+      line-height: 1.35;
+      -webkit-font-smoothing: antialiased;
     }
 
     .page {
@@ -36,33 +40,33 @@
     /* Header */
     .header {
       text-align: center;
-      padding-bottom: 5px;
-      border-bottom: 1.5px solid #0f172a;
-      margin-bottom: 7px;
+      padding-bottom: 7px;
+      border-bottom: 2px solid #0f172a;
+      margin-bottom: 8px;
     }
 
     h1 {
-      font-size: 19pt;
+      font-size: 21pt;
       font-weight: 800;
       letter-spacing: 0.5px;
       color: #0f172a;
       text-transform: uppercase;
       line-height: 1.1;
-      margin-bottom: 2px;
-    }
-
-    .subtitle {
-      font-size: 10pt;
-      font-weight: 700;
-      color: #1d4ed8;
-      letter-spacing: 0.3px;
       margin-bottom: 3px;
     }
 
+    .subtitle {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #1d4ed8;
+      letter-spacing: 0.3px;
+      margin-bottom: 4px;
+    }
+
     .contact-bar {
-      font-size: 8.3pt;
+      font-size: 8.6pt;
       color: #475569;
-      line-height: 1.3;
+      line-height: 1.35;
     }
 
     .contact-bar a {
@@ -71,41 +75,46 @@
       font-weight: 500;
     }
 
+    .contact-bar a:hover {
+      text-decoration: underline;
+      color: #1d4ed8;
+    }
+
     .dot {
       color: #94a3b8;
-      padding: 0 4px;
+      padding: 0 4.5px;
       font-weight: bold;
     }
 
     /* Section Styles */
     .section {
-      margin-bottom: 7px;
+      margin-bottom: 9px;
     }
 
     .section-title {
-      font-size: 9.5pt;
+      font-size: 9.8pt;
       font-weight: 700;
       color: #0f172a;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid #cbd5e1;
-      padding-bottom: 1px;
-      margin-bottom: 4px;
+      letter-spacing: 0.6px;
+      border-bottom: 1.5px solid #cbd5e1;
+      padding-bottom: 2px;
+      margin-bottom: 5px;
     }
 
     p.summary-text {
-      font-size: 8.5pt;
+      font-size: 8.8pt;
       color: #1e293b;
       text-align: justify;
-      line-height: 1.34;
+      line-height: 1.38;
     }
 
     /* Skills List */
     .skill-category {
-      font-size: 8.3pt;
-      line-height: 1.31;
+      font-size: 8.65pt;
+      line-height: 1.35;
       color: #1e293b;
-      margin-bottom: 2.5px;
+      margin-bottom: 3.5px;
       text-align: justify;
     }
 
@@ -116,7 +125,7 @@
 
     /* Entry / Role Styles */
     .entry {
-      margin-bottom: 5.5px;
+      margin-bottom: 6.5px;
     }
 
     .row-between {
@@ -126,42 +135,42 @@
     }
 
     .company-name {
-      font-size: 9.2pt;
+      font-size: 9.5pt;
       font-weight: 700;
       color: #0f172a;
     }
 
     .location {
-      font-size: 8.3pt;
+      font-size: 8.5pt;
       font-weight: 600;
       color: #475569;
     }
 
     .role-title {
-      font-size: 8.5pt;
+      font-size: 8.85pt;
       font-weight: 600;
       color: #1d4ed8;
       font-style: italic;
     }
 
     .date-range {
-      font-size: 8.2pt;
+      font-size: 8.35pt;
       font-weight: 500;
       color: #475569;
     }
 
     /* Standard ATS Bullets */
     ul.bullet-list {
-      margin: 2px 0 4px 16px;
+      margin: 2.5px 0 4px 15px;
       padding: 0;
       list-style-type: disc;
     }
 
     ul.bullet-list li {
-      font-size: 8.35pt;
+      font-size: 8.65pt;
       color: #1e293b;
-      line-height: 1.31;
-      margin-bottom: 2px;
+      line-height: 1.34;
+      margin-bottom: 2.8px;
       text-align: justify;
     }
 
@@ -182,10 +191,40 @@
 
     code {
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 8pt;
+      font-size: 8.2pt;
       background: #f1f5f9;
       padding: 0 2px;
       border-radius: 2px;
+    }
+
+    .page-1 .header {
+      margin-bottom: 12px;
+      padding-bottom: 9px;
+    }
+
+    .page-1 .section {
+      margin-bottom: 12px;
+    }
+
+    .page-1 .section-title {
+      margin-bottom: 6px;
+    }
+
+    .page-1 p.summary-text {
+      font-size: 8.95pt;
+      line-height: 1.40;
+    }
+
+    .page-1 .skill-category {
+      font-size: 8.85pt;
+      line-height: 1.38;
+      margin-bottom: 4.5px;
+    }
+
+    .page-1 ul.bullet-list li {
+      font-size: 8.85pt;
+      line-height: 1.38;
+      margin-bottom: 3.5px;
     }
 
     @media screen {
@@ -197,7 +236,7 @@
         background: #ffffff;
         width: 8.5in;
         min-height: 11in;
-        padding: 0.38in 0.46in;
+        padding: 0.36in 0.46in;
         margin: 0 auto 24px auto;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         border-radius: 4px;
@@ -208,7 +247,7 @@
 <body>
 
   <!-- ==================== PAGE 1 ==================== -->
-  <div class="page">
+  <div class="page page-1">
     <div class="header">
       <h1>Pathik Rupwate</h1>
       <div class="subtitle">Data Scientist & Machine Learning Engineer</div>
@@ -255,7 +294,7 @@
       </div>
     </div>
 
-    <!-- EXPERIENCE PART 1 -->
+    <!-- EXPERIENCE PART 1 (ABM Knowledgeware) -->
     <div class="section">
       <div class="section-title">Professional Experience</div>
 
@@ -278,9 +317,17 @@
           <li><strong>Odisha Administrative AI Agent:</strong> Leading the architectural design and deployment of a scalable citizen-service AI agent for the Odisha Government to automate regional administrative workflows for millions of residents.</li>
         </ul>
       </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 2 ==================== -->
+  <div class="page">
+    <!-- EXPERIENCE PART 2 -->
+    <div class="section">
+      <div class="section-title">Professional & Academic Experience (Continued)</div>
 
       <!-- Kearny Bank -->
-      <div class="entry" style="margin-top: 5px;">
+      <div class="entry">
         <div class="row-between">
           <span class="company-name">Kearny Bank</span>
           <span class="location">Austin, TX</span>
@@ -296,17 +343,9 @@
           <li><strong>A/B Testing & Executive BI:</strong> Designed and analyzed randomized A/B and multivariate tests across product feature rollouts; engineered live interactive executive dashboards in Tableau and Power BI visualizing conversion funnels, transaction velocity, and portfolio risk distributions.</li>
         </ul>
       </div>
-    </div>
-  </div>
-
-  <!-- ==================== PAGE 2 ==================== -->
-  <div class="page">
-    <!-- EXPERIENCE PART 2 -->
-    <div class="section">
-      <div class="section-title">Professional & Academic Research Experience (Continued)</div>
 
       <!-- University of Chicago -->
-      <div class="entry">
+      <div class="entry" style="margin-top: 6px;">
         <div class="row-between">
           <span class="company-name">University of Chicago</span>
           <span class="location">Chicago, IL</span>
@@ -322,7 +361,7 @@
       </div>
 
       <!-- Aiolux -->
-      <div class="entry" style="margin-top: 5px;">
+      <div class="entry" style="margin-top: 6px;">
         <div class="row-between">
           <span class="company-name">Aiolux</span>
           <span class="location">Chicago, IL</span>
@@ -339,7 +378,7 @@
       </div>
 
       <!-- Beloit College Early Roles -->
-      <div class="entry" style="margin-top: 5px;">
+      <div class="entry" style="margin-top: 6px;">
         <div class="row-between">
           <span class="company-name">Early Engineering Roles - Beloit College</span>
           <span class="location">Beloit, WI</span>
@@ -376,7 +415,7 @@
           <span class="location">Chicago, IL</span>
         </div>
         <div class="row-between">
-          <span style="color: #1e293b; font-size: 8.5pt;">Master of Science in Applied Data Science</span>
+          <span style="color: #1e293b; font-size: 8.85pt;">Master of Science in Applied Data Science</span>
           <span class="date-range">Jun 2023</span>
         </div>
       </div>
@@ -387,10 +426,10 @@
           <span class="location">Beloit, WI</span>
         </div>
         <div class="row-between">
-          <span style="color: #1e293b; font-size: 8.5pt;">Bachelor of Science in Computer Science & Quantitative Economics</span>
+          <span style="color: #1e293b; font-size: 8.85pt;">Bachelor of Science in Computer Science & Quantitative Economics</span>
           <span class="date-range">May 2021</span>
         </div>
-        <div style="font-size: 8.3pt; color: #475569; margin-top: 2px;">
+        <div style="font-size: 8.5pt; color: #475569; margin-top: 2px;">
           <strong>Leadership:</strong> <em>President, Beloit Student Government</em> - Allocated and managed a $250,000 annual funding budget for campus organizations, student initiatives, and capital investments.
         </div>
       </div>
