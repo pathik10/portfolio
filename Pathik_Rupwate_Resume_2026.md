@@ -22,7 +22,7 @@ Results-driven **Data Scientist and Machine Learning Engineer** with 4+ years of
 ### PROFESSIONAL EXPERIENCE
 
 #### **ABM Knowledgeware** — Mumbai, India
-*Data Scientist / Machine Learning Engineer* | Mar 2026 – Present
+*Data Scientist* | Mar 2026 – Present
 * **Autonomous Municipal Revenue Agent (FastMCP Upgrade):** Architected and deployed an autonomous enterprise agent leveraging a 21-tool Model Context Protocol (FastMCP) server and sub-50ms Groq LLM inference (Qwen 2.5), executing live ReAct reasoning loops to audit district utility billing, detect high-value commercial arrears, and automate statutory recovery notices across municipal wards.
 * **Automated Video Localization Pipeline:** Engineered an end-to-end multi-lingual tutorial video generation and dubbing engine in Python using the ElevenLabs API and dynamic audio alignment, completely eliminating manual voiceover production and saving **80+ engineering hours per release cycle**.
 * **Disaster Recovery & Large-Scale Data Parsing:** Built algorithmic pattern-matching parsers and schema reconstructors to salvage **400,000+ unstructured files** recovered from an AWS storage failure, restoring directory hierarchy, file signatures, and metadata for **80% of the corrupted dataset** to avert enterprise data loss.
@@ -31,7 +31,7 @@ Results-driven **Data Scientist and Machine Learning Engineer** with 4+ years of
 * **Odisha Administrative AI Agent:** Leading the architectural design and deployment of a scalable citizen-service AI agent for the Odisha Government to automate regional administrative workflows for millions of residents.
 
 #### **Kearny Bank** — Austin, TX
-*Lead Data Scientist / Quantitative Consultant* | Oct 2023 – Jan 2026
+*Data Scientist* | Oct 2023 – Jan 2026
 * **Customer Segmentation & Marketing Lift:** Led unsupervised clustering (K-Means, DBSCAN, PCA) validated via Silhouette analysis ($s=0.68$) and Elbow WSS optimization ($-68.8\%$ inertia reduction) across retail banking personas; integrated Latent Dirichlet Allocation (LDA) and TF-IDF topic modeling on customer feedback to drive a **+30% advertising campaign ROI lift**.
 * **Loan Default Anomaly Detection:** Developed and deployed unsupervised Isolation Forests and One-Class SVM models to identify rare credit risk anomalies under severe class imbalance, boosting early default forecast detection by **+25%**.
 * **Explainable AI (XAI) & Risk Attribution:** Implemented local SHAP feature attribution and counterfactual optimization algorithms, enabling credit officers to decompose anomaly scores into marginal risk drivers and generate actionable "path to approval" criteria for review-tier applicants.
