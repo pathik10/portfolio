@@ -494,6 +494,24 @@
             border-color: #cbd5e1;
         }
 
+        [data-theme="light"] .vision-guidance-callout {
+            background: #f0fdfa;
+            border-color: #99f6e4;
+        }
+
+        [data-theme="light"] .vision-guidance-callout .guidance-icon {
+            background: #ccfbf1;
+            color: #0d9488;
+        }
+
+        [data-theme="light"] .vision-guidance-callout .guidance-heading {
+            color: #0f766e;
+        }
+
+        [data-theme="light"] .vision-guidance-callout .guidance-text {
+            color: #334155;
+        }
+
         [data-theme="light"] footer {
             background: #f8fafc;
             border-top-color: #e2e8f0;
@@ -1209,6 +1227,54 @@
             position: relative;
             height: 280px;
             width: 100%;
+        }
+
+        /* Vision Guidance Callout */
+        .vision-guidance-callout {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(20, 184, 166, 0.35);
+            border-radius: var(--radius-sm);
+            padding: 0.65rem 0.9rem;
+            margin-bottom: 0.9rem;
+            backdrop-filter: blur(8px);
+            transition: var(--transition);
+        }
+
+        .vision-guidance-callout .guidance-icon {
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            border-radius: 6px;
+            background: rgba(20, 184, 166, 0.2);
+            color: var(--accent-mint);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            margin-top: 1px;
+        }
+
+        .vision-guidance-callout .guidance-body {
+            flex: 1;
+        }
+
+        .vision-guidance-callout .guidance-heading {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-mint);
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .vision-guidance-callout .guidance-text {
+            font-size: 0.77rem;
+            color: var(--text-body);
+            line-height: 1.45;
         }
 
         /* Vision Canvas Demo */
@@ -2845,6 +2911,15 @@
                                 </div>
                             </div>
 
+                            <!-- Guidance Callout -->
+                            <div class="vision-guidance-callout">
+                                <div class="guidance-icon"><i class="fas fa-camera-rotate"></i></div>
+                                <div class="guidance-body">
+                                    <div class="guidance-heading">Camera Positioning Guidance</div>
+                                    <div class="guidance-text">For best results and optimal landmark alignment, face directly at the camera with your head upright, eyes open, and good front-facing lighting.</div>
+                                </div>
+                            </div>
+
                             <div class="vision-preview-box">
                                 <div class="vision-live-indicator" id="visionLiveBadge">
                                     <span class="status-dot"></span> <span id="visionModeText">Initializing MediaPipe & VGG-16...</span>
@@ -3625,6 +3700,7 @@
         // ---------------------------------------------
         // INTERACTIVE LABS TAB SWITCHER
         // ---------------------------------------------
+        let isWebcamActive = false;
         const labTabBtns = document.querySelectorAll('.lab-tab-btn');
         const labPanels = document.querySelectorAll('.lab-panel');
 
@@ -3638,6 +3714,11 @@
                 const targetPanel = document.getElementById(targetId);
                 if (targetPanel) {
                     targetPanel.classList.add('active');
+                }
+
+                // If switching away from vision lab while webcam is active, gracefully stop camera
+                if (targetId !== 'lab-vision' && isWebcamActive && typeof stopWebcam === 'function') {
+                    stopWebcam();
                 }
 
                 // Lazy initialize or resize charts on tab switch
@@ -3893,7 +3974,6 @@
 
         let bmiModel = null;
         let isModelLoading = false;
-        let isWebcamActive = false;
         let cameraUtils = null;
         let faceMesh = null;
         let lastInferenceTimestamp = 0;
@@ -4157,8 +4237,30 @@
 
                 trackedAreaDisplay.innerText = `${Math.round(boxW)} x ${Math.round(boxH)} px`;
 
+                // Calculate front-facing orientation & symmetry
+                const nosePt = canvasPts[1] || canvasPts[4];
+                const lCheek = canvasPts[234];
+                const rCheek = canvasPts[454];
+                let isDirectFacing = true;
+                if (nosePt && lCheek && rCheek) {
+                    const dLeft = Math.abs(nosePt.x - lCheek.x);
+                    const dRight = Math.abs(rCheek.x - nosePt.x);
+                    const ratio = Math.max(dLeft, dRight) / (Math.min(dLeft, dRight) + 1e-4);
+                    isDirectFacing = ratio <= 1.45;
+                }
+
+                if (isWebcamActive) {
+                    if (isDirectFacing) {
+                        visionModeText.innerHTML = '<span style="color: #6ee7b7;"><i class="fas fa-circle-check"></i> Direct Face Detected (Optimal)</span>';
+                        visionLiveBadge.style.borderColor = '#10b981';
+                    } else {
+                        visionModeText.innerHTML = '<span style="color: #fcd34d;"><i class="fas fa-arrows-rotate"></i> Face directly at camera for best results</span>';
+                        visionLiveBadge.style.borderColor = '#f59e0b';
+                    }
+                }
+
                 // 1. Draw Real Corner Brackets
-                ctx.strokeStyle = '#34d399';
+                ctx.strokeStyle = isDirectFacing ? '#34d399' : '#f59e0b';
                 ctx.lineWidth = 2.5;
                 const cLen = 20;
                 ctx.beginPath();
@@ -4169,9 +4271,15 @@
                 ctx.stroke();
 
                 // Status Label above face box
-                ctx.fillStyle = '#6ee7b7';
+                ctx.fillStyle = isDirectFacing ? '#6ee7b7' : '#fcd34d';
                 ctx.font = '10px "JetBrains Mono"';
-                ctx.fillText(isMirrored ? 'LIVE MEDIAPIPE FACE TRACKING (468 PTS)' : 'FACE LOCATED IN PHOTO (468 PTS)', boxX, Math.max(14, boxY - 8));
+                let statusLabel = '';
+                if (isMirrored) {
+                    statusLabel = isDirectFacing ? '✓ DIRECT FACING DETECTED (468 PTS)' : '⚠️ FACE CAMERA DIRECTLY FOR ACCURACY';
+                } else {
+                    statusLabel = isDirectFacing ? 'FACE LOCATED (468 PTS)' : 'FACE ANGLED (468 PTS)';
+                }
+                ctx.fillText(statusLabel, boxX, Math.max(14, boxY - 8));
 
                 // 2. Draw Real 468 3D Mesh Points on face
                 ctx.fillStyle = '#67e8f9';
@@ -4233,11 +4341,19 @@
                     runInferenceOnCrop(results.image, cX, cY, cW, cH, landmarks);
                 }
             } else {
-                trackedAreaDisplay.innerText = 'Center Frame Crop';
+                trackedAreaDisplay.innerText = isWebcamActive ? 'No Face in Frame' : 'Center Frame Crop';
                 runInferenceOnCrop(results.image, 0, 0, results.image.width, results.image.height, null);
-                ctx.fillStyle = '#fcd34d';
-                ctx.font = '11px "JetBrains Mono"';
-                ctx.fillText('• FULL PHOTO INFERENCE RUNNING •', 15, 25);
+                if (isWebcamActive) {
+                    visionModeText.innerHTML = '<span style="color: #f87171;"><i class="fas fa-user-slash"></i> No face detected — position face in frame</span>';
+                    visionLiveBadge.style.borderColor = '#ef4444';
+                    ctx.fillStyle = 'rgba(239, 68, 68, 0.9)';
+                    ctx.font = '11px "JetBrains Mono"';
+                    ctx.fillText('⚠️ NO FACE DETECTED - PLEASE FACE THE CAMERA', 15, 25);
+                } else {
+                    ctx.fillStyle = '#fcd34d';
+                    ctx.font = '11px "JetBrains Mono"';
+                    ctx.fillText('• FULL PHOTO INFERENCE RUNNING •', 15, 25);
+                }
             }
         }
 
@@ -4416,6 +4532,21 @@
                 runModelOnSampleImage(src, label);
             });
         });
+
+        // Programmatic Face Preset Activator
+        function runModelOnPreset(presetIndex = 1) {
+            const cards = Array.from(document.querySelectorAll('#presetFaceGallery .sample-face-card'));
+            if (!cards.length) return;
+            const idx = Math.max(0, Math.min(cards.length - 1, Number(presetIndex) || 0));
+            const targetCard = cards[idx] || cards[1];
+            if (targetCard) {
+                cards.forEach(c => c.classList.remove('active'));
+                targetCard.classList.add('active');
+                const src = targetCard.getAttribute('data-sample');
+                const label = targetCard.getAttribute('data-label');
+                runModelOnSampleImage(src, label);
+            }
+        }
 
         // Project Category Filter Handler
         document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -4788,11 +4919,14 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
 
             if (!response.ok) {
                 const errData = await response.json().catch(() => ({}));
-                throw new Error(errData?.error?.message || `HTTP ${response.status}`);
+                const errMsg = (errData && errData.error && errData.error.message) ? errData.error.message : `HTTP ${response.status}`;
+                throw new Error(errMsg);
             }
 
             const data = await response.json();
-            let text = data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response at the moment.";
+            let text = (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text) 
+                ? data.candidates[0].content.parts[0].text 
+                : "I couldn't generate a response at the moment.";
             text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             text = text.replace(/\n\* /g, '<br>&bull; ');
             text = text.replace(/\n- /g, '<br>&bull; ');
@@ -4806,7 +4940,7 @@ Respond concisely, politely, and accurately as Pathik's portfolio representative
             if (q.includes('demo') || q.includes('lab') || q.includes('interactive') || q.includes('simulator') || q.includes('bmi') || q.includes('vgg')) {
                 return `This site features <strong>5 Live Interactive Machine Learning Labs</strong>:
                 <ul>
-                    <li>📷 <strong>Live VGG-16 BMI Model:</strong> Real-time neural network predicting BMI from face tracking or photo upload via WebGL!</li>
+                    <li>📷 <strong>Live VGG-16 BMI Model:</strong> Real-time neural network predicting BMI from face tracking or photo upload via WebGL! <em>(Tip: Face directly at camera with good lighting for best results)</em></li>
                     <li>🏦 <strong>Loan Anomaly Simulator:</strong> Isolation Forests & One-Class SVM credit risk scorer.</li>
                     <li>📈 <strong>S&P 500 Forecasting:</strong> GANs synthetic data & CPI inflation shock simulation.</li>
                     <li>🧩 <strong>RAG Vector Visualizer:</strong> Document chunking & cosine similarity 2D projection.</li>
