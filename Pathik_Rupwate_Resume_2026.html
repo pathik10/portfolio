@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pathik Rupwate - Resume</title>
+  <style>
+    @page {
+      size: letter;
+      margin: 0.38in 0.46in 0.38in 0.46in;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #0f172a;
+      background-color: #ffffff;
+      font-size: 8.9pt;
+      line-height: 1.32;
+    }
+
+    .page {
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .page:last-child {
+      page-break-after: auto;
+      break-after: auto;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding-bottom: 5px;
+      border-bottom: 1.5px solid #0f172a;
+      margin-bottom: 7px;
+    }
+
+    h1 {
+      font-size: 19pt;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #0f172a;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 2px;
+    }
+
+    .subtitle {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #1d4ed8;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+    }
+
+    .contact-bar {
+      font-size: 8.3pt;
+      color: #475569;
+      line-height: 1.3;
+    }
+
+    .contact-bar a {
+      color: #0f172a;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .dot {
+      color: #94a3b8;
+      padding: 0 4px;
+      font-weight: bold;
+    }
+
+    /* Section Styles */
+    .section {
+      margin-bottom: 7px;
+    }
+
+    .section-title {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 1px;
+      margin-bottom: 4px;
+    }
+
+    p.summary-text {
+      font-size: 8.5pt;
+      color: #1e293b;
+      text-align: justify;
+      line-height: 1.34;
+    }
+
+    /* Skills List */
+    .skill-category {
+      font-size: 8.3pt;
+      line-height: 1.31;
+      color: #1e293b;
+      margin-bottom: 2.5px;
+      text-align: justify;
+    }
+
+    .skill-label {
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* Entry / Role Styles */
+    .entry {
+      margin-bottom: 5.5px;
+    }
+
+    .row-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .company-name {
+      font-size: 9.2pt;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .location {
+      font-size: 8.3pt;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .role-title {
+      font-size: 8.5pt;
+      font-weight: 600;
+      color: #1d4ed8;
+      font-style: italic;
+    }
+
+    .date-range {
+      font-size: 8.2pt;
+      font-weight: 500;
+      color: #475569;
+    }
+
+    /* Standard ATS Bullets */
+    ul.bullet-list {
+      margin: 2px 0 4px 16px;
+      padding: 0;
+      list-style-type: disc;
+    }
+
+    ul.bullet-list li {
+      font-size: 8.35pt;
+      color: #1e293b;
+      line-height: 1.31;
+      margin-bottom: 2px;
+      text-align: justify;
+    }
+
+    ul.bullet-list li::marker {
+      color: #1d4ed8;
+      font-size: 8pt;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .project-title {
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 8pt;
+      background: #f1f5f9;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
+    @media screen {
+      body {
+        background-color: #f1f5f9;
+        padding: 24px;
+      }
+      .page {
+        background: #ffffff;
+        width: 8.5in;
+        min-height: 11in;
+        padding: 0.38in 0.46in;
+        margin: 0 auto 24px auto;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border-radius: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PAGE 1 ==================== -->
+  <div class="page">
+    <div class="header">
+      <h1>Pathik Rupwate</h1>
+      <div class="subtitle">Data Scientist & Machine Learning Engineer</div>
+      <div class="contact-bar">
+        <span>Mumbai, India</span><span class="dot">|</span>
+        <span>+91 9321194480</span><span class="dot">|</span>
+        <a href="mailto:pathikrds@gmail.com">pathikrds@gmail.com</a><span class="dot">|</span>
+        <a href="https://pathikrupwate.com">pathikrupwate.com</a><span class="dot">|</span>
+        <a href="https://linkedin.com/in/pathik-rupwate-602537185/">linkedin.com/in/pathik-rupwate</a><span class="dot">|</span>
+        <a href="https://github.com/pathik10">github.com/pathik10</a>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="section">
+      <div class="section-title">Professional Summary</div>
+      <p class="summary-text">
+        Results-driven <strong>Data Scientist and Machine Learning Engineer</strong> with 4+ years of experience architecting and deploying end-to-end predictive systems, Generative AI agentic workflows (Model Context Protocol / FastMCP, LangChain, RAG), and production computer vision pipelines. Proven track record of translating complex AI architectures into measurable business KPIs—driving a <strong>+30% campaign ROI lift</strong>, boosting credit risk anomaly detection by <strong>+25%</strong>, and achieving <strong>78.85% predictive accuracy</strong> on institutional macroeconomic forecasting. Holds an M.S. in Applied Data Science from the <strong>University of Chicago</strong>.
+      </p>
+    </div>
+
+    <!-- CORE COMPETENCIES -->
+    <div class="section">
+      <div class="section-title">Core Competencies & Technical Tooling</div>
+      <div class="skill-category">
+        <span class="skill-label">Generative AI & Agentic Architectures:</span>
+        Model Context Protocol (FastMCP 21-Tool Server), Autonomous ReAct Loops, Groq LPU (Sub-50ms Inference), Retrieval-Augmented Generation (RAG), Vector Embeddings (Cosine Similarity, ChromaDB), LangChain, Google Gemini API, ElevenLabs API, Pydantic Schema Validation.
+      </div>
+      <div class="skill-category">
+        <span class="skill-label">Machine Learning & Statistical Modeling:</span>
+        Classification, Regression, Time-Series Forecasting, Extra Trees Ensembles, Tabular GANs, SMOTE Imbalance Handling, Anomaly Detection (Isolation Forests, One-Class SVM), Causal Inference, K-Means Clustering, PCA, Silhouette (s=0.68) & Elbow Optimization, SHAP Local Feature Attribution (XAI).
+      </div>
+      <div class="skill-category">
+        <span class="skill-label">Computer Vision & Deep Learning:</span>
+        MediaPipe 468 3D Landmark Meshes, VGG-16 CNN, MobileNetV2, OpenCV, TensorFlow, PyTorch, Scikit-Learn, Keras, WebGL Client-Side GPU Inference.
+      </div>
+      <div class="skill-category">
+        <span class="skill-label">Data Engineering & Cloud Infrastructure:</span>
+        Python, SQL, R (ggplot2, caret), Docker, Flask APIs, AWS (S3, EC2 Incident Recovery), GCP, Linux, Git / GitHub CI/CD, MongoDB.
+      </div>
+      <div class="skill-category">
+        <span class="skill-label">Analytics & Experimentation:</span>
+        A/B & Multivariate Testing, Tableau, Power BI, Executive BI Dashboards.
+      </div>
+    </div>
+
+    <!-- EXPERIENCE PART 1 -->
+    <div class="section">
+      <div class="section-title">Professional Experience</div>
+
+      <!-- ABM Knowledgeware -->
+      <div class="entry">
+        <div class="row-between">
+          <span class="company-name">ABM Knowledgeware</span>
+          <span class="location">Mumbai, India</span>
+        </div>
+        <div class="row-between">
+          <span class="role-title">Data Scientist / Machine Learning Engineer</span>
+          <span class="date-range">Mar 2026 - Present</span>
+        </div>
+        <ul class="bullet-list">
+          <li><strong>Autonomous Municipal Revenue Agent (FastMCP Upgrade):</strong> Architected and deployed an autonomous enterprise agent leveraging a 21-tool Model Context Protocol (FastMCP) server and sub-50ms Groq LLM inference (Qwen 2.5), executing live ReAct reasoning loops to audit district utility billing, detect high-value commercial arrears, and automate statutory recovery notices across municipal wards.</li>
+          <li><strong>Automated Video Localization Pipeline:</strong> Engineered an end-to-end multi-lingual tutorial video generation and dubbing engine in Python using the ElevenLabs API and dynamic audio alignment, completely eliminating manual voiceover production and saving <strong>80+ engineering hours per release cycle</strong>.</li>
+          <li><strong>Disaster Recovery & Large-Scale Data Parsing:</strong> Built algorithmic pattern-matching parsers and schema reconstructors to salvage <strong>400,000+ unstructured files</strong> recovered from an AWS storage failure, restoring directory hierarchy, file signatures, and metadata for <strong>80% of the corrupted dataset</strong> to avert enterprise data loss.</li>
+          <li><strong>Automated AppSec Vulnerability Triage (OWASP DAST):</strong> Designed an automated security testing pipeline integrating OWASP ZAP with Gemini AI and Pydantic validation schemas (<code>TriageReport</code>, <code>TriagedIssue</code>), enabling real-time detection of injection vectors (CWE-89) and synthesizing verified code remediation patches.</li>
+          <li><strong>Intelligent Document Processing (IDP):</strong> Deployed a deep learning document processing pipeline utilizing fine-tuned MobileNetV2 and OCR to classify scanned legal affidavits at <strong>98.4% confidence</strong> and extract cadastral land parcel acreage for municipal land registry verification.</li>
+          <li><strong>Odisha Administrative AI Agent:</strong> Leading the architectural design and deployment of a scalable citizen-service AI agent for the Odisha Government to automate regional administrative workflows for millions of residents.</li>
+        </ul>
+      </div>
+
+      <!-- Kearny Bank -->
+      <div class="entry" style="margin-top: 5px;">
+        <div class="row-between">
+          <span class="company-name">Kearny Bank</span>
+          <span class="location">Austin, TX</span>
+        </div>
+        <div class="row-between">
+          <span class="role-title">Lead Data Scientist / Quantitative Consultant</span>
+          <span class="date-range">Oct 2023 - Jan 2026</span>
+        </div>
+        <ul class="bullet-list">
+          <li><strong>Customer Segmentation & Marketing Lift:</strong> Led unsupervised clustering (K-Means, DBSCAN, PCA) validated via Silhouette analysis (s=0.68) and Elbow WSS optimization (-68.8% inertia reduction) across retail banking personas; integrated Latent Dirichlet Allocation (LDA) and TF-IDF topic modeling on customer feedback to drive a <strong>+30% advertising campaign ROI lift</strong>.</li>
+          <li><strong>Loan Default Anomaly Detection:</strong> Developed and deployed unsupervised Isolation Forests and One-Class SVM models to identify rare credit risk anomalies under severe class imbalance, boosting early default forecast detection by <strong>+25%</strong>.</li>
+          <li><strong>Explainable AI (XAI) & Risk Attribution:</strong> Implemented local SHAP feature attribution and counterfactual optimization algorithms, enabling credit officers to decompose anomaly scores into marginal risk drivers and generate actionable "path to approval" criteria for review-tier applicants.</li>
+          <li><strong>A/B Testing & Executive BI:</strong> Designed and analyzed randomized A/B and multivariate tests across product feature rollouts; engineered live interactive executive dashboards in Tableau and Power BI visualizing conversion funnels, transaction velocity, and portfolio risk distributions.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 2 ==================== -->
+  <div class="page">
+    <!-- EXPERIENCE PART 2 -->
+    <div class="section">
+      <div class="section-title">Professional & Academic Research Experience (Continued)</div>
+
+      <!-- University of Chicago -->
+      <div class="entry">
+        <div class="row-between">
+          <span class="company-name">University of Chicago</span>
+          <span class="location">Chicago, IL</span>
+        </div>
+        <div class="row-between">
+          <span class="role-title">Data Science Researcher (Deep Learning & Computer Vision)</span>
+          <span class="date-range">Jan 2023 - Jun 2023</span>
+        </div>
+        <ul class="bullet-list">
+          <li><strong>Live Biometric Face-to-BMI Prediction Pipeline:</strong> Engineered an end-to-end computer vision pipeline combining MediaPipe 468-point 3D facial mesh extraction with 22 calibrated anthropometric ratios and a fine-tuned VGG-16 convolutional neural network regression head.</li>
+          <li><strong>Production Serving & Inference Optimization:</strong> Deployed the model via a high-throughput Flask API and optimized video stream processing using OpenCV and TensorFlow GPU acceleration, reducing inference latency to sub-20ms.</li>
+        </ul>
+      </div>
+
+      <!-- Aiolux -->
+      <div class="entry" style="margin-top: 5px;">
+        <div class="row-between">
+          <span class="company-name">Aiolux</span>
+          <span class="location">Chicago, IL</span>
+        </div>
+        <div class="row-between">
+          <span class="role-title">Data Scientist (Quantitative Research & Forecasting)</span>
+          <span class="date-range">Jan 2022 - Dec 2022</span>
+        </div>
+        <ul class="bullet-list">
+          <li><strong>S&P 500 Sector Forecasting Capstone:</strong> Conducted quantitative research supervised by Roger Moore, MBA, predicting sector outperformance across all 11 S&P 500 sectors over 50, 100, and 200-day horizons; achieved a benchmark accuracy of <strong>78.85%</strong> utilizing Extremely Randomized Trees (Extra Trees).</li>
+          <li><strong>Synthetic Data Generation with Tabular GANs:</strong> Synthesized 25,000+ macroeconomic datapoints using Tabular Generative Adversarial Networks (T-GANs) and SMOTE to resolve extreme regime imbalance, increasing model out-of-sample robustness by <strong>+20%</strong>.</li>
+          <li><strong>Macroeconomic Regime Stress-Testing:</strong> Quantified causal sensitivity of sector returns against CPI inflation shocks and Federal Reserve interest rate shifts, modeling defensive rotations into Energy/Staples during high-inflation regimes.</li>
+        </ul>
+      </div>
+
+      <!-- Beloit College Early Roles -->
+      <div class="entry" style="margin-top: 5px;">
+        <div class="row-between">
+          <span class="company-name">Early Engineering Roles - Beloit College</span>
+          <span class="location">Beloit, WI</span>
+        </div>
+        <div class="row-between">
+          <span class="role-title">Database Engineer (Powerhouse) & Software Engineer (Open Energy Dashboard)</span>
+          <span class="date-range">Jan 2020 - May 2021</span>
+        </div>
+        <ul class="bullet-list">
+          <li><strong>Database Engineer (Beloit Powerhouse):</strong> Designed and deployed a SQL/Python relational inventory tracking system managing 5,000+ assets with automated reporting pipelines.</li>
+          <li><strong>Software Engineer (Open Energy Dashboard):</strong> Built interactive time-series visualizations and multilingual modules for an open-source energy analytics platform using Docker, React, and Linux.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SELECTED PROJECTS -->
+    <div class="section">
+      <div class="section-title">Selected Technical Projects</div>
+      <ul class="bullet-list">
+        <li><span class="project-title">Autonomous Multi-Tool Agent Studio (FastMCP & ReAct):</span> Full-stack agent sandbox demonstrating autonomous tool planning, standard FastMCP protocol JSON dispatch across 21 tools, and structured Pydantic synthesis with sub-50ms Groq LLM inference.</li>
+        <li><span class="project-title">In-Browser Machine Learning Labs & Interactive Portfolio:</span> High-performance portfolio featuring 5 client-side ML demonstrations: live WebGL MediaPipe Face-to-BMI inference, interactive SHAP waterfall loan anomaly scorer, S&P 500 GAN simulator, 2D semantic embedding RAG visualizer, and dual-mode cohort clustering.</li>
+        <li><span class="project-title">Automated DAST AppSec Scanner:</span> Python & OWASP ZAP vulnerability scanner featuring AST pattern matching and LLM-assisted remediation generating validated code diffs for CWE security flaws.</li>
+        <li><span class="project-title">AI-Powered Portfolio Chatbot:</span> In-browser semantic knowledge engine paired with Google Gemini 2.0 Flash / 1.5 Flash API integration for live contextual retrieval and conversational Q&A.</li>
+      </ul>
+    </div>
+
+    <!-- EDUCATION & LEADERSHIP -->
+    <div class="section">
+      <div class="section-title">Education & Leadership</div>
+
+      <div class="entry">
+        <div class="row-between">
+          <span class="company-name">University of Chicago</span>
+          <span class="location">Chicago, IL</span>
+        </div>
+        <div class="row-between">
+          <span style="color: #1e293b; font-size: 8.5pt;">Master of Science in Applied Data Science</span>
+          <span class="date-range">Jun 2023</span>
+        </div>
+      </div>
+
+      <div class="entry" style="margin-top: 4px;">
+        <div class="row-between">
+          <span class="company-name">Beloit College</span>
+          <span class="location">Beloit, WI</span>
+        </div>
+        <div class="row-between">
+          <span style="color: #1e293b; font-size: 8.5pt;">Bachelor of Science in Computer Science & Quantitative Economics</span>
+          <span class="date-range">May 2021</span>
+        </div>
+        <div style="font-size: 8.3pt; color: #475569; margin-top: 2px;">
+          <strong>Leadership:</strong> <em>President, Beloit Student Government</em> - Allocated and managed a $250,000 annual funding budget for campus organizations, student initiatives, and capital investments.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
