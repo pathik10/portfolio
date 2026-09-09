@@ -1,6 +1,6 @@
 # PATHIK RUPWATE
 **Data Scientist & Machine Learning Engineer**  
-Mumbai, India • +91 9321194480  
+Mumbai, India • +91 9321194480 • pathikrds@gmail.com  
 [pathikrupwate.com](https://pathikrupwate.com) • [linkedin.com/in/pathik-rupwate](https://www.linkedin.com/in/pathik-rupwate-602537185/) • [github.com/pathik10](https://github.com/pathik10)
 
 ---
