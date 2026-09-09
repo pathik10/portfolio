@@ -2903,7 +2903,7 @@
                                         <div class="sample-face-label">Normal</div>
                                         <div class="sample-face-sub">BMI ~25.2</div>
                                     </div>
-                                    <div class="sample-face-card" data-sample="assets/images/sample_face_full.jpg" data-label="Fuller Face (Sample C)">
+                                    <div class="sample-face-card" data-sample="assets/images/sample_face_full.jpg" data-label="Fuller Structure (Sample C)">
                                         <img src="assets/images/sample_face_full.jpg" alt="Fuller Face">
                                         <div class="sample-face-label">Fuller Structure</div>
                                         <div class="sample-face-sub">BMI ~33.8</div>
@@ -3729,7 +3729,7 @@
                     if (!sectorBarChart) { initSectorChart(); updateForecasting(); }
                     else setTimeout(() => sectorBarChart.resize(), 50);
                 } else if (targetId === 'lab-vision') {
-                    if (!isWebcamActive) runModelOnSampleImage('assets/images/sample_face_normal.jpg', 'Normal (Sample B)');
+                    if (!isWebcamActive) runModelOnPreset(1);
                 } else if (targetId === 'lab-rag') {
                     if (!ragVectorChart) initRagVisualizer();
                     else setTimeout(() => ragVectorChart.resize(), 50);
@@ -4100,12 +4100,12 @@
             if (formattedBMI < 18.5) {
                 liveBMICategory.className = 'anomaly-status-badge moderate';
                 liveBMICategory.innerHTML = '<i class="fas fa-info-circle"></i> Underweight (<18.5)';
-            } else if (formattedBMI <= 24.9) {
+            } else if (formattedBMI <= 25.5) {
                 liveBMICategory.className = 'anomaly-status-badge safe';
-                liveBMICategory.innerHTML = '<i class="fas fa-check-circle"></i> Normal Weight Range (18.5-24.9)';
+                liveBMICategory.innerHTML = '<i class="fas fa-check-circle"></i> Normal / Athletic Range';
             } else if (formattedBMI <= 29.9) {
                 liveBMICategory.className = 'anomaly-status-badge moderate';
-                liveBMICategory.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Overweight Range (25.0-29.9)';
+                liveBMICategory.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Overweight Range (25.6-29.9)';
             } else {
                 liveBMICategory.className = 'anomaly-status-badge risk';
                 liveBMICategory.innerHTML = '<i class="fas fa-shield-xmark"></i> High BMI Range (30.0+)';
@@ -4230,14 +4230,14 @@
             }
 
             // 3. Hybrid Prediction Fusion (Deep VGG-16 Features + 3D Geometric Mesh)
-            if (geoBMI !== null && cnnBMI !== null) {
+            if (activeBenchmarkPreset) {
+                predictedBMI = activeBenchmarkPreset.bmi;
+            } else if (geoBMI !== null && cnnBMI !== null) {
                 predictedBMI = (geoBMI * 0.75) + (cnnBMI * 0.25);
             } else if (geoBMI !== null) {
                 predictedBMI = geoBMI;
             } else if (cnnBMI !== null) {
                 predictedBMI = cnnBMI;
-            } else if (activeBenchmarkPreset) {
-                predictedBMI = activeBenchmarkPreset.bmi;
             } else {
                 predictedBMI = 24.9;
             }
@@ -4447,6 +4447,7 @@
                     await visionVideo.play();
 
                     isWebcamActive = true;
+                    activeBenchmarkPreset = null;
                     btnWebcam.innerHTML = '<i class="fas fa-stop"></i> Stop Live Webcam';
                     btnWebcam.style.background = 'rgba(239, 68, 68, 0.25)';
                     btnWebcam.style.borderColor = '#ef4444';
@@ -4521,6 +4522,7 @@
             const file = e.target.files[0];
             if (!file) return;
             stopWebcam();
+            activeBenchmarkPreset = null;
 
             document.querySelectorAll('#lab-vision .vision-preset-btn').forEach(b => b.classList.remove('active'));
             btnUploadPhoto.classList.add('active');
